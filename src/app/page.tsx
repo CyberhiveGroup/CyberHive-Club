@@ -1,11 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Shield, Calendar, Users, HomeIcon, BookOpen, Mail, Wrench } from "lucide-react";
+import { ArrowRight, Shield, Calendar, Users, HomeIcon, BookOpen, Mail } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
 import { HexagonLink } from "@/components/hexagon-link";
+
+function DummyHexagon({ className, delay }: { className?: string, delay?: string }) {
+  return (
+    <div
+      className={`hexagon-interactive relative w-32 h-36 bg-card/20 animate-hexagon-float ${className}`}
+      style={{ animationDelay: delay }}
+    />
+  );
+}
 
 export default function Home() {
   return (
@@ -52,21 +61,26 @@ export default function Home() {
               </p>
             </div>
             
-            <div className="relative w-full flex justify-center items-center min-h-[450px]">
-              <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-[390px] h-[300px]">
-                  {/* Empty cell for spacing */}
-                  <div className="col-start-1"></div>
-                  <HexagonLink href="/about" icon={<Users />} title="About Us" delay="0.1s" />
+            <div className="relative w-full flex justify-center items-center min-h-[550px]">
+              <div className="grid grid-cols-4 gap-x-1 gap-y-1 w-[520px]">
+                  {/* Row 1 */}
+                  <div className="col-start-2">
+                    <HexagonLink href="/about" icon={<Users />} title="About Us" delay="0.1s" />
+                  </div>
                   <HexagonLink href="/events" icon={<Calendar />} title="Events" delay="0.2s" />
-                  
-                  <HexagonLink href="/" icon={<HomeIcon />} title="Home" delay="0.6s" />
-                  <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" delay="0.3s" className="mt-[-52px]" />
-                  <HexagonLink href="#" icon={<Shield />} title="Resources" delay="0.5s" />
+                  <DummyHexagon delay="0.3s" />
 
-                  {/* Empty cell for spacing */}
-                  <div className="col-start-1"></div>
-                  <HexagonLink href="#" icon={<Wrench />} title="Resources" delay="0.7s" className="hidden" />
-                  <HexagonLink href="/contact" icon={<Mail />} title="Contact" delay="0.4s" />
+                  {/* Row 2 (offset) */}
+                  <HexagonLink href="/" icon={<HomeIcon />} title="Home" delay="0.8s" className="mt-[-52px]" />
+                  <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" delay="0.4s" className="mt-[-52px]" />
+                  <HexagonLink href="#" icon={<Shield />} title="Resources" delay="0.7s" className="mt-[-52px]" />
+                   <DummyHexagon delay="0.5s" className="mt-[-52px]" />
+
+                  {/* Row 3 */}
+                  <div className="col-start-2">
+                    <HexagonLink href="/contact" icon={<Mail />} title="Contact" delay="0.6s" />
+                  </div>
+                  <DummyHexagon delay="0.9s" />
               </div>
             </div>
           </div>
