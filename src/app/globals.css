@@ -138,17 +138,23 @@
   
   .hexagon-border {
     position: relative;
-    width: 8rem;
-    height: 9.2rem; /* height = width * sqrt(3)/2 * 1.15 approx */
+    width: 10rem;
+    height: 11.5rem;
   }
 
   .hexagon-border::before {
     content: '';
     position: absolute;
-    inset: -1px;
-    background: hsl(var(--border) / 0.3);
+    inset: -2px;
+    background: linear-gradient(145deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.1));
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    z-index: -1;
+    z-index: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .group:hover .hexagon-border::before, .group:focus .hexagon-border::before {
+    background: linear-gradient(145deg, hsl(var(--primary)), hsl(var(--primary) / 0.4));
+    inset: -3px;
   }
 
 

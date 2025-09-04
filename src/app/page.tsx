@@ -10,9 +10,9 @@ import { HexagonLink } from "@/components/hexagon-link";
 function DummyHexagon({ className }: { className?: string }) {
   return (
     <div
-      className={`hexagon-border ${className}`}
+      className={`hexagon-border group ${className}`}
     >
-      <div className="hexagon-interactive bg-card/20 w-full h-full"></div>
+      <div className="hexagon-interactive bg-card/10 w-full h-full group-hover:bg-card/30 transition-colors duration-300"></div>
     </div>
   );
 }
@@ -63,34 +63,32 @@ export default function Home() {
             </div>
             
             <div className="relative w-full flex justify-center items-center">
-                <div className="grid grid-cols-[repeat(7,_4.6rem)] grid-rows-[repeat(3,_4rem)] gap-x-1 gap-y-8 w-auto">
+                <div className="grid grid-cols-[repeat(5,_6.5rem)] grid-rows-[repeat(3,_5.7rem)] gap-x-2 gap-y-12 w-auto">
                     {/* Row 1 */}
-                    <div className="col-start-3">
-                      <HexagonLink href="/about" icon={<Users />} title="About Us" />
-                    </div>
-                    <div className="col-start-5">
-                      <HexagonLink href="/events" icon={<Calendar />} title="Events" />
-                    </div>
-
-                    {/* Row 2 */}
                     <div className="col-start-2">
-                      <HexagonLink href="/" icon={<HomeIcon />} title="Home" />
+                        <HexagonLink href="/about" icon={<Users />} title="About Us" />
                     </div>
                     <div className="col-start-4">
-                      <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" />
+                        <HexagonLink href="/events" icon={<Calendar />} title="Events" />
                     </div>
-                    <div className="col-start-6">
-                      <HexagonLink href="#" icon={<Shield />} title="Resources" />
+                    {/* Row 2 */}
+                    <div className="col-start-1">
+                        <HexagonLink href="/" icon={<HomeIcon />} title="Home" />
                     </div>
-
-                    {/* Row 3 */}
                     <div className="col-start-3">
-                         <HexagonLink href="#" icon={
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>
-                         } title="Resources" />
+                        <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" />
                     </div>
                     <div className="col-start-5">
-                      <HexagonLink href="/contact" icon={<Mail />} title="Contact" />
+                        <HexagonLink href="#" icon={<Shield />} title="Resources" />
+                    </div>
+                    {/* Row 3 */}
+                    <div className="col-start-2">
+                         <HexagonLink href="#" icon={
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>
+                         } title="Join" />
+                    </div>
+                    <div className="col-start-4">
+                        <HexagonLink href="/contact" icon={<Mail />} title="Contact" />
                     </div>
               </div>
             </div>
