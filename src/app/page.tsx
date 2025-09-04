@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, ShieldCheck, Calendar, Users } from "lucide-react";
+import { ArrowRight, Shield, Calendar, Users, HomeIcon, BookOpen, Mail, Wrench } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
-import { HexagonFeature } from "@/components/hexagon-feature";
+import { HexagonLink } from "@/components/hexagon-link";
 
 export default function Home() {
   return (
@@ -42,40 +42,36 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Hexagonal Navigation Section */}
         <section className="w-full py-12 md:py-24 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-             <div className="flex flex-col items-center text-center mb-12">
-              <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">Our Core Features</h2>
+            <div className="flex flex-col items-center text-center mb-16">
+              <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">CyberHive Central</h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-                Click on a cell to learn more about our hive.
+                The heart of our college cybersecurity club.
               </p>
             </div>
-            <div className="relative flex flex-col items-center md:items-start md:flex-row justify-center gap-y-20 md:gap-x-4 w-full max-w-4xl mx-auto md:h-[40rem]">
-                <HexagonFeature
-                  icon={<ShieldCheck />}
-                  title="Hands-On Learning"
-                  description="Engage in practical workshops and CSL classes designed to build real-world cybersecurity skills."
-                  className="md:self-start md:ml-12"
-                  animationDelay="0s"
-                />
-                <HexagonFeature
-                  icon={<Calendar />}
-                  title="Exciting Events"
-                  description="Participate in competitions, talks from industry experts, and networking events."
-                  className="md:self-center"
-                  animationDelay="0.5s"
-                   />
-                <HexagonFeature
-                  icon={<Users />}
-                  title="Community-Driven"
-                  description="Join a vibrant community of peers and mentors passionate about cybersecurity."
-                   className="md:self-end md:mr-12"
-                   animationDelay="1s"
-                />
+            
+            <div className="relative w-full flex justify-center items-center min-h-[450px]">
+              <div className="grid grid-cols-3 gap-x-1 gap-y-1 w-[390px] h-[300px]">
+                  {/* Empty cell for spacing */}
+                  <div className="col-start-1"></div>
+                  <HexagonLink href="/about" icon={<Users />} title="About Us" delay="0.1s" />
+                  <HexagonLink href="/events" icon={<Calendar />} title="Events" delay="0.2s" />
+                  
+                  <HexagonLink href="/" icon={<HomeIcon />} title="Home" delay="0.6s" />
+                  <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" delay="0.3s" className="mt-[-52px]" />
+                  <HexagonLink href="#" icon={<Shield />} title="Resources" delay="0.5s" />
+
+                  {/* Empty cell for spacing */}
+                  <div className="col-start-1"></div>
+                  <HexagonLink href="#" icon={<Wrench />} title="Resources" delay="0.7s" className="hidden" />
+                  <HexagonLink href="/contact" icon={<Mail />} title="Contact" delay="0.4s" />
+              </div>
             </div>
           </div>
         </section>
+
 
         {/* Upcoming Events Section */}
         <section className="w-full py-12 md:py-24 bg-card">
