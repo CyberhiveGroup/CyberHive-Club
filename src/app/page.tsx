@@ -11,18 +11,13 @@ export default function Home() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
-          <div 
-            className="absolute inset-0 bg-primary/5 opacity-50"
-            style={{
-              clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'
-            }}>
-          </div>
-           <div 
-            className="absolute inset-0 bg-background"
-            style={{
-              backgroundImage: 'radial-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px)',
-              backgroundSize: '1.5rem 1.5rem',
-            }}>
+          <div className="absolute inset-0 bg-background overflow-hidden">
+            <div className="absolute inset-0 bg-primary/5 opacity-50" style={{clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
+            <div className="honeycomb-container">
+              {Array.from({ length: 100 }).map((_, i) => (
+                <div key={i} className="honeycomb-cell"></div>
+              ))}
+            </div>
           </div>
           <div className="container relative mx-auto px-4 md:px-6 text-center">
             <div className="max-w-3xl mx-auto">
