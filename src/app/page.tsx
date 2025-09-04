@@ -63,7 +63,7 @@ export default function Home() {
             </div>
             
             <div className="relative w-full flex justify-center items-center">
-                <div className="grid grid-cols-[repeat(5,_6.5rem)] grid-rows-[repeat(3,_5.7rem)] gap-x-2 gap-y-12 w-auto">
+                <div className="grid grid-cols-[repeat(5,_6.5rem)] grid-rows-[repeat(3,_5.7rem)] gap-y-12 w-auto">
                     {/* Row 1 */}
                     <div className="col-start-2">
                         <HexagonLink href="/about" icon={<Users />} title="About Us" />
