@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
+import { HexagonFeature } from "@/components/hexagon-feature";
 
 export default function Home() {
   return (
@@ -44,34 +45,31 @@ export default function Home() {
         {/* Features Section */}
         <section className="w-full py-12 md:py-24 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid gap-8 md:grid-cols-3">
-              <div className="flex flex-col items-center text-center p-4 group">
-                 <div className="w-28 h-32 bg-card hexagon flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-                  <ShieldCheck className="h-12 w-12 text-primary group-hover:text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-headline font-bold uppercase">Hands-On Learning</h3>
-                <p className="mt-2 text-muted-foreground">
-                  Engage in practical workshops and CSL classes designed to build real-world cybersecurity skills.
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center p-4 group">
-                 <div className="w-28 h-32 bg-card hexagon flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-                  <Calendar className="h-12 w-12 text-primary group-hover:text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-headline font-bold uppercase">Exciting Events</h3>
-                <p className="mt-2 text-muted-foreground">
-                  Participate in competitions, talks from industry experts, and networking events.
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center p-4 group">
-                <div className="w-28 h-32 bg-card hexagon flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-                  <Users className="h-12 w-12 text-primary group-hover:text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-headline font-bold uppercase">Community-Driven</h3>
-                <p className="mt-2 text-muted-foreground">
-                  Join a vibrant community of peers and mentors passionate about cybersecurity.
-                </p>
-              </div>
+             <div className="flex flex-col items-center text-center mb-12">
+              <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">Our Core Features</h2>
+              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
+                Click on a cell to learn more about our hive.
+              </p>
+            </div>
+            <div className="relative flex flex-col md:flex-row items-center justify-center gap-0 md:gap-4 w-full max-w-4xl mx-auto">
+                <HexagonFeature
+                  icon={<ShieldCheck />}
+                  title="Hands-On Learning"
+                  description="Engage in practical workshops and CSL classes designed to build real-world cybersecurity skills."
+                  className="md:-mr-8"
+                />
+                <HexagonFeature
+                  icon={<Calendar />}
+                  title="Exciting Events"
+                  description="Participate in competitions, talks from industry experts, and networking events."
+                  className="md:-ml-8 md:mt-32"
+                   />
+                <HexagonFeature
+                  icon={<Users />}
+                  title="Community-Driven"
+                  description="Join a vibrant community of peers and mentors passionate about cybersecurity."
+                   className="md:-mr-8 md:mt-64"
+                />
             </div>
           </div>
         </section>
