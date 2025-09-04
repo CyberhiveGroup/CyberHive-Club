@@ -57,18 +57,21 @@ export default function Home() {
                   title="Hands-On Learning"
                   description="Engage in practical workshops and CSL classes designed to build real-world cybersecurity skills."
                   className="md:self-start md:ml-12"
+                  animationDelay="0s"
                 />
                 <HexagonFeature
                   icon={<Calendar />}
                   title="Exciting Events"
                   description="Participate in competitions, talks from industry experts, and networking events."
                   className="md:self-center"
+                  animationDelay="0.5s"
                    />
                 <HexagonFeature
                   icon={<Users />}
                   title="Community-Driven"
                   description="Join a vibrant community of peers and mentors passionate about cybersecurity."
                    className="md:self-end md:mr-12"
+                   animationDelay="1s"
                 />
             </div>
           </div>

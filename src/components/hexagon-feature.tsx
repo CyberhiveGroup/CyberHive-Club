@@ -9,9 +9,10 @@ interface HexagonFeatureProps {
   title: string;
   description: string;
   className?: string;
+  animationDelay?: string;
 }
 
-export function HexagonFeature({ icon, title, description, className }: HexagonFeatureProps) {
+export function HexagonFeature({ icon, title, description, className, animationDelay }: HexagonFeatureProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const id = React.useId();
 
@@ -21,12 +22,14 @@ export function HexagonFeature({ icon, title, description, className }: HexagonF
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'hexagon-interactive w-full h-full flex flex-col items-center justify-center p-4 text-center transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
-          isOpen ? 'bg-primary text-primary-foreground' : 'bg-card hover:bg-accent'
+          isOpen ? 'bg-primary text-primary-foreground' : 'bg-card hover:bg-accent',
+          'animate-hexagon-float'
         )}
+        style={{ animationDelay }}
         aria-expanded={isOpen}
         aria-controls={id}
       >
-        <div className="transition-transform duration-300 group-hover:scale-110">
+        <div className={cn("transition-transform duration-300", !isOpen && "group-hover:scale-110")}>
           {React.cloneElement(icon as React.ReactElement, {
             className: 'h-12 w-12 mb-2',
           })}
