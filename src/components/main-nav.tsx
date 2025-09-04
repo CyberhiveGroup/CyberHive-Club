@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Shield } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -24,27 +24,7 @@ export function MainNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo />
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : 'text-foreground/60'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-
-        {/* Mobile Nav */}
+        {/* Mobile Nav Trigger */}
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
@@ -78,9 +58,37 @@ export function MainNav() {
           </SheetContent>
         </Sheet>
         
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          {/* You can add a button here if needed, e.g., Login */}
+        {/* Desktop Nav */}
+        <div className="hidden flex-1 items-center justify-center md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Logo />
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  'transition-colors hover:text-primary',
+                  pathname === link.href ? 'text-primary' : 'text-foreground/60'
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
+
+        {/* Mobile Logo (centered) */}
+        <div className="flex-1 flex justify-center md:hidden">
+           <Link href="/" className="flex items-center space-x-2">
+            <Logo />
+          </Link>
+        </div>
+        
+        {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
+        <div className="w-10 md:hidden"></div>
+
       </div>
     </header>
   );
