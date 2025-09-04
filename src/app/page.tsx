@@ -4,6 +4,7 @@ import { ArrowRight, ShieldCheck, Calendar, Users } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
+import { RoamingBee } from "@/components/roaming-bee";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
+           <RoamingBee />
           <div className="absolute inset-0 bg-background overflow-hidden">
             <div className="absolute inset-0 bg-primary/5 opacity-50" style={{clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
             <div className="honeycomb-container">
