@@ -7,12 +7,13 @@ import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
 import { HexagonLink } from "@/components/hexagon-link";
 
-function DummyHexagon({ className, delay }: { className?: string, delay?: string }) {
+function DummyHexagon({ className }: { className?: string }) {
   return (
     <div
-      className={`hexagon-interactive relative w-32 h-36 bg-card/20 ${className}`}
-      style={{ animationDelay: delay }}
-    />
+      className={`hexagon-border ${className}`}
+    >
+      <div className="hexagon-interactive bg-card/20 w-full h-full"></div>
+    </div>
   );
 }
 
@@ -61,26 +62,28 @@ export default function Home() {
               </p>
             </div>
             
-            <div className="relative w-full flex justify-center items-center min-h-[550px]">
-              <div className="grid grid-cols-4 gap-x-1 gap-y-1 w-[520px]">
-                  {/* Row 1 */}
-                  <div className="col-start-2">
-                    <HexagonLink href="/about" icon={<Users />} title="About Us" delay="0.1s" />
-                  </div>
-                  <HexagonLink href="/events" icon={<Calendar />} title="Events" delay="0.2s" />
-                  <DummyHexagon delay="0.3s" />
+            <div className="relative w-full flex justify-center items-center">
+                <div className="grid grid-cols-[repeat(5,_8rem)] grid-rows-[repeat(3,_7rem)] gap-x-1 w-auto">
+                    {/* Row 1 */}
+                    <div className="col-start-2">
+                        <DummyHexagon />
+                    </div>
+                     <HexagonLink href="/about" icon={<Users />} title="About Us" />
+                     <HexagonLink href="/events" icon={<Calendar />} title="Events" />
 
-                  {/* Row 2 (offset) */}
-                  <HexagonLink href="/" icon={<HomeIcon />} title="Home" delay="0.8s" className="mt-[-52px]" />
-                  <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" delay="0.4s" className="mt-[-52px]" />
-                  <HexagonLink href="#" icon={<Shield />} title="Resources" delay="0.7s" className="mt-[-52px]" />
-                   <DummyHexagon delay="0.5s" className="mt-[-52px]" />
+                    {/* Row 2 */}
+                    <DummyHexagon />
+                    <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" />
+                    <HexagonLink href="/" icon={<HomeIcon />} title="Home" className="scale-125 z-10" />
+                    <HexagonLink href="#" icon={<Shield />} title="Resources" />
+                    <DummyHexagon />
 
-                  {/* Row 3 */}
-                  <div className="col-start-2">
-                    <HexagonLink href="/contact" icon={<Mail />} title="Contact" delay="0.6s" />
-                  </div>
-                  <DummyHexagon delay="0.9s" />
+                    {/* Row 3 */}
+                    <div className="col-start-2">
+                         <HexagonLink href="/contact" icon={<Mail />} title="Contact" />
+                    </div>
+                    <DummyHexagon />
+                    <DummyHexagon />
               </div>
             </div>
           </div>
