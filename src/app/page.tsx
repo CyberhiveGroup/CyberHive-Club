@@ -10,7 +10,7 @@ import { HexagonLink } from "@/components/hexagon-link";
 function DummyHexagon({ className, delay }: { className?: string, delay?: string }) {
   return (
     <div
-      className={`hexagon-interactive relative w-32 h-36 bg-card/20 animate-hexagon-float ${className}`}
+      className={`hexagon-interactive relative w-32 h-36 bg-card/20 ${className}`}
       style={{ animationDelay: delay }}
     />
   );

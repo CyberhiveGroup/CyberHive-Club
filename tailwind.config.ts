@@ -95,16 +95,10 @@ export default {
             height: '0',
           },
         },
-        'hexagon-float': {
-          '0%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-          '100%': { transform: 'translateY(0px)' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'hexagon-float': 'hexagon-float 5s ease-in-out infinite',
       },
     },
   },
