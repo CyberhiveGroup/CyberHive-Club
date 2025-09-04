@@ -51,24 +51,24 @@ export default function Home() {
                 Click on a cell to learn more about our hive.
               </p>
             </div>
-            <div className="relative flex flex-col md:flex-row items-center justify-center gap-0 md:gap-4 w-full max-w-4xl mx-auto">
+            <div className="relative flex flex-col items-center md:items-start md:flex-row justify-center gap-y-20 md:gap-x-4 w-full max-w-4xl mx-auto md:h-[40rem]">
                 <HexagonFeature
                   icon={<ShieldCheck />}
                   title="Hands-On Learning"
                   description="Engage in practical workshops and CSL classes designed to build real-world cybersecurity skills."
-                  className="md:-mr-8"
+                  className="md:self-start md:ml-12"
                 />
                 <HexagonFeature
                   icon={<Calendar />}
                   title="Exciting Events"
                   description="Participate in competitions, talks from industry experts, and networking events."
-                  className="md:-ml-8 md:mt-32"
+                  className="md:self-center"
                    />
                 <HexagonFeature
                   icon={<Users />}
                   title="Community-Driven"
                   description="Join a vibrant community of peers and mentors passionate about cybersecurity."
-                   className="md:-mr-8 md:mt-64"
+                   className="md:self-end md:mr-12"
                 />
             </div>
           </div>
