@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { Logo } from './logo';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface HexagonItem {
@@ -17,7 +16,8 @@ interface InteractiveHexagonProps {
   items: HexagonItem[];
 }
 
-const HEX_SIZE = 144; // Corresponds to w-36 and h-[10.4rem]
+const HEX_WIDTH = 144; // Corresponds to w-36
+const HEX_HEIGHT = 166; // approx 144 * (sqrt(3)/2) * 2 / sqrt(3) = 166.27
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -25,26 +25,27 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const getHexPosition = (index: number) => {
     const angle = 60 * index - 30; // Start at -30deg to center the top hex
     const angleRad = (Math.PI / 180) * angle;
-    const radius = HEX_SIZE * 0.866; // approx (sqrt(3)/2) * size for tight packing
+    const radius = HEX_WIDTH * 0.866; // approx (sqrt(3)/2) * size for tight packing
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     return { x, y };
   };
 
   return (
-    <div className="relative flex items-center justify-center" style={{ height: HEX_SIZE * 2.5, width: HEX_SIZE * 2.5 }}>
+    <div className="relative flex items-center justify-center" style={{ height: HEX_HEIGHT * 2.5, width: HEX_WIDTH * 2.5 }}>
       {/* Central Hexagon */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'hexagon-interactive group absolute z-10 flex h-[10.4rem] w-36 flex-col items-center justify-center p-2 text-center transition-all duration-300',
+          'hexagon-interactive group absolute z-10 flex w-36 flex-col items-center justify-center p-2 text-center transition-all duration-300',
           'cursor-pointer text-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
           isOpen ? 'bg-card' : 'bg-card/50 hover:bg-card'
         )}
+        style={{ height: `${HEX_HEIGHT}px`}}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Logo />
+        <div className="hexagon-interactive w-16 h-16 bg-primary/20 group-hover:bg-primary/30 transition-colors duration-300"></div>
       </motion.button>
 
       {/* Surrounding Hexagons */}
@@ -68,7 +69,8 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
               >
                 <Link
                   href={item.href}
-                  className="hexagon-interactive group flex h-[10.4rem] w-36 flex-col items-center justify-center bg-card/50 p-2 text-center text-foreground transition-colors duration-300 hover:bg-card hover:text-primary"
+                  className="hexagon-interactive group flex w-36 flex-col items-center justify-center bg-card/50 p-2 text-center text-foreground transition-colors duration-300 hover:bg-card hover:text-primary"
+                  style={{ height: `${HEX_HEIGHT}px`}}
                 >
                   <div className="transition-transform duration-300 group-hover:scale-110">
                     {React.cloneElement(item.icon as React.ReactElement, {
