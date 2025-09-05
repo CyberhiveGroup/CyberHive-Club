@@ -1,5 +1,5 @@
 
-import { Mail, Phone, MapPin, Github, Twitter, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Github, Twitter, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 import { ContactForm } from './contact-form';
 
@@ -23,10 +23,6 @@ export default function ContactPage() {
               <div className="flex items-center gap-4">
                 <Mail className="h-6 w-6 text-primary" />
                 <span>cyberhive@ggits.org</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <Phone className="h-6 w-6 text-primary" />
-                <span>(123) 456-7890</span>
               </div>
               <div className="flex items-center gap-4">
                 <MapPin className="h-6 w-6 text-primary" />
