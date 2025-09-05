@@ -95,10 +95,18 @@ export default {
             height: '0',
           },
         },
+        buzz: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '20%': { transform: 'translateX(-2px) rotate(-1deg)' },
+          '40%': { transform: 'translateX(2px) rotate(1deg)' },
+          '60%': { transform: 'translateX(-2px) rotate(-1deg)' },
+          '80%': { transform: 'translateX(2px) rotate(1deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'buzz': 'buzz 0.3s linear',
       },
     },
   },

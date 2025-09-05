@@ -118,6 +118,18 @@
   .honeycomb-cell:hover {
      background-color: hsl(var(--primary) / 0.2);
   }
+
+   @keyframes buzz {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-2px) rotate(-1deg); }
+    40% { transform: translateX(2px) rotate(1deg); }
+    60% { transform: translateX(-2px) rotate(-1deg); }
+    80% { transform: translateX(2px) rotate(1deg); }
+  }
+
+  .animate-buzz {
+    animation: buzz 0.3s linear;
+  }
 }
 
 
