@@ -11,6 +11,7 @@ import { Menu } from 'lucide-react';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
+  { href: '/resources', label: 'Resources' },
   { href: '/events', label: 'Events' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },

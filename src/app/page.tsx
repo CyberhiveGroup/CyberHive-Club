@@ -76,7 +76,7 @@ export default function Home() {
                         <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" />
                     </div>
                     <div className="col-start-5">
-                        <HexagonLink href="#" icon={<Shield />} title="Resources" />
+                        <HexagonLink href="/resources" icon={<Shield />} title="Resources" />
                     </div>
                     {/* Row 3 */}
                     <div className="col-start-2">
