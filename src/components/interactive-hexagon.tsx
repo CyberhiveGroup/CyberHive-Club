@@ -17,7 +17,7 @@ interface InteractiveHexagonProps {
 }
 
 const HEX_WIDTH = 144; // Corresponds to w-36
-const HEX_HEIGHT = 166; // approx 144 * (sqrt(3)/2) * 2 / sqrt(3) = 166.27
+const HEX_HEIGHT = 144; 
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -25,7 +25,7 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const getHexPosition = (index: number) => {
     const angle = 60 * index - 30; // Start at -30deg to center the top hex
     const angleRad = (Math.PI / 180) * angle;
-    const radius = HEX_WIDTH * 0.866; // approx (sqrt(3)/2) * size for tight packing
+    const radius = HEX_WIDTH * 0.95; // Increased from 0.866 to add a gap
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     return { x, y };
@@ -45,7 +45,9 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="hexagon-interactive w-16 h-16 bg-primary/20 group-hover:bg-primary/30 transition-colors duration-300"></div>
+        <div className="hexagon-interactive w-16 h-16 bg-primary/20 group-hover:bg-primary/30 transition-colors duration-300 flex items-center justify-center">
+            {/* Content removed from central hexagon */}
+        </div>
       </motion.button>
 
       {/* Surrounding Hexagons */}
