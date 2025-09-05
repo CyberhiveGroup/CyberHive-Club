@@ -1,5 +1,5 @@
 import { Logo } from '@/components/logo';
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, Instagram, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export function Footer() {
@@ -13,6 +13,28 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4">
+          <Link
+            href="mailto:general@cyberhive.com"
+            aria-label="Email"
+            className="text-muted-foreground transition-colors hover:text-primary"
+          >
+            <Mail className="h-6 w-6" />
+          </Link>
+          <Link
+            href="#"
+            aria-label="WhatsApp"
+            className="text-muted-foreground transition-colors hover:text-primary"
+          >
+            {/* Using a generic message icon as a placeholder for WhatsApp */}
+            <MessageCircle className="h-6 w-6" />
+          </Link>
+           <Link
+            href="#"
+            aria-label="Instagram"
+            className="text-muted-foreground transition-colors hover:text-primary"
+          >
+            <Instagram className="h-6 w-6" />
+          </Link>
           <Link
             href="#"
             aria-label="Twitter"
