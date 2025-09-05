@@ -1,6 +1,8 @@
+
 'use client';
 
 import * as React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +40,11 @@ function EventCard({ event }: { event: Event }) {
   );
 }
 
-export default function EventsPage() {
+function EventsPageContent() {
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') === 'past' ? 'past' : 'upcoming';
+  
+  const [activeTab, setActiveTab] = React.useState(initialTab);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [category, setCategory] = React.useState('All');
   const [sortOrder, setSortOrder] = React.useState('desc');
@@ -68,7 +74,7 @@ export default function EventsPage() {
         </p>
       </section>
 
-      <Tabs defaultValue="upcoming" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
           <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
           <TabsTrigger value="past">Past Events</TabsTrigger>
@@ -133,5 +139,13 @@ export default function EventsPage() {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function EventsPage() {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <EventsPageContent />
+    </React.Suspense>
   );
 }
