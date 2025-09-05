@@ -49,10 +49,26 @@ function EventCard({ event, isAdmin, onEdit, onDelete }: { event: Event, isAdmin
                 <Edit className="h-4 w-4" />
                 <span className="sr-only">Edit Event</span>
               </Button>
-              <Button variant="destructive" size="icon" onClick={() => onDelete(event.id)}>
-                <Trash2 className="h-4 w-4" />
-                 <span className="sr-only">Delete Event</span>
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="icon">
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">Delete Event</span>
+                    </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete this event.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => onDelete(event.id)}>Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
           </CardFooter>
        )}
     </Card>
@@ -140,6 +156,7 @@ function EventFormDialog({ event, onSave, onOpenChange, open, children }: { even
   const [imageUrl, setImageUrl] = React.useState('');
   const [imageHint, setImageHint] = React.useState('');
   const [placement, setPlacement] = React.useState<'upcoming' | 'past'>('upcoming');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (event) {
@@ -159,6 +176,17 @@ function EventFormDialog({ event, onSave, onOpenChange, open, children }: { even
       setImageHint('');
     }
   }, [event]);
+  
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSave = () => {
     const newEvent: Event = {
@@ -208,8 +236,12 @@ function EventFormDialog({ event, onSave, onOpenChange, open, children }: { even
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="imageUrl" className="text-right">Image URL</Label>
-            <Input id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className="col-span-3" />
+            <Label className="text-right">Image</Label>
+            <div className="col-span-3 space-y-2">
+                <Image src={imageUrl} alt="Event image preview" width={200} height={150} className="rounded-md object-cover" />
+                <Input id="image" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
+                <Button variant="outline" onClick={() => fileInputRef.current?.click()}>Change Image</Button>
+            </div>
           </div>
            <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="imageHint" className="text-right">Image Hint</Label>
@@ -239,6 +271,9 @@ function EventFormDialog({ event, onSave, onOpenChange, open, children }: { even
   );
 }
 
+const UPCOMING_EVENTS_STORAGE_KEY = 'upcomingEvents';
+const PAST_EVENTS_STORAGE_KEY = 'pastEvents';
+
 function EventsPageContent() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'past' ? 'past' : 'upcoming';
@@ -248,12 +283,38 @@ function EventsPageContent() {
   const [category, setCategory] = React.useState('All');
   const [sortOrder, setSortOrder] = React.useState('desc');
   const [isAdmin, setIsAdmin] = React.useState(false);
-  const [upcomingEvents, setUpcomingEvents] = React.useState<Event[]>(initialUpcomingEvents);
-  const [pastEvents, setPastEvents] = React.useState<Event[]>(initialPastEvents);
+  const [upcomingEvents, setUpcomingEvents] = React.useState<Event[]>([]);
+  const [pastEvents, setPastEvents] = React.useState<Event[]>([]);
   const [editingEvent, setEditingEvent] = React.useState<Partial<Event> | null>(null);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
 
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    try {
+      const savedUpcoming = localStorage.getItem(UPCOMING_EVENTS_STORAGE_KEY);
+      const savedPast = localStorage.getItem(PAST_EVENTS_STORAGE_KEY);
+
+      if (savedUpcoming) {
+        setUpcomingEvents(JSON.parse(savedUpcoming));
+      } else {
+        setUpcomingEvents(initialUpcomingEvents);
+      }
+      if (savedPast) {
+        setPastEvents(JSON.parse(savedPast));
+      } else {
+        setPastEvents(initialPastEvents);
+      }
+    } catch (error) {
+      console.error("Failed to parse events from localStorage", error);
+      setUpcomingEvents(initialUpcomingEvents);
+      setPastEvents(initialPastEvents);
+    }
+  }, []);
+
+  const persistEvents = (key: string, data: Event[]) => {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
 
   const handleEdit = (event: Event) => {
     setEditingEvent(event);
@@ -266,37 +327,37 @@ function EventsPageContent() {
   };
   
   const handleDelete = (eventId: number) => {
-      let eventToDelete: Event | undefined;
-      let eventList: 'upcoming' | 'past' | undefined;
+      const eventToDelete = upcomingEvents.find(e => e.id === eventId) || pastEvents.find(e => e.id === eventId);
+      if (!eventToDelete) return;
+      
+      const isUpcoming = upcomingEvents.some(e => e.id === eventId);
 
-      eventToDelete = upcomingEvents.find(e => e.id === eventId);
-      if (eventToDelete) {
-        eventList = 'upcoming';
-        setUpcomingEvents(upcomingEvents.filter(e => e.id !== eventId));
+      if (isUpcoming) {
+        const updatedUpcoming = upcomingEvents.filter(e => e.id !== eventId);
+        setUpcomingEvents(updatedUpcoming);
+        persistEvents(UPCOMING_EVENTS_STORAGE_KEY, updatedUpcoming);
       } else {
-        eventToDelete = pastEvents.find(e => e.id === eventId);
-        if (eventToDelete) {
-          eventList = 'past';
-          setPastEvents(pastEvents.filter(e => e.id !== eventId));
-        }
+        const updatedPast = pastEvents.filter(e => e.id !== eventId);
+        setPastEvents(updatedPast);
+        persistEvents(PAST_EVENTS_STORAGE_KEY, updatedPast);
       }
 
-      if (eventToDelete && eventList) {
-        const deletedEvent = eventToDelete;
-        const list = eventList;
-        toast({
+      toast({
           title: "Event Deleted",
-          description: `'${deletedEvent.title}' has been removed.`,
-          action: <Button variant="secondary" onClick={() => handleRestore(deletedEvent, list)}>Undo</Button>
-        })
-      }
+          description: `'${eventToDelete.title}' has been removed.`,
+          action: <Button variant="secondary" onClick={() => handleRestore(eventToDelete, isUpcoming ? 'upcoming' : 'past')}>Undo</Button>
+      })
   };
   
   const handleRestore = (event: Event, list: 'upcoming' | 'past') => {
       if (list === 'upcoming') {
-        setUpcomingEvents(prev => [...prev, event]);
+        const restored = [...upcomingEvents, event].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        setUpcomingEvents(restored);
+        persistEvents(UPCOMING_EVENTS_STORAGE_KEY, restored);
       } else {
-        setPastEvents(prev => [...prev, event]);
+        const restored = [...pastEvents, event].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        setPastEvents(restored);
+        persistEvents(PAST_EVENTS_STORAGE_KEY, restored);
       }
        toast({
           title: "Event Restored",
@@ -306,14 +367,26 @@ function EventsPageContent() {
 
   const handleSave = (event: Event, placement: 'upcoming' | 'past') => {
     if (editingEvent?.id) { // Editing existing event
-      setUpcomingEvents(upcomingEvents.map(e => e.id === event.id ? event : e));
-      setPastEvents(pastEvents.map(e => e.id === event.id ? event : e));
-      toast({ title: 'Event Updated!', description: `'${event.title}' has been successfully updated.` });
+        const isUpcoming = upcomingEvents.some(e => e.id === event.id);
+        if (isUpcoming) {
+            const updated = upcomingEvents.map(e => e.id === event.id ? event : e);
+            setUpcomingEvents(updated);
+            persistEvents(UPCOMING_EVENTS_STORAGE_KEY, updated);
+        } else {
+            const updated = pastEvents.map(e => e.id === event.id ? event : e);
+            setPastEvents(updated);
+            persistEvents(PAST_EVENTS_STORAGE_KEY, updated);
+        }
+        toast({ title: 'Event Updated!', description: `'${event.title}' has been successfully updated.` });
     } else { // Adding new event
       if (placement === 'upcoming') {
-        setUpcomingEvents([...upcomingEvents, event]);
+        const updated = [...upcomingEvents, event];
+        setUpcomingEvents(updated);
+        persistEvents(UPCOMING_EVENTS_STORAGE_KEY, updated);
       } else {
-        setPastEvents([...pastEvents, event]);
+        const updated = [...pastEvents, event];
+        setPastEvents(updated);
+        persistEvents(PAST_EVENTS_STORAGE_KEY, updated);
       }
       toast({ title: 'Event Added!', description: `'${event.title}' has been successfully created.` });
     }
@@ -328,14 +401,21 @@ function EventsPageContent() {
   }, [category, searchTerm, upcomingEvents]);
 
   const sortedPastEvents = React.useMemo(() => {
-    return [...pastEvents].sort((a, b) => {
+    const filtered = pastEvents
+      .filter((event) => category === 'All' || event.category === category)
+      .filter((event) => event.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    return filtered.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
     });
-  }, [sortOrder, pastEvents]);
+  }, [sortOrder, pastEvents, category, searchTerm]);
   
   const allCategories = ['All', ...eventCategories];
+
+  const currentEvents = activeTab === 'upcoming' ? filteredUpcomingEvents : sortedPastEvents;
+  const showNoEventsMessage = currentEvents.length === 0;
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -371,9 +451,8 @@ function EventsPageContent() {
           <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
           <TabsTrigger value="past">Past Events</TabsTrigger>
         </TabsList>
-
-        <TabsContent value="upcoming">
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
+        
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
@@ -398,36 +477,46 @@ function EventsPageContent() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filteredUpcomingEvents.length > 0 ? (
-              filteredUpcomingEvents.map((event) => <EventCard key={event.id} event={event} isAdmin={isAdmin} onEdit={handleEdit} onDelete={handleDelete} />)
-            ) : (
-              <p className="text-muted-foreground col-span-full text-center">No upcoming events match your criteria.</p>
+             {activeTab === 'past' && (
+                <div className="flex items-center gap-2">
+                <ArrowUpDown className="h-5 w-5 text-muted-foreground" />
+                <Select value={sortOrder} onValueChange={setSortOrder}>
+                    <SelectTrigger className="w-full md:w-[180px]">
+                    <SelectValue placeholder="Sort by date" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem value="desc">Newest First</SelectItem>
+                    <SelectItem value="asc">Oldest First</SelectItem>
+                    </SelectContent>
+                </Select>
+                </div>
             )}
           </div>
+
+        <TabsContent value="upcoming">
+          {showNoEventsMessage ? (
+              <div className="text-center text-muted-foreground py-16">
+                  <h2 className="text-2xl font-semibold mb-2">Stay Tuned!</h2>
+                  <p>There are no upcoming events at the moment. Check back soon for new announcements!</p>
+              </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {currentEvents.map((event) => <EventCard key={event.id} event={event} isAdmin={isAdmin} onEdit={handleEdit} onDelete={() => handleDelete(event.id)} />)}
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="past">
-          <div className="flex justify-end mb-8">
-            <div className="flex items-center gap-2">
-              <ArrowUpDown className="h-5 w-5 text-muted-foreground" />
-              <Select value={sortOrder} onValueChange={setSortOrder}>
-                <SelectTrigger className="w-full md:w-[180px]">
-                  <SelectValue placeholder="Sort by date" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="desc">Newest First</SelectItem>
-                  <SelectItem value="asc">Oldest First</SelectItem>
-                </SelectContent>
-              </Select>
+         {showNoEventsMessage ? (
+              <div className="text-center text-muted-foreground py-16">
+                  <h2 className="text-2xl font-semibold mb-2">No Past Events Found</h2>
+                  <p>Looks like there are no past events matching your search criteria.</p>
+              </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {currentEvents.map((event) => <EventCard key={event.id} event={event} isAdmin={isAdmin} onEdit={handleEdit} onDelete={() => handleDelete(event.id)} />)}
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {sortedPastEvents.map((event) => (
-              <EventCard key={event.id} event={event} isAdmin={isAdmin} onEdit={handleEdit} onDelete={handleDelete} />
-            ))}
-          </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
@@ -441,3 +530,5 @@ export default function EventsPage() {
     </React.Suspense>
   );
 }
+
+    
