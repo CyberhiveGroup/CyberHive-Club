@@ -18,7 +18,6 @@ interface InteractiveHexagonProps {
 }
 
 const HEX_SIZE = 144; // Corresponds to w-36 and h-[10.4rem]
-const HEX_MARGIN = 4;
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
