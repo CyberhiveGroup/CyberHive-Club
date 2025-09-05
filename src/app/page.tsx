@@ -32,7 +32,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="container relative mx-auto px-4 md:px-6 text-center">
+          <div className="container relative mx-auto px-4 md:px-6 text-center z-10">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary uppercase sm:text-5xl md:text-6xl lg:text-7xl hover:animate-buzz">
                 Welcome to CyberHive

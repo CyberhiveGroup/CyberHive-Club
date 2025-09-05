@@ -72,7 +72,7 @@ export function RoamingBee() {
       <div
         ref={followerBeeRef}
         className="roaming-bee-container"
-        style={{ animation: 'none', position: 'fixed', top: 0, left: 0 }}
+        style={{ animation: 'none', position: 'fixed', top: 0, left: 0, zIndex: 5 }}
       >
         <div className="bee">
           <div className="wing wing-left"></div>
@@ -99,6 +99,7 @@ export function RoamingBee() {
               animationName,
               animationDuration,
               animationDelay,
+              zIndex: 5
             }}
           >
             <div className="bee">
