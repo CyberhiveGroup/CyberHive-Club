@@ -6,7 +6,8 @@ import React from "react";
 export function RoamingBee() {
   const [isClient, setIsClient] = React.useState(false);
   const beeRefs = React.useRef<(HTMLDivElement | null)[]>([]);
-  const beeCount = 5;
+  const followerBeeRef = React.useRef<HTMLDivElement | null>(null);
+  const beeCount = 4; // 4 roaming + 1 follower
 
   React.useEffect(() => {
     setIsClient(true);
@@ -20,6 +21,13 @@ export function RoamingBee() {
       const cursorX = e.clientX;
       const cursorY = e.clientY;
 
+      // Follower bee
+      if (followerBeeRef.current) {
+        followerBeeRef.current.style.transform = `translate(${cursorX - 15}px, ${cursorY - 15}px) rotate(0deg)`;
+        followerBeeRef.current.style.transition = 'transform 0.2s ease-out';
+      }
+      
+      // Scattering bees
       beeRefs.current.forEach(bee => {
         if (!bee) return;
 
@@ -60,6 +68,23 @@ export function RoamingBee() {
 
   return (
     <>
+      {/* Follower Bee */}
+      <div
+        ref={followerBeeRef}
+        className="roaming-bee-container"
+        style={{ animation: 'none', position: 'fixed', top: 0, left: 0 }}
+      >
+        <div className="bee">
+          <div className="wing wing-left"></div>
+          <div className="wing wing-right"></div>
+          <div className="body">
+            <div className="stripe"></div>
+            <div className="stripe"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scattering Bees */}
       {Array.from({ length: beeCount }).map((_, i) => {
         const animationName = animationPaths[i % animationPaths.length];
         const animationDuration = `${Math.random() * 15 + 15}s`; // 15-30 seconds
