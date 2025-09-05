@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ListFilter, ArrowUpDown, Edit, Trash2, Shield, ShieldCheck, LogOut, PlusCircle } from 'lucide-react';
+import { Search, ListFilter, ArrowUpDown, Edit, Trash2, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { upcomingEvents as initialUpcomingEvents, pastEvents as initialPastEvents } from '@/lib/data';
 import type { Event } from '@/lib/types';
@@ -19,6 +19,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useAdmin } from '@/context/AdminContext';
 
 const eventCategories = ['Workshop', 'Competition', 'Talk', 'Social'];
 
@@ -73,79 +74,6 @@ function EventCard({ event, isAdmin, onEdit, onDelete }: { event: Event, isAdmin
        )}
     </Card>
   );
-}
-
-function AdminModeToggle({ isAdmin, onAdminChange }: { isAdmin: boolean, onAdminChange: (isAdmin: boolean) => void }) {
-    const [isAlertOpen, setIsAlertOpen] = React.useState(false);
-    const [password, setPassword] = React.useState('');
-    const { toast } = useToast();
-
-    const handlePasswordSubmit = () => {
-        if (password === 'iamadmin') {
-            onAdminChange(true);
-            setIsAlertOpen(false);
-            toast({
-                title: "Admin Mode Activated",
-                description: "You can now add, edit, and delete events.",
-            });
-        } else {
-            toast({
-                title: "Incorrect Password",
-                description: "Please try again.",
-                variant: "destructive",
-            });
-        }
-        setPassword('');
-    };
-
-    const handleLogout = () => {
-        onAdminChange(false);
-        toast({
-            title: "Admin Mode Deactivated",
-        });
-    }
-
-    if (isAdmin) {
-        return (
-            <div className="flex items-center space-x-2">
-                <ShieldCheck className="h-5 w-5 text-primary" />
-                <Label htmlFor="admin-mode" className="text-primary font-medium">Admin Mode Active</Label>
-                <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Deactivate Admin Mode">
-                    <LogOut className="h-5 w-5 text-muted-foreground" />
-                </Button>
-            </div>
-        )
-    }
-
-    return (
-        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-            <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2">
-                    <Shield className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-muted-foreground">Admin Mode</span>
-                </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Enter Admin Password</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        To access editing features, please enter the administrator password.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <Input 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
-                />
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handlePasswordSubmit}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    );
 }
 
 function EventFormDialog({ event, onSave, onOpenChange, open, children }: { event: Partial<Event> | null, onSave: (event: Event, placement: 'upcoming' | 'past') => void, onOpenChange: (open: boolean) => void, open: boolean, children: React.ReactNode }) {
@@ -275,6 +203,7 @@ const UPCOMING_EVENTS_STORAGE_KEY = 'upcomingEvents';
 const PAST_EVENTS_STORAGE_KEY = 'pastEvents';
 
 function EventsPageContent() {
+  const { isAdmin } = useAdmin();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'past' ? 'past' : 'upcoming';
   
@@ -282,7 +211,6 @@ function EventsPageContent() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [category, setCategory] = React.useState('All');
   const [sortOrder, setSortOrder] = React.useState('desc');
-  const [isAdmin, setIsAdmin] = React.useState(false);
   const [upcomingEvents, setUpcomingEvents] = React.useState<Event[]>([]);
   const [pastEvents, setPastEvents] = React.useState<Event[]>([]);
   const [editingEvent, setEditingEvent] = React.useState<Partial<Event> | null>(null);
@@ -443,7 +371,6 @@ function EventsPageContent() {
             <PlusCircle className="mr-2 h-4 w-4" /> Add Event
           </Button>
         )}
-        <AdminModeToggle isAdmin={isAdmin} onAdminChange={setIsAdmin} />
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -530,5 +457,3 @@ export default function EventsPage() {
     </React.Suspense>
   );
 }
-
-    

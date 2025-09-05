@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { MainNav } from '@/components/main-nav';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
+import { AdminProvider } from '@/context/AdminContext';
 
 export const metadata: Metadata = {
   title: 'CyberHive Hub',
@@ -28,12 +29,14 @@ export default function RootLayout({
           'min-h-screen bg-background font-body antialiased',
         )}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <MainNav />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <Toaster />
+        <AdminProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <MainNav />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
+        </AdminProvider>
       </body>
     </html>
   );

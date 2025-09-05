@@ -13,82 +13,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Edit, LogOut, PlusCircle, Shield, ShieldCheck, Trash2 } from 'lucide-react';
+import { Edit, PlusCircle, Trash2 } from 'lucide-react';
+import { useAdmin } from '@/context/AdminContext';
 
 const LOCAL_STORAGE_KEY = 'cslClasses';
-
-function AdminModeToggle({ isAdmin, onAdminChange }: { isAdmin: boolean, onAdminChange: (isAdmin: boolean) => void }) {
-    const [isAlertOpen, setIsAlertOpen] = React.useState(false);
-    const [password, setPassword] = React.useState('');
-    const { toast } = useToast();
-
-    const handlePasswordSubmit = () => {
-        if (password === 'iamadmin') {
-            onAdminChange(true);
-            setIsAlertOpen(false);
-            toast({
-                title: "Admin Mode Activated",
-                description: "You can now add, edit, and delete CSL classes.",
-            });
-        } else {
-            toast({
-                title: "Incorrect Password",
-                description: "Please try again.",
-                variant: "destructive",
-            });
-        }
-        setPassword('');
-    };
-
-    const handleLogout = () => {
-        onAdminChange(false);
-        toast({
-            title: "Admin Mode Deactivated",
-        });
-    }
-
-    if (isAdmin) {
-        return (
-            <div className="flex items-center space-x-2">
-                <ShieldCheck className="h-5 w-5 text-primary" />
-                <Label htmlFor="admin-mode" className="text-primary font-medium">Admin Mode Active</Label>
-                <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Deactivate Admin Mode">
-                    <LogOut className="h-5 w-5 text-muted-foreground" />
-                </Button>
-            </div>
-        )
-    }
-
-    return (
-        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-            <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2">
-                    <Shield className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-muted-foreground">Admin Mode</span>
-                </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Enter Admin Password</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        To access editing features, please enter the administrator password.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
-                />
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handlePasswordSubmit}>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    );
-}
 
 function CSLClassFormDialog({ cslClass, onSave, onOpenChange, open, children }: { cslClass: Partial<CSLClass> | null, onSave: (cslClass: CSLClass) => void, onOpenChange: (open: boolean) => void, open: boolean, children: React.ReactNode }) {
   const [title, setTitle] = React.useState('');
@@ -226,8 +154,8 @@ function CSLClassCard({ cslClass, isAdmin, onEdit, onDelete }: { cslClass: CSLCl
 }
 
 function CSLClassesPageContent() {
+    const { isAdmin } = useAdmin();
     const [cslClasses, setCslClasses] = React.useState<CSLClass[]>([]);
-    const [isAdmin, setIsAdmin] = React.useState(false);
     const [editingClass, setEditingClass] = React.useState<Partial<CSLClass> | null>(null);
     const [isFormOpen, setIsFormOpen] = React.useState(false);
 
@@ -323,7 +251,6 @@ function CSLClassesPageContent() {
             <PlusCircle className="mr-2 h-4 w-4" /> Add Class
           </Button>
         )}
-        <AdminModeToggle isAdmin={isAdmin} onAdminChange={setIsAdmin} />
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
