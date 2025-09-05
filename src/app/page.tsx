@@ -43,7 +43,7 @@ export default function Home() {
               isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
             )}
             style={{
-                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 75px, hsl(var(--background)) 250px)'
+                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 45px, hsl(var(--background)) 250px)'
             }}
           ></div>
           <div className="container relative mx-auto px-4 md:px-6 text-center z-10 pb-20 md:pb-32 lg:pb-40">
@@ -99,6 +99,33 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* About Us & CSL Section */}
+        <section className="w-full py-12 md:py-24 bg-background">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-4">
+                <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl text-primary">About The Hive</h2>
+                <p className="text-muted-foreground">
+                  CyberHive is more than a club; it's a community united by a passion for cybersecurity. We bridge the gap between academic theory and real-world application by providing hands-on training, competitive events, and connections with industry professionals.
+                </p>
+                <Button asChild size="lg" variant="secondary" className="uppercase tracking-wider">
+                  <Link href="/about">Learn More About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                </Button>
+              </div>
+              <div className="space-y-4">
+                <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl text-primary">CSL Classes</h2>
+                <p className="text-muted-foreground">
+                  Our Cybersecurity Leadership (CSL) classes are designed to level up your skills. From beginner to advanced, our comprehensive curriculum covers everything from ethical hacking and network defense to malware analysis and web security.
+                </p>
+                 <Button asChild size="lg" className="uppercase tracking-wider">
+                  <Link href="/csl-classes">Explore CSL Classes <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   );
