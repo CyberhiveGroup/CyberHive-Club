@@ -89,30 +89,8 @@ export default function Home() {
                 Don't miss out on our next big thing. See what's on the horizon.
               </p>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {upcomingEvents.slice(0, 3).map((event) => (
-                <Card key={event.id} className="overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 bg-background">
-                  <Link href="/events" className="group">
-                    <div className="overflow-hidden">
-                      <Image
-                        src={event.imageUrl}
-                        alt={event.title}
-                        width={600}
-                        height={400}
-                        data-ai-hint={event.imageHint}
-                        className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="font-headline uppercase">{event.title}</CardTitle>
-                      <CardDescription>{event.date}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{event.description}</p>
-                    </CardContent>
-                  </Link>
-                </Card>
-              ))}
+            <div className="text-center text-2xl font-headline text-muted-foreground">
+              Coming Soon
             </div>
             <div className="text-center mt-12">
               <Button asChild size="lg" variant="outline" className="uppercase tracking-wider">
