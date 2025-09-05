@@ -115,7 +115,7 @@ export function Footer() {
            <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Connect</h3>
           <div className="flex items-center gap-4">
             <Link
-              href="mailto:general@cyberhive.com"
+              href="mailto:cyberhive@ggits.org"
               aria-label="Email"
               className="text-muted-foreground transition-colors hover:text-primary"
             >

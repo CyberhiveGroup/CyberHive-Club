@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
 
   Analyze the following message and determine the appropriate administrator to route it to.
   Available administrators are:
-  - General Inquiries: general@cyberhive.com
+  - General Inquiries: cyberhive@ggits.org
   - CSL Classes: csl@cyberhive.com
   - Events: events@cyberhive.com
   - Technical Support: support@cyberhive.com
