@@ -4,20 +4,21 @@
 import * as React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ListFilter, ArrowUpDown } from 'lucide-react';
+import { Search, ListFilter, ArrowUpDown, Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { upcomingEvents, pastEvents } from '@/lib/data';
 import type { Event } from '@/lib/types';
+import { Button } from '@/components/ui/button';
 
 const eventCategories = ['All', 'Workshop', 'Competition', 'Talk', 'Social'];
 
 function EventCard({ event }: { event: Event }) {
   return (
-    <Card className="overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10">
+    <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10">
       <Image
         src={event.imageUrl}
         alt={event.title}
@@ -33,9 +34,19 @@ function EventCard({ event }: { event: Event }) {
         </div>
         <CardDescription>{event.date}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
       </CardContent>
+       <CardFooter className="flex justify-end gap-2">
+            <Button variant="outline" size="icon">
+              <Edit className="h-4 w-4" />
+              <span className="sr-only">Edit Event</span>
+            </Button>
+            <Button variant="destructive" size="icon">
+              <Trash2 className="h-4 w-4" />
+               <span className="sr-only">Delete Event</span>
+            </Button>
+        </CardFooter>
     </Card>
   );
 }
