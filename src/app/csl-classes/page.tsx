@@ -1,9 +1,13 @@
+
+'use client';
+
+import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cslClasses } from "@/lib/data";
 import Image from "next/image";
 
-export default function CSLClassesPage() {
+function CSLClassesPageContent() {
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
       <section className="text-center mb-16">
@@ -41,3 +45,13 @@ export default function CSLClassesPage() {
     </div>
   );
 }
+
+
+export default function CSLClassesPage() {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <CSLClassesPageContent />
+    </React.Suspense>
+  );
+}
+
