@@ -38,7 +38,7 @@ export function HoneycombBackground() {
         style={{
           clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)',
           background:
-            'radial-gradient(550px circle at var(--mouse-x) var(--mouse-y), hsl(var(--primary) / 0.2), transparent 75%)',
+            'radial-gradient(350px circle at var(--mouse-x) var(--mouse-y), hsl(var(--primary) / 0.2), transparent 75%)',
         }}
       ></div>
       <div className="honeycomb-container">
