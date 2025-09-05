@@ -16,7 +16,7 @@ export function HexagonLink({ icon, title, href, className }: HexagonLinkProps) 
   return (
     <div
       className={cn(
-        'hexagon-border group',
+        'hexagon-border group w-[10rem] h-[8.66rem]',
         className
       )}
     >
