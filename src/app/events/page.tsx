@@ -62,7 +62,7 @@ function AdminModeToggle({ isAdmin, onAdminChange }: { isAdmin: boolean, onAdmin
     const { toast } = useToast();
 
     const handlePasswordSubmit = () => {
-        if (password === 'supersecret') {
+        if (password === 'iamadmin') {
             onAdminChange(true);
             setIsAlertOpen(false);
             toast({
