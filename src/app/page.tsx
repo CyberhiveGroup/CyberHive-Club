@@ -8,9 +8,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
-import { HexagonLink } from "@/components/hexagon-link";
+import { InteractiveHexagon, type HexagonItem } from "@/components/interactive-hexagon";
 import { HoneycombBackground } from "@/components/honeycomb-background";
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/logo';
+
+const navItems: HexagonItem[] = [
+    { href: "/about", icon: <Users />, title: "About Us" },
+    { href: "/events", icon: <Calendar />, title: "Events" },
+    { href: "/csl-classes", icon: <BookOpen />, title: "CSL Classes" },
+    { href: "/resources", icon: <Shield />, title: "Resources" },
+    { href: "/contact", icon: <Mail />, title: "Contact" },
+    { href: "#", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>, title: "Join" },
+];
+
 
 export default function Home() {
   const [isRevealed, setIsRevealed] = React.useState(false);
@@ -58,39 +69,12 @@ export default function Home() {
             <div className="flex flex-col items-center text-center mb-16">
               <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">CyberHive Central</h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-                The heart of our college cybersecurity club.
+                Click the hive to explore.
               </p>
             </div>
             
-            <div className="relative w-full flex justify-center items-center">
-              <div className="grid grid-cols-[repeat(4,_8rem)] grid-rows-[repeat(3,_7rem)] gap-x-2 gap-y-0 w-auto">
-                  {/* Row 1 */}
-                  <div className="col-start-2 row-start-1">
-                      <HexagonLink href="/about" icon={<Users />} title="About Us" />
-                  </div>
-                  <div className="col-start-3 row-start-1">
-                      <HexagonLink href="/events" icon={<Calendar />} title="Events" />
-                  </div>
-                  {/* Row 2 */}
-                  <div className="col-start-1 row-start-2">
-                      <HexagonLink href="/" icon={<HomeIcon />} title="Home" />
-                  </div>
-                  <div className="col-start-2 row-start-2">
-                      <HexagonLink href="/csl-classes" icon={<BookOpen />} title="CSL Classes" />
-                  </div>
-                  <div className="col-start-3 row-start-2">
-                      <HexagonLink href="/resources" icon={<Shield />} title="Resources" />
-                  </div>
-                   <div className="col-start-4 row-start-2">
-                      <HexagonLink href="/contact" icon={<Mail />} title="Contact" />
-                  </div>
-                  {/* Row 3 */}
-                  <div className="col-start-2 row-start-3">
-                       <HexagonLink href="#" icon={
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>
-                       } title="Join" />
-                  </div>
-              </div>
+            <div className="relative w-full flex justify-center items-center h-96">
+                <InteractiveHexagon items={navItems} />
             </div>
           </div>
         </section>
