@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 
 const navLinks = [
@@ -32,13 +32,14 @@ export function MainNav() {
               <span className="sr-only">Toggle Menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left">
-            <div className="flex flex-col h-full">
-              <div className="p-4 border-b">
-                <Link href="/" className="flex items-center" onClick={() => setIsSheetOpen(false)}>
+          <SheetContent side="left" className="p-0">
+            <SheetHeader className="p-4 border-b">
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+               <Link href="/" className="flex items-center" onClick={() => setIsSheetOpen(false)}>
                   <Logo />
                 </Link>
-              </div>
+            </SheetHeader>
+            <div className="flex flex-col h-full">
               <nav className="flex flex-col gap-4 p-4 flex-1">
                 {navLinks.map((link) => (
                   <Link
