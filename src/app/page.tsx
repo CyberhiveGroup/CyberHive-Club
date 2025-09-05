@@ -16,7 +16,7 @@ import { Logo } from '@/components/logo';
 const navItems: HexagonItem[] = [
     { href: "/about", icon: <Users />, title: "About Us" },
     { href: "/events", icon: <Calendar />, title: "Events" },
-    { href: "/csl-classes", icon: <BookOpen />, title: "CSL Classes" },
+    { href: "/csl-classes", icon: <BookOpen />, title: "CSL" },
     { href: "/resources", icon: <Shield />, title: "Resources" },
     { href: "/contact", icon: <Mail />, title: "Contact" },
     { href: "#", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>, title: "Join" },
