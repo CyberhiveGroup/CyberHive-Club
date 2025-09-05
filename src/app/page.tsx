@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
 import { HexagonLink } from "@/components/hexagon-link";
+import { HoneycombBackground } from "@/components/honeycomb-background";
 
 function DummyHexagon({ className }: { className?: string }) {
   return (
@@ -24,14 +25,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
            <RoamingBee />
-          <div className="absolute inset-0 bg-background overflow-hidden">
-            <div className="absolute inset-0 bg-primary/5 opacity-50" style={{clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
-            <div className="honeycomb-container">
-              {Array.from({ length: 100 }).map((_, i) => (
-                <div key={i} className="honeycomb-cell"></div>
-              ))}
-            </div>
-          </div>
+          <HoneycombBackground />
           <div className="container relative mx-auto px-4 md:px-6 text-center z-10">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary uppercase sm:text-5xl md:text-6xl lg:text-7xl hover:animate-buzz">
