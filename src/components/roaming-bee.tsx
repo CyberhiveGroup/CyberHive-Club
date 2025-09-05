@@ -1,3 +1,4 @@
+
 'use client';
 
 import { cn } from "@/lib/utils";
@@ -16,6 +17,9 @@ export function RoamingBee() {
 
   React.useEffect(() => {
     if (!isClient) return;
+
+    // Get the hero text element
+    const heroText = document.querySelector('h1');
 
     const handleMouseMove = (e: MouseEvent) => {
       const cursorX = e.clientX;
@@ -39,7 +43,27 @@ export function RoamingBee() {
           Math.pow(cursorX - beeCenterX, 2) + Math.pow(cursorY - beeCenterY, 2)
         );
 
-        if (distance < 150) { // scatter radius
+        // Check for collision with hero text
+        if (heroText) {
+          const heroRect = heroText.getBoundingClientRect();
+          if (
+            beeCenterX > heroRect.left &&
+            beeCenterX < heroRect.right &&
+            beeCenterY > heroRect.top &&
+            beeCenterY < heroRect.bottom
+          ) {
+            // scatter if colliding with hero text
+            const angle = Math.atan2(beeCenterY - (heroRect.top + heroRect.height / 2), beeCenterX - (heroRect.left + heroRect.width / 2));
+            const moveX = Math.cos(angle) * 100;
+            const moveY = Math.sin(angle) * 100;
+            bee.style.setProperty('--scatter-x', `${moveX}px`);
+            bee.style.setProperty('--scatter-y', `${moveY}px`);
+            bee.classList.add('scatter');
+            return;
+          }
+        }
+
+        if (distance < 150) { // scatter radius from cursor
           const angle = Math.atan2(cursorY - beeCenterY, cursorX - beeCenterX);
           const moveX = Math.cos(angle) * -70; // scatter distance
           const moveY = Math.sin(angle) * -70;
@@ -52,9 +76,11 @@ export function RoamingBee() {
       });
     };
 
+    const intervalId = setInterval(() => handleMouseMove(new MouseEvent("mousemove")), 100);
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
+      clearInterval(intervalId);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [isClient]);
@@ -72,7 +98,7 @@ export function RoamingBee() {
       <div
         ref={followerBeeRef}
         className="roaming-bee-container"
-        style={{ animation: 'none', position: 'fixed', top: 0, left: 0, zIndex: 5 }}
+        style={{ animation: 'none', position: 'fixed', top: 0, left: 0, zIndex: 30 }}
       >
         <div className="bee">
           <div className="wing wing-left"></div>
@@ -99,7 +125,7 @@ export function RoamingBee() {
               animationName,
               animationDuration,
               animationDelay,
-              zIndex: 5
+              zIndex: 30
             }}
           >
             <div className="bee">

@@ -1,3 +1,6 @@
+
+'use client';
+import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Shield, Calendar, Users, HomeIcon, BookOpen, Mail } from "lucide-react";
@@ -7,26 +10,32 @@ import { upcomingEvents } from "@/lib/data";
 import { RoamingBee } from "@/components/roaming-bee";
 import { HexagonLink } from "@/components/hexagon-link";
 import { HoneycombBackground } from "@/components/honeycomb-background";
-
-function DummyHexagon({ className }: { className?: string }) {
-  return (
-    <div
-      className={`hexagon-border group ${className}`}
-    >
-      <div className="hexagon-interactive bg-card/10 w-full h-full group-hover:bg-card/30 transition-colors duration-300"></div>
-    </div>
-  );
-}
+import { cn } from '@/lib/utils';
 
 export default function Home() {
+  const [isRevealed, setIsRevealed] = React.useState(false);
+
+  const handleReveal = () => {
+    setIsRevealed(true);
+  };
+  
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
+        <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden" onClick={handleReveal}>
            <RoamingBee />
-          <HoneycombBackground />
-          <div className="container relative mx-auto px-4 md:px-6 text-center z-10">
+          <HoneycombBackground isRevealed={isRevealed} />
+          <div 
+            className={cn(
+              "absolute inset-0 z-10 transition-opacity duration-1000",
+              isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            )}
+            style={{
+                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0px, black 400px)'
+            }}
+          ></div>
+          <div className={cn("container relative mx-auto px-4 md:px-6 text-center z-20 transition-opacity duration-1000", isRevealed ? 'opacity-100' : 'opacity-0')}>
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary uppercase sm:text-5xl md:text-6xl lg:text-7xl hover:animate-buzz">
                 Welcome to CyberHive
