@@ -29,7 +29,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-4">
                 <MapPin className="h-6 w-6 text-primary" />
-                <span>123 University Ave, Tech Building, Room 404</span>
+                <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P. , India</span>
               </div>
             </div>
           </div>
