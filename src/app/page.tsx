@@ -44,9 +44,6 @@ export default function Home() {
                 <Button asChild size="lg" className="font-bold uppercase tracking-wider">
                   <Link href="/csl-classes">Explore CSL Classes</Link>
                 </Button>
-                <Button asChild size="lg" variant="secondary" className="font-bold uppercase tracking-wider">
-                  <Link href="/about">About The Club <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
               </div>
             </div>
           </div>
