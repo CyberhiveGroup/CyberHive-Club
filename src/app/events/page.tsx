@@ -8,15 +8,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ListFilter, ArrowUpDown, Edit, Trash2 } from 'lucide-react';
+import { Search, ListFilter, ArrowUpDown, Edit, Trash2, Shield } from 'lucide-react';
 import Image from 'next/image';
 import { upcomingEvents, pastEvents } from '@/lib/data';
 import type { Event } from '@/lib/types';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const eventCategories = ['All', 'Workshop', 'Competition', 'Talk', 'Social'];
 
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event, isAdmin }: { event: Event, isAdmin: boolean }) {
   return (
     <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10">
       <Image
@@ -37,16 +39,18 @@ function EventCard({ event }: { event: Event }) {
       <CardContent className="flex-grow">
         <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
       </CardContent>
-       <CardFooter className="flex justify-end gap-2">
-            <Button variant="outline" size="icon">
-              <Edit className="h-4 w-4" />
-              <span className="sr-only">Edit Event</span>
-            </Button>
-            <Button variant="destructive" size="icon">
-              <Trash2 className="h-4 w-4" />
-               <span className="sr-only">Delete Event</span>
-            </Button>
-        </CardFooter>
+       {isAdmin && (
+        <CardFooter className="flex justify-end gap-2">
+              <Button variant="outline" size="icon">
+                <Edit className="h-4 w-4" />
+                <span className="sr-only">Edit Event</span>
+              </Button>
+              <Button variant="destructive" size="icon">
+                <Trash2 className="h-4 w-4" />
+                 <span className="sr-only">Delete Event</span>
+              </Button>
+          </CardFooter>
+       )}
     </Card>
   );
 }
@@ -59,6 +63,7 @@ function EventsPageContent() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [category, setCategory] = React.useState('All');
   const [sortOrder, setSortOrder] = React.useState('desc');
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   const filteredUpcomingEvents = React.useMemo(() => {
     return upcomingEvents
@@ -84,6 +89,14 @@ function EventsPageContent() {
           Engage with the community, learn new skills, and compete with the best.
         </p>
       </section>
+
+      <div className="flex justify-end items-center mb-4">
+        <div className="flex items-center space-x-2">
+            <Shield className="h-5 w-5 text-muted-foreground" />
+            <Label htmlFor="admin-mode" className="text-muted-foreground">Admin Mode</Label>
+            <Switch id="admin-mode" checked={isAdmin} onCheckedChange={setIsAdmin} />
+        </div>
+      </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
@@ -120,7 +133,7 @@ function EventsPageContent() {
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredUpcomingEvents.length > 0 ? (
-              filteredUpcomingEvents.map((event) => <EventCard key={event.id} event={event} />)
+              filteredUpcomingEvents.map((event) => <EventCard key={event.id} event={event} isAdmin={isAdmin} />)
             ) : (
               <p className="text-muted-foreground col-span-full text-center">No upcoming events match your criteria.</p>
             )}
@@ -144,7 +157,7 @@ function EventsPageContent() {
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {sortedPastEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
+              <EventCard key={event.id} event={event} isAdmin={isAdmin} />
             ))}
           </div>
         </TabsContent>
