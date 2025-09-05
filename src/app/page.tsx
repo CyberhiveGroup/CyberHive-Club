@@ -43,7 +43,7 @@ export default function Home() {
               isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
             )}
             style={{
-                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 45px, hsl(var(--background)) 250px)'
+                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 1cm, hsl(var(--background)) 250px)'
             }}
           ></div>
           <div className="container relative mx-auto px-4 md:px-6 text-center z-10 pb-20 md:pb-32 lg:pb-40">
