@@ -25,7 +25,7 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const getHexPosition = (index: number) => {
     const angle = 60 * index - 30; // Start at -30deg to center the top hex
     const angleRad = (Math.PI / 180) * angle;
-    const radius = HEX_WIDTH * 0.95; // Increased from 0.866 to add a gap
+    const radius = HEX_WIDTH * 1.05; // Increased radius to ensure no overlap
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     return { x, y };
