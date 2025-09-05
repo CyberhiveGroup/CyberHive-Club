@@ -1,4 +1,4 @@
-import type { TeamMember, CSLClass, Event } from './types';
+import type { TeamMember, CSLClass, Event, Resource } from './types';
 
 export const teamMembers: TeamMember[] = [
   {
@@ -151,5 +151,50 @@ export const pastEvents: Event[] = [
     category: 'Social',
     imageUrl: 'https://picsum.photos/600/400?random=18',
     imageHint: 'food grill'
+  },
+];
+
+export const resources: Resource[] = [
+  {
+    id: 1,
+    title: 'Cybersecurity Starter Guide',
+    description: 'A comprehensive PDF guide for beginners covering the fundamental concepts of cybersecurity.',
+    type: 'PDF',
+    href: '#',
+  },
+  {
+    id: 2,
+    title: 'Top 10 Pentesting Tools',
+    description: 'A curated list of the most essential tools for penetration testing and ethical hacking.',
+    type: 'Link',
+    href: '#',
+  },
+  {
+    id: 3,
+    title: 'CTF Practice Arena',
+    description: 'An external platform with a wide range of challenges to practice your Capture The Flag skills.',
+    type: 'External Link',
+    href: '#',
+  },
+  {
+    id: 4,
+    title: 'Network Analysis Cheatsheet',
+    description: 'A handy cheatsheet for common commands and filters used in network traffic analysis with Wireshark.',
+    type: 'PDF',
+    href: '#',
+  },
+  {
+    id: 5,
+    title: 'Secure Coding Best Practices',
+    description: 'A guide outlining best practices for writing secure code across different programming languages.',
+    type: 'PDF',
+    href: '#',
+  },
+    {
+    id: 6,
+    title: 'Awesome Hacking Repositories',
+    description: 'A curated list of GitHub repositories for hacking, pentesting, and security.',
+    type: 'Link',
+    href: '#',
   },
 ];

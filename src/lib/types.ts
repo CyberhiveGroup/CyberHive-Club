@@ -23,3 +23,11 @@ export type Event = {
   imageUrl: string;
   imageHint: string;
 };
+
+export type Resource = {
+  id: number;
+  title: string;
+  description: string;
+  type: 'PDF' | 'Link' | 'External Link';
+  href: string;
+};
