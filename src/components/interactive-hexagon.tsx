@@ -17,7 +17,7 @@ interface InteractiveHexagonProps {
 }
 
 const HEX_WIDTH = 144; // Corresponds to w-36
-const HEX_HEIGHT = 144; 
+const HEX_HEIGHT = HEX_WIDTH * (Math.sqrt(3) / 2); // ~124.7px for a regular hexagon
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -25,7 +25,7 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const getHexPosition = (index: number) => {
     const angle = 60 * index - 30; // Start at -30deg to center the top hex
     const angleRad = (Math.PI / 180) * angle;
-    const radius = HEX_WIDTH * 1.05; // Increased radius to ensure no overlap
+    const radius = HEX_WIDTH * 0.95; // Increased radius to ensure no overlap
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     return { x, y };
