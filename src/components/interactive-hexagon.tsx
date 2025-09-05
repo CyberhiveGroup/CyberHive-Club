@@ -5,6 +5,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 export interface HexagonItem {
   icon: React.ReactNode;
@@ -16,7 +17,7 @@ interface InteractiveHexagonProps {
   items: HexagonItem[];
 }
 
-const HEX_WIDTH = 144; 
+const HEX_WIDTH = 144;
 const HEX_HEIGHT = HEX_WIDTH * 0.866; // True hexagon aspect ratio
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
@@ -44,6 +45,8 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
         style={{ height: `${HEX_HEIGHT}px`}}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={isOpen}
       >
         <AnimatePresence>
             {!isOpen && (
@@ -62,6 +65,16 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
                     </div>
                 </motion.div>
             )}
+             {isOpen && (
+                <motion.div
+                    key="close-icon"
+                    initial={{ scale: 0, opacity: 0, rotate: -90 }}
+                    animate={{ scale: 1, opacity: 1, rotate: 0, transition: { delay: 0.3, duration: 0.3 } }}
+                    exit={{ scale: 0, opacity: 0, rotate: 90, transition: { duration: 0.2 } }}
+                >
+                    <X className="h-12 w-12 text-primary/80" />
+                </motion.div>
+             )}
         </AnimatePresence>
       </motion.button>
 
