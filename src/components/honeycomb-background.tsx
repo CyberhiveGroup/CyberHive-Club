@@ -32,7 +32,7 @@ export function HoneycombBackground({ isRevealed }: { isRevealed: boolean }) {
     <div
       ref={containerRef}
       className={cn(
-        "absolute inset-0 bg-background overflow-hidden",
+        "absolute inset-0 bg-background overflow-hidden z-0",
         isRevealed ? 'revealed' : ''
       )}
       style={

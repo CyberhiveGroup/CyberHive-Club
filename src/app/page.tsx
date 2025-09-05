@@ -23,19 +23,19 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden" onClick={handleReveal}>
+        <section className="relative w-full pt-20 md:pt-32 lg:pt-40 overflow-hidden" onClick={handleReveal}>
            <RoamingBee isRevealed={isRevealed} />
           <HoneycombBackground isRevealed={isRevealed} />
           <div 
             className={cn(
-              "absolute inset-0 z-10 transition-opacity duration-1000",
+              "absolute inset-0 z-20 transition-opacity duration-1000",
               isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
             )}
             style={{
-                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 75px, black 150px)'
+                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 75px, hsl(var(--background)) 250px)'
             }}
           ></div>
-          <div className="container relative mx-auto px-4 md:px-6 text-center z-0">
+          <div className="container relative mx-auto px-4 md:px-6 text-center z-10 pb-20 md:pb-32 lg:pb-40">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary uppercase sm:text-5xl md:text-6xl lg:text-7xl hover:animate-buzz">
                 Welcome to CyberHive
@@ -53,7 +53,7 @@ export default function Home() {
         </section>
 
         {/* Hexagonal Navigation Section */}
-        <section className="w-full py-12 md:py-24 bg-background">
+        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-background to-background relative">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center text-center mb-16">
               <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">CyberHive Central</h2>
@@ -97,7 +97,7 @@ export default function Home() {
 
 
         {/* Upcoming Events Section */}
-        <section className="w-full py-12 md:py-24 bg-card">
+        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-background to-card">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center text-center mb-12">
               <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">Upcoming Events</h2>
