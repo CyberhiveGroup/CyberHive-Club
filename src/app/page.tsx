@@ -32,10 +32,10 @@ export default function Home() {
               isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
             )}
             style={{
-                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0px, black 400px)'
+                background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 200px, black 400px)'
             }}
           ></div>
-          <div className={cn("container relative mx-auto px-4 md:px-6 text-center z-20 transition-opacity duration-1000", isRevealed ? 'opacity-100' : 'opacity-0')}>
+          <div className="container relative mx-auto px-4 md:px-6 text-center z-0">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary uppercase sm:text-5xl md:text-6xl lg:text-7xl hover:animate-buzz">
                 Welcome to CyberHive
