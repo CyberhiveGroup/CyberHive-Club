@@ -25,7 +25,7 @@ export default function ContactPage() {
                 <span>cyberhive@ggits.org</span>
               </div>
               <div className="flex items-center gap-4">
-                <MapPin className="h-6 w-6 text-primary" />
+                <MapPin className="h-7 w-7 text-primary" />
                 <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P., India</span>
               </div>
             </div>
