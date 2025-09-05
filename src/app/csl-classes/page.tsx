@@ -157,7 +157,7 @@ function CSLClassFormDialog({ cslClass, onSave, onOpenChange, open, children }: 
             <div className="col-span-3 space-y-2">
                 <Image src={imageUrl} alt="Class image preview" width={200} height={150} className="rounded-md object-cover" />
                 <Input id="image" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" ref={fileInputRef} />
-                <Button variant="outline" onClick={() => fileInputRef.current?.click()}>Change Image</Button>
+                <Button variant="outline" onClick={() => fileInputRef.current?.click()}>Select from Device</Button>
             </div>
           </div>
            <div className="grid grid-cols-4 items-center gap-4">
