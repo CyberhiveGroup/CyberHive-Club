@@ -1,3 +1,4 @@
+
 import { Mail, Phone, MapPin, Github, Twitter, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 import { ContactForm } from './contact-form';
@@ -29,7 +30,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-4">
                 <MapPin className="h-6 w-6 text-primary" />
-                <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P. , India</span>
+                <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P., India</span>
               </div>
             </div>
           </div>
