@@ -56,7 +56,7 @@ export default function Home() {
               </p>
               <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="font-bold uppercase tracking-wider">
-                  <Link href="/csl-classes">Explore CSL Classes</Link>
+                  <Link href="/csl-classes">Explore More</Link>
                 </Button>
               </div>
             </div>
