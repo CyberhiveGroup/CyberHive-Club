@@ -16,23 +16,23 @@ interface InteractiveHexagonProps {
   items: HexagonItem[];
 }
 
-const HEX_WIDTH = 144; // Corresponds to w-36
-const HEX_HEIGHT = HEX_WIDTH * (Math.sqrt(3) / 2); // ~124.7px for a regular hexagon
+const HEX_WIDTH = 144; 
+const HEX_HEIGHT = HEX_WIDTH * 0.866; // True hexagon aspect ratio
 
 export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const getHexPosition = (index: number) => {
-    const angle = 60 * index - 30; // Start at -30deg to center the top hex
+    const angle = 60 * index - 30;
     const angleRad = (Math.PI / 180) * angle;
-    const radius = HEX_WIDTH * 0.95; // Increased radius to ensure no overlap
+    const radius = HEX_WIDTH * 1.05; // Slightly increased radius for gap
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     return { x, y };
   };
 
   return (
-    <div className="relative flex items-center justify-center" style={{ height: HEX_HEIGHT * 2.5, width: HEX_WIDTH * 2.5 }}>
+    <div className="relative flex items-center justify-center" style={{ height: HEX_HEIGHT * 3, width: HEX_WIDTH * 3 }}>
       {/* Central Hexagon */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
@@ -45,9 +45,24 @@ export function InteractiveHexagon({ items }: InteractiveHexagonProps) {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="hexagon-interactive w-16 h-16 bg-primary/20 group-hover:bg-primary/30 transition-colors duration-300 flex items-center justify-center">
-            {/* Content removed from central hexagon */}
-        </div>
+        <AnimatePresence>
+            {!isOpen && (
+                <motion.div
+                    key="bee"
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1, transition: { delay: 0.2, duration: 0.3 } }}
+                    exit={{ y: -80, x: 50, opacity: 0, scale: 0.5, transition: { duration: 0.4, ease: 'easeIn' } }}
+                    className="bee"
+                >
+                    <div className="wing wing-left"></div>
+                    <div className="wing wing-right"></div>
+                    <div className="body">
+                        <div className="stripe"></div>
+                        <div className="stripe"></div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
       </motion.button>
 
       {/* Surrounding Hexagons */}
