@@ -24,7 +24,7 @@ export default function Home() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden" onClick={handleReveal}>
-           <RoamingBee />
+           {!isRevealed && <RoamingBee isRevealed={isRevealed} />}
           <HoneycombBackground isRevealed={isRevealed} />
           <div 
             className={cn(
