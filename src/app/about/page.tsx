@@ -14,8 +14,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { EditableText } from '@/components/editable-text';
 
 const TEAM_MEMBERS_STORAGE_KEY = 'teamMembers';
+const ABOUT_TEXT_STORAGE_KEY = 'aboutText';
 const ABOUT_IMAGES_STORAGE_KEY = 'aboutImages';
 
 function MemberImageDialog({ member, onSave, onOpenChange, open, children }: { member: TeamMember, onSave: (member: TeamMember) => void, onOpenChange: (open: boolean) => void, open: boolean, children: React.ReactNode }) {
@@ -125,10 +127,21 @@ function SectionImageDialog({ imageUrl, onSave, onOpenChange, open, children }: 
     );
 }
 
+const initialTextContent = {
+    title: 'About CyberHive',
+    subtitle: 'We are more than just a club; we are a community united by a passion for cybersecurity.',
+    missionTitle: 'Our Mission',
+    missionParagraph: "CyberHive is dedicated to fostering a collaborative environment for students to explore the vast field of cybersecurity. We aim to bridge the gap between academic knowledge and real-world application by providing hands-on training, hosting competitive events, and connecting members with industry professionals. Our goal is to empower the next generation of cybersecurity leaders with the skills, knowledge, and network to succeed.",
+    teamTitle: 'Meet the Team',
+    teamSubtitle: 'The leadership behind the hive mind.'
+};
+
+
 export default function AboutPage() {
     const { isAdmin } = useAdmin();
     const { toast } = useToast();
     const [teamMembers, setTeamMembers] = React.useState<TeamMember[]>(initialTeamMembers);
+    const [textContent, setTextContent] = React.useState(initialTextContent);
     const [missionImageUrl, setMissionImageUrl] = React.useState("https://picsum.photos/800/600?random=20");
     const [editingMember, setEditingMember] = React.useState<TeamMember | null>(null);
     const [isSectionImageDialogOpen, setIsSectionImageDialogOpen] = React.useState(false);
@@ -138,6 +151,10 @@ export default function AboutPage() {
             const savedMembers = localStorage.getItem(TEAM_MEMBERS_STORAGE_KEY);
             if (savedMembers) {
                 setTeamMembers(JSON.parse(savedMembers));
+            }
+            const savedText = localStorage.getItem(ABOUT_TEXT_STORAGE_KEY);
+            if (savedText) {
+                setTextContent(JSON.parse(savedText));
             }
 
             const savedImages = localStorage.getItem(ABOUT_IMAGES_STORAGE_KEY);
@@ -149,6 +166,12 @@ export default function AboutPage() {
             console.error("Failed to parse data from localStorage", error);
         }
     }, []);
+
+    const handleTextUpdate = (key: keyof typeof initialTextContent, value: string) => {
+        const newTextContent = { ...textContent, [key]: value };
+        setTextContent(newTextContent);
+        localStorage.setItem(ABOUT_TEXT_STORAGE_KEY, JSON.stringify(newTextContent));
+    };
 
     const handleMemberImageSave = (updatedMember: TeamMember) => {
         const updatedMembers = teamMembers.map(m => m.id === updatedMember.id ? updatedMember : m);
@@ -190,20 +213,14 @@ export default function AboutPage() {
 
 
       <section className="text-center">
-        <h1 className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl md:text-6xl">
-          About CyberHive
-        </h1>
-        <p className="mx-auto mt-4 max-w-3xl text-lg text-foreground/80 md:text-xl">
-          We are more than just a club; we are a community united by a passion for cybersecurity.
-        </p>
+         <EditableText as="h1" value={textContent.title} onSave={(v) => handleTextUpdate('title', v)} className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl md:text-6xl" />
+        <EditableText as="p" value={textContent.subtitle} onSave={(v) => handleTextUpdate('subtitle', v)} className="mx-auto mt-4 max-w-3xl text-lg text-foreground/80 md:text-xl" textarea />
       </section>
 
       <section className="mt-16 grid gap-12 md:grid-cols-2">
         <div className="space-y-4">
-          <h2 className="text-3xl font-headline font-bold text-primary uppercase">Our Mission</h2>
-          <p className="text-muted-foreground">
-            CyberHive is dedicated to fostering a collaborative environment for students to explore the vast field of cybersecurity. We aim to bridge the gap between academic knowledge and real-world application by providing hands-on training, hosting competitive events, and connecting members with industry professionals. Our goal is to empower the next generation of cybersecurity leaders with the skills, knowledge, and network to succeed.
-          </p>
+           <EditableText as="h2" value={textContent.missionTitle} onSave={(v) => handleTextUpdate('missionTitle', v)} className="text-3xl font-headline font-bold text-primary uppercase" />
+          <EditableText as="p" value={textContent.missionParagraph} onSave={(v) => handleTextUpdate('missionParagraph', v)} className="text-muted-foreground" textarea/>
         </div>
         <div className="relative group">
           <Image
@@ -226,8 +243,8 @@ export default function AboutPage() {
 
       <section className="mt-20">
         <div className="text-center">
-          <h2 className="text-3xl font-headline font-bold uppercase tracking-wider sm:text-4xl md:text-5xl">Meet the Team</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">The leadership behind the hive mind.</p>
+            <EditableText as="h2" value={textContent.teamTitle} onSave={(v) => handleTextUpdate('teamTitle', v)} className="text-3xl font-headline font-bold uppercase tracking-wider sm:text-4xl md:text-5xl" />
+            <EditableText as="p" value={textContent.teamSubtitle} onSave={(v) => handleTextUpdate('teamSubtitle', v)} className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground" textarea />
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:[&>*:nth-child(even)]:mt-12">
@@ -255,5 +272,3 @@ export default function AboutPage() {
     </div>
   );
 }
-
-    
