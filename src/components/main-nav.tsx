@@ -8,6 +8,7 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -55,29 +56,51 @@ export function MainNav() {
                   </Link>
                 ))}
               </nav>
+              <div className="p-4 border-t">
+                <SignedOut>
+                    <SignInButton>
+                        <Button className="w-full">Sign In</Button>
+                    </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+              </div>
             </div>
           </SheetContent>
         </Sheet>
         
         {/* Desktop Nav */}
-        <div className="hidden flex-1 items-center justify-center md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo />
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : 'text-foreground/60'
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+        <div className="hidden flex-1 items-center justify-between md:flex">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
+              <Logo />
+            </Link>
+            <nav className="flex items-center space-x-6 text-sm font-medium">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    'transition-colors hover:text-primary',
+                    pathname === link.href ? 'text-primary' : 'text-foreground/60'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div>
+            <SignedOut>
+                <SignInButton>
+                    <Button variant="outline">Sign In</Button>
+                </SignInButton>
+            </SignedOut>
+            <SignedIn>
+                <UserButton />
+            </SignedIn>
+          </div>
         </div>
 
         {/* Mobile Logo (centered) */}
@@ -88,7 +111,11 @@ export function MainNav() {
         </div>
         
         {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
-        <div className="w-10 md:hidden"></div>
+        <div className="w-10 md:hidden">
+           <SignedIn>
+                <UserButton />
+            </SignedIn>
+        </div>
 
       </div>
     </header>
