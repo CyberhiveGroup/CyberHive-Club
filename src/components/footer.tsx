@@ -1,93 +1,9 @@
 
 'use client';
 import { Logo } from '@/components/logo';
-import { Github, Twitter, Linkedin, Mail, Instagram, MessageCircle, Lock, LogOut } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, Instagram, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from './ui/dialog';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { useAdmin } from '@/context/AdminContext';
-import { useToast } from '@/hooks/use-toast';
-
-
-function AdminLogin() {
-  const { isAdmin, login, logout } = useAdmin();
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const [password, setPassword] = React.useState('');
-  const { toast } = useToast();
-
-  const handleLogin = () => {
-    if (login(password)) {
-      toast({
-        title: "Admin Mode Activated",
-        description: "You now have administrative privileges.",
-      });
-      setIsDialogOpen(false);
-    } else {
-      toast({
-        title: "Incorrect Password",
-        variant: "destructive",
-      });
-    }
-    setPassword('');
-  };
-
-  const handleLogout = () => {
-    logout();
-    toast({
-      title: "Admin Mode Deactivated",
-    });
-  }
-
-  if (isAdmin) {
-    return (
-      <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8">
-        <LogOut className="h-5 w-5 text-primary" />
-        <span className="sr-only">Log Out</span>
-      </Button>
-    )
-  }
-
-  return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-            <Lock className="h-5 w-5 text-muted-foreground" />
-            <span className="sr-only">Admin Login</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Administrator Login</DialogTitle>
-          <DialogDescription>
-            Enter the password to enable admin mode.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="password-input" className="text-right">
-              Password
-            </Label>
-            <Input
-              id="password-input"
-              type="password"
-              className="col-span-3"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={handleLogin}>Login</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 
 export function Footer() {
   return (
@@ -162,7 +78,6 @@ export function Footer() {
       <div className="border-t border-border/40 py-4">
         <div className="container mx-auto flex flex-col md:flex-row justify-center items-center gap-4 px-4 text-sm text-muted-foreground md:px-6">
             <span>© {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.</span>
-            <AdminLogin />
         </div>
       </div>
     </footer>
