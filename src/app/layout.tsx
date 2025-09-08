@@ -9,6 +9,9 @@ import { AdminProvider } from '@/context/AdminContext';
 export const metadata: Metadata = {
   title: 'CyberHive Hub',
   description: 'The official website for the CyberHive cybersecurity club.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
