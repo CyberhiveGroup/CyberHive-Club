@@ -90,24 +90,22 @@ function AdminLayoutContent({
         </Sidebar>
         
         <SidebarInset>
-            <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40">
-                <div className="flex h-16 items-center justify-between px-4 md:px-6">
-                    <div>
-                        <SidebarTrigger />
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                         <Avatar>
-                            <AvatarFallback>A</AvatarFallback>
-                          </Avatar>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Profile</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+            <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 flex h-16 items-center justify-between px-4 md:px-6">
+                <div>
+                    <SidebarTrigger />
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                     <Avatar>
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
             </header>
             <main className="flex-1 p-4 md:p-6 lg:p-8">
                 {children}
@@ -125,9 +123,17 @@ export default function AdminRootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <AdminProvider>
-            <AdminLayoutContent>{children}</AdminLayoutContent>
-            <Toaster />
-        </AdminProvider>
+        <html lang="en" className="dark">
+            <body
+                className={cn(
+                'min-h-screen bg-background font-body antialiased',
+                )}
+            >
+                <AdminProvider>
+                    <AdminLayoutContent>{children}</AdminLayoutContent>
+                    <Toaster />
+                </AdminProvider>
+            </body>
+        </html>
     )
 }
