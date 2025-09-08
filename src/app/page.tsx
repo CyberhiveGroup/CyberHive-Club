@@ -33,7 +33,7 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  const { home: textContent, about: aboutContent } = content;
+  const { home: textContent, aboutImages } = content;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -111,7 +111,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <Card className="flex flex-col">
                 <CardHeader>
-                  <Image src={aboutContent.images.missionImageUrl} alt="About the Hive" width={600} height={400} data-ai-hint="community people" className="rounded-lg object-cover aspect-video" />
+                  <Image src={aboutImages.missionImageUrl} alt="About the Hive" width={600} height={400} data-ai-hint="community people" className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                   <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.aboutTitle}</h2>
