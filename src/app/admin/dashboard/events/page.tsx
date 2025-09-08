@@ -230,7 +230,7 @@ export default function AdminEventsPage() {
     };
     
     return (
-        <div className="space-y-8">
+        <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
                  <div>
                     <h1 className="text-3xl font-headline font-bold">Events</h1>
@@ -242,7 +242,7 @@ export default function AdminEventsPage() {
                 </Button>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                 <Card>
                     <CardHeader>
                         <CardTitle>Upcoming Events</CardTitle>

@@ -205,7 +205,7 @@ export default function AdminFooterPage() {
     const socialLinkFields = [{ name: 'platform', label: 'Platform (e.g., twitter)' }, { name: 'href', label: 'URL' }];
 
     return (
-        <div className="space-y-8">
+        <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
                  <div>
                     <h1 className="text-3xl font-headline font-bold">Footer Content</h1>

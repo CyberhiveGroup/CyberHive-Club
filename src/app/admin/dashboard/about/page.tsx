@@ -53,7 +53,7 @@ export default function AdminAboutPage() {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-headline font-bold">About Page Content</h1>
@@ -67,8 +67,9 @@ export default function AdminAboutPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Page Content</CardTitle>
+                    <CardDescription>Edit the title, subtitle, and mission statement.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="grid md:grid-cols-2 gap-6">
                     {Object.entries(content.about).map(([key, value]) => (
                         <div key={key} className="grid gap-2">
                             <Label htmlFor={`about-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
@@ -79,7 +80,7 @@ export default function AdminAboutPage() {
                             )}
                         </div>
                     ))}
-                    <div className="grid gap-2">
+                     <div className="grid gap-2">
                         <Label htmlFor="about-missionImage">Mission Image URL</Label>
                         <Input id="about-missionImage" value={content.aboutImages.missionImageUrl} onChange={e => setContent(prev => ({...prev, aboutImages: { ...prev.aboutImages, missionImageUrl: e.target.value }}))}/>
                     </div>
