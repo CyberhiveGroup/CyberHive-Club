@@ -12,9 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { AdminProvider } from "@/context/AdminContext";
+import '../globals.css';
+import { Toaster } from "@/components/ui/toaster";
 
 
-export default function AdminLayout({
+function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode;
@@ -52,4 +55,28 @@ export default function AdminLayout({
       <main>{children}</main>
     </div>
   );
+}
+
+
+export default function AdminRootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="en" className="dark">
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700;800&display=swap" rel="stylesheet" />
+            </head>
+            <body>
+                <AdminProvider>
+                    <AdminLayoutContent>{children}</AdminLayoutContent>
+                    <Toaster />
+                </AdminProvider>
+            </body>
+        </html>
+    )
 }
