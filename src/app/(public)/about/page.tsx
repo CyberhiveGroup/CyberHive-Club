@@ -2,9 +2,9 @@
 'use client';
 
 import * as React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { useContent } from '@/hooks/use-content';
+import { TeamCluster } from '@/components/team-cluster';
 
 export default function AboutPage() {
     const { content, isLoading } = useContent();
@@ -13,7 +13,7 @@ export default function AboutPage() {
         return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading content...</div>;
     }
 
-    const { teamMembers, about: textContent, aboutImages } = content;
+    const { about: textContent, aboutImages } = content;
     
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -45,29 +45,7 @@ export default function AboutPage() {
             <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">{textContent.teamSubtitle}</p>
         </div>
 
-        <div className="mt-16 relative">
-          <div className="honeycomb-team-grid">
-            {teamMembers.map((member) => (
-              <div key={member.id} className="honeycomb-cell-team group">
-                <div className="honeycomb-cell-team-inner">
-                  <Image 
-                    src={member.imageUrl} 
-                    alt={member.name}
-                    width={300}
-                    height={350}
-                    data-ai-hint={member.imageHint}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-center">
-                    <h3 className="font-headline text-xl font-bold uppercase">{member.name}</h3>
-                    <p className="text-primary text-sm">{member.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <TeamCluster />
       </section>
     </div>
   );
