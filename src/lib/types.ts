@@ -31,3 +31,22 @@ export type Resource = {
   type: 'PDF' | 'Link' | 'External Link';
   href: string;
 };
+
+export type FooterLink = {
+    id: number;
+    label: string;
+    href: string;
+}
+
+export type SocialLink = {
+    id: number;
+    platform: 'email' | 'whatsapp' | 'instagram' | 'twitter' | 'github' | 'linkedin';
+    href: string;
+}
+
+export type FooterContent = {
+    tagline: string;
+    quickLinks: FooterLink[];
+    socialLinks: SocialLink[];
+    copyright: string;
+}

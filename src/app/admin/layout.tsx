@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { Home, Users, BookOpen, Calendar, Shield, Settings } from "lucide-react";
+import { Home, Users, BookOpen, Calendar, Shield, Footprints } from "lucide-react";
 
 function AdminLayoutContent({
   children,
@@ -77,6 +77,12 @@ function AdminLayoutContent({
                          <SidebarMenuButton href="/admin/dashboard/resources" tooltip="Resources">
                             <Shield />
                             <span>Resources</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/footer" tooltip="Footer">
+                            <Footprints />
+                            <span>Footer</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                  </SidebarMenu>

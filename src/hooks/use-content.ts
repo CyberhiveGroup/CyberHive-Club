@@ -7,7 +7,8 @@ import {
     cslClasses as initialCslClasses,
     upcomingEvents as initialUpcomingEvents,
     pastEvents as initialPastEvents,
-    resources as initialResources
+    resources as initialResources,
+    footerContent as initialFooterContent,
 } from '@/lib/data';
 
 const initialTextContent = {
@@ -46,6 +47,7 @@ export const initialContent = {
     upcomingEvents: initialUpcomingEvents,
     pastEvents: initialPastEvents,
     resources: initialResources,
+    footer: initialFooterContent,
     ...initialTextContent,
     ...initialImages
 };
@@ -71,6 +73,7 @@ export function useContent() {
                     home: { ...initialContent.home, ...parsed.home },
                     about: { ...initialContent.about, ...parsed.about },
                     aboutImages: { ...initialContent.aboutImages, ...parsed.aboutImages },
+                    footer: { ...initialContent.footer, ...parsed.footer },
                 };
                 setContent(mergedContent);
             }

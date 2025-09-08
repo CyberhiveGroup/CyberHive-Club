@@ -1,4 +1,4 @@
-import type { TeamMember, CSLClass, Event, Resource } from './types';
+import type { TeamMember, CSLClass, Event, Resource, FooterContent } from './types';
 
 export const teamMembers: TeamMember[] = [
   {
@@ -198,3 +198,23 @@ export const resources: Resource[] = [
     href: '#',
   },
 ];
+
+export const footerContent: FooterContent = {
+    tagline: "Building the next generation of cybersecurity experts.",
+    copyright: "© {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.",
+    quickLinks: [
+        { id: 1, label: 'CSL', href: '/csl-classes' },
+        { id: 2, label: 'Resources', href: '/resources' },
+        { id: 3, label: 'Events', href: '/events' },
+        { id: 4, label: 'About Us', href: '/about' },
+        { id: 5, label: 'Contact', href: '/contact' },
+    ],
+    socialLinks: [
+        { id: 1, platform: 'email', href: 'mailto:cyberhive@ggits.org' },
+        { id: 2, platform: 'whatsapp', href: '#' },
+        { id: 3, platform: 'instagram', href: '#' },
+        { id: 4, platform: 'twitter', href: '#' },
+        { id: 5, platform: 'github', href: '#' },
+        { id: 6, platform: 'linkedin', href: '#' },
+    ]
+};
