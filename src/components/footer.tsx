@@ -33,42 +33,42 @@ export function Footer() {
             <Link
               href="mailto:cyberhive@ggits.org"
               aria-label="Email"
-              className="text-muted-foreground transition-colors hover:text-red-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <Mail className="h-6 w-6" />
             </Link>
             <Link
               href="#"
               aria-label="WhatsApp"
-              className="text-muted-foreground transition-colors hover:text-green-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <MessageCircle className="h-6 w-6" />
             </Link>
              <Link
               href="#"
               aria-label="Instagram"
-              className="text-muted-foreground transition-colors hover:text-pink-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <Instagram className="h-6 w-6" />
             </Link>
             <Link
               href="#"
               aria-label="Twitter"
-              className="text-muted-foreground transition-colors hover:text-sky-500"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <Twitter className="h-6 w-6" />
             </Link>
             <Link
               href="#"
               aria-label="GitHub"
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <Github className="h-6 w-6" />
             </Link>
             <Link
               href="#"
               aria-label="LinkedIn"
-              className="text-muted-foreground transition-colors hover:text-blue-600"
+              className="text-muted-foreground transition-colors hover:text-primary"
             >
               <Linkedin className="h-6 w-6" />
             </Link>
