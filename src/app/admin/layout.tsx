@@ -1,9 +1,18 @@
 
 'use client';
 import { useAdmin } from "@/context/AdminContext";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 export default function AdminLayout({
   children,
@@ -23,14 +32,21 @@ export default function AdminLayout({
         <header className="bg-background border-b sticky top-0 z-50">
             <div className="container mx-auto flex h-16 items-center justify-between">
                 <Link href="/admin/dashboard" className="font-headline text-xl font-bold">CMS Dashboard</Link>
-                <div className="flex items-center gap-4">
-                    <Button variant="outline" asChild>
-                        <Link href="/" target="_blank">View Site</Link>
-                    </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                     <Avatar>
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild><Link href="/" target="_blank">View Site</Link></DropdownMenuItem>
                      {isAdmin && (
-                        <Button onClick={handleLogout}>Logout</Button>
+                        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                     )}
-                </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </header>
       <main>{children}</main>
