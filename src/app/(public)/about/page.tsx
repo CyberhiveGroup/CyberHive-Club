@@ -4,7 +4,7 @@
 import * as React from 'react';
 import Image from "next/image";
 import { useContent } from '@/hooks/use-content';
-import { TeamCluster } from '@/components/team-cluster';
+import { TeamCarousel } from '@/components/team-carousel';
 
 export default function AboutPage() {
     const { content, isLoading } = useContent();
@@ -45,7 +45,7 @@ export default function AboutPage() {
             <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">{textContent.teamSubtitle}</p>
         </div>
 
-        <TeamCluster />
+        <TeamCarousel />
       </section>
     </div>
   );
