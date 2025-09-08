@@ -92,7 +92,7 @@ function AdminLogin() {
 export function Footer() {
   return (
     <footer className="w-full border-t border-border/40 bg-background/95">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 items-start gap-8 px-4 py-10 sm:px-6">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 items-center gap-8 px-4 py-10 sm:px-6">
         <div className="flex flex-col items-center md:items-start">
           <Logo />
           <p className="mt-4 text-sm text-muted-foreground text-center md:text-left">
@@ -100,9 +100,9 @@ export function Footer() {
           </p>
         </div>
         
-        <div className="text-center md:text-left">
+        <div className="text-center">
           <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Quick Links</h3>
-          <ul className="space-y-2">
+          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <li><Link href="/csl-classes" className="text-sm text-muted-foreground hover:text-primary transition-colors">CSL</Link></li>
             <li><Link href="/resources" className="text-sm text-muted-foreground hover:text-primary transition-colors">Resources</Link></li>
             <li><Link href="/events" className="text-sm text-muted-foreground hover:text-primary transition-colors">Events</Link></li>
