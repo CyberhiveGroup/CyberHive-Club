@@ -139,21 +139,36 @@ export default function Home() {
         {/* About Us & CSL Section */}
         <section className="w-full py-12 md:py-24 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-4">
-                 <EditableText as="h2" value={textContent.aboutTitle} onSave={(v) => handleTextUpdate('aboutTitle', v)} className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl text-primary" />
-                 <EditableText as="p" value={textContent.aboutParagraph} onSave={(v) => handleTextUpdate('aboutParagraph', v)} className="text-muted-foreground" textarea />
-                <Button asChild size="lg" variant="secondary" className="uppercase tracking-wider">
-                  <Link href="/about">Learn More About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
-              </div>
-              <div className="space-y-4">
-                 <EditableText as="h2" value={textContent.cslTitle} onSave={(v) => handleTextUpdate('cslTitle', v)} className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl text-primary" />
-                 <EditableText as="p" value={textContent.cslParagraph} onSave={(v) => handleTextUpdate('cslParagraph', v)} className="text-muted-foreground" textarea />
-                 <Button asChild size="lg" className="uppercase tracking-wider">
-                  <Link href="/csl-classes">Explore CSL Classes <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
-              </div>
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <Card className="flex flex-col">
+                <CardHeader>
+                  <Image src="https://picsum.photos/600/400?random=1" alt="About the Hive" width={600} height={400} data-ai-hint="community people" className="rounded-lg object-cover aspect-video" />
+                </CardHeader>
+                <CardContent className="flex-grow space-y-4">
+                  <EditableText as="h2" value={textContent.aboutTitle} onSave={(v) => handleTextUpdate('aboutTitle', v)} className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary" />
+                  <EditableText as="p" value={textContent.aboutParagraph} onSave={(v) => handleTextUpdate('aboutParagraph', v)} className="text-muted-foreground" textarea />
+                </CardContent>
+                <CardFooter>
+                  <Button asChild size="lg" variant="secondary" className="uppercase tracking-wider w-full">
+                    <Link href="/about">Learn More About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              <Card className="flex flex-col">
+                <CardHeader>
+                   <Image src="https://picsum.photos/600/400?random=2" alt="CSL Classes" width={600} height={400} data-ai-hint="computer learning" className="rounded-lg object-cover aspect-video" />
+                </CardHeader>
+                <CardContent className="flex-grow space-y-4">
+                   <EditableText as="h2" value={textContent.cslTitle} onSave={(v) => handleTextUpdate('cslTitle', v)} className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary" />
+                   <EditableText as="p" value={textContent.cslParagraph} onSave={(v) => handleTextUpdate('cslParagraph', v)} className="text-muted-foreground" textarea />
+                </CardContent>
+                <CardFooter>
+                   <Button asChild size="lg" className="uppercase tracking-wider w-full">
+                    <Link href="/csl-classes">Explore CSL Classes <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
           </div>
         </section>
