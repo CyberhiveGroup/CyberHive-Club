@@ -5,13 +5,12 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface AdminContextType {
   isAdmin: boolean;
-  login: (password: string) => boolean;
+  login: () => void;
   logout: () => void;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const ADMIN_PASSWORD = 'iamadmin'; 
 const SESSION_STORAGE_KEY = 'isAdmin';
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
@@ -25,13 +24,9 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = (password: string) => {
-    if (password === ADMIN_PASSWORD) {
-      setIsAdmin(true);
-      sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
-      return true;
-    }
-    return false;
+  const login = () => {
+    setIsAdmin(true);
+    sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
   };
 
   const logout = () => {
