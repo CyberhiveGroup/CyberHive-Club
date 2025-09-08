@@ -143,13 +143,6 @@ export default function AdminDashboardPage() {
     };
     
 
-    const handleResetToDefaults = () => {
-        if (window.confirm('Are you sure you want to reset all content to the original defaults? This cannot be undone.')) {
-            setContent(initialContent);
-        }
-    };
-
-
     // Generic form component
     const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
         const [formData, setFormData] = React.useState(item);
@@ -238,7 +231,6 @@ export default function AdminDashboardPage() {
         <div className="container mx-auto px-4 py-12 md:px-6">
             <div className="flex justify-between items-center mb-8">
                  <h1 className="text-3xl font-headline font-bold">Admin Dashboard</h1>
-                 <Button variant="destructive" onClick={handleResetToDefaults}>Reset All Content</Button>
             </div>
            
             <Tabs defaultValue="home" className="w-full">
