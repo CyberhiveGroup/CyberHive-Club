@@ -9,6 +9,7 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
+import { UserButton, SignedIn, SignedOut } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -54,12 +55,22 @@ export function MainNav() {
                   </Link>
                 ))}
               </nav>
+               <div className="p-4 border-t">
+                  <SignedOut>
+                    <Button asChild className="w-full">
+                      <Link href="/sign-in">Sign In</Link>
+                    </Button>
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </div>
             </div>
           </SheetContent>
         </Sheet>
         
         {/* Desktop Nav */}
-        <div className="hidden flex-1 items-center justify-center md:flex">
+        <div className="hidden flex-1 items-center justify-between md:flex">
           <div className="flex items-center gap-6">
              <Logo className="mr-6" />
             <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -77,6 +88,19 @@ export function MainNav() {
               ))}
             </nav>
           </div>
+          <div className="flex items-center gap-4">
+            <SignedOut>
+              <Button asChild variant="secondary" size="sm">
+                <Link href="/sign-in">Sign In</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link href="/sign-up">Sign Up</Link>
+              </Button>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
         </div>
 
         {/* Mobile Logo (centered) */}
@@ -85,7 +109,10 @@ export function MainNav() {
         </div>
         
         {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
-        <div className="w-10 md:hidden">
+        <div className="w-10 md:hidden flex items-center justify-end">
+             <SignedIn>
+                <UserButton />
+            </SignedIn>
         </div>
 
       </div>
