@@ -45,19 +45,28 @@ export default function AboutPage() {
             <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">{textContent.teamSubtitle}</p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:[&>*:nth-child(even)]:mt-12">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="text-center group">
-              <div className="relative w-48 h-56 mx-auto hexagon bg-card flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2 group-hover:scale-110">
-                 <Avatar className="h-44 w-44 hexagon">
-                  <AvatarImage src={member.imageUrl} alt={member.name} data-ai-hint={member.imageHint} className="hexagon object-cover" />
-                  <AvatarFallback className="hexagon">{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+        <div className="mt-16 relative">
+          <div className="honeycomb-team-grid">
+            {teamMembers.map((member) => (
+              <div key={member.id} className="honeycomb-cell-team group">
+                <div className="honeycomb-cell-team-inner">
+                  <Image 
+                    src={member.imageUrl} 
+                    alt={member.name}
+                    width={300}
+                    height={350}
+                    data-ai-hint={member.imageHint}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-center">
+                    <h3 className="font-headline text-xl font-bold uppercase">{member.name}</h3>
+                    <p className="text-primary text-sm">{member.role}</p>
+                  </div>
+                </div>
               </div>
-              <h3 className="mt-4 text-xl font-bold font-headline uppercase">{member.name}</h3>
-              <p className="text-primary">{member.role}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </div>
