@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -31,50 +30,51 @@ export function MainNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        {/* Mobile Nav Trigger */}
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0">
-            <SheetHeader className="p-4 border-b">
-              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-               <Logo onClick={() => setIsSheetOpen(false)} />
-            </SheetHeader>
-            <div className="flex flex-col h-full">
-              <nav className="flex flex-col gap-4 p-4 flex-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      'text-lg font-medium transition-colors hover:text-primary',
-                      pathname === link.href ? 'text-primary' : 'text-foreground'
+        <div className="md:hidden flex items-center">
+            {/* Mobile Nav Trigger */}
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle Menu</span>
+                </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0">
+                <SheetHeader className="p-4 border-b">
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <Logo onClick={() => setIsSheetOpen(false)} />
+                </SheetHeader>
+                <div className="flex flex-col h-full">
+                <nav className="flex flex-col gap-4 p-4 flex-1">
+                    {navLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                        'text-lg font-medium transition-colors hover:text-primary',
+                        pathname === link.href ? 'text-primary' : 'text-foreground'
+                        )}
+                        onClick={() => setIsSheetOpen(false)}
+                    >
+                        {link.label}
+                    </Link>
+                    ))}
+                </nav>
+                <div className="p-4 border-t">
+                    {showUserButton && (
+                        <SignedIn>
+                        <UserButton />
+                        </SignedIn>
                     )}
-                    onClick={() => setIsSheetOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-               <div className="p-4 border-t">
-                  {showUserButton && (
-                    <SignedIn>
-                      <UserButton />
-                    </SignedIn>
-                  )}
+                    </div>
                 </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+            </SheetContent>
+            </Sheet>
+        </div>
         
         {/* Desktop Nav */}
-        <div className="hidden flex-1 items-center justify-between md:flex">
-          <div className="flex items-center gap-6">
-             <Logo className="mr-6" />
+        <div className="hidden flex-1 items-center justify-start md:flex">
+            <Logo className="mr-6" />
             <nav className="flex items-center space-x-6 text-sm font-medium">
               {navLinks.map((link) => (
                 <Link
@@ -89,14 +89,6 @@ export function MainNav() {
                 </Link>
               ))}
             </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            {showUserButton && (
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            )}
-          </div>
         </div>
 
         {/* Mobile Logo (centered) */}
@@ -104,12 +96,11 @@ export function MainNav() {
            <Logo />
         </div>
         
-        {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
-        <div className="w-10 md:hidden flex items-center justify-end">
-             {showUserButton && (
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
+        <div className="flex items-center gap-4">
+            {showUserButton && (
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             )}
         </div>
 
