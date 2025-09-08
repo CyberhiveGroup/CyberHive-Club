@@ -1,7 +1,6 @@
 
 import { Mail, MapPin, Github, Twitter, Linkedin } from 'lucide-react';
 import Link from 'next/link';
-import { ContactForm } from './contact-form';
 
 export default function ContactPage() {
   return (
@@ -15,42 +14,42 @@ export default function ContactPage() {
         </p>
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="max-w-lg mx-auto bg-card p-8 rounded-lg shadow-lg">
         <div className="space-y-8">
           <div>
-            <h2 className="text-2xl font-headline font-bold mb-4">Contact Information</h2>
-            <div className="space-y-4 text-muted-foreground">
+            <h2 className="text-2xl font-headline font-bold mb-6 text-center">Contact Information</h2>
+            <div className="space-y-6 text-muted-foreground">
               <div className="flex items-center gap-4">
-                <Mail className="h-6 w-6 text-primary" />
-                <span>cyberhive@ggits.org</span>
+                <Mail className="h-6 w-6 text-primary flex-shrink-0" />
+                <div className="flex flex-col">
+                  <span className="font-semibold text-foreground">Email</span>
+                  <a href="mailto:cyberhive@ggits.org" className="hover:text-primary transition-colors">cyberhive@ggits.org</a>
+                </div>
               </div>
-              <div className="flex items-center gap-4">
-                <MapPin className="h-7 w-7 text-primary" />
-                <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P., India</span>
+              <div className="flex items-start gap-4">
+                <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                 <div className="flex flex-col">
+                    <span className="font-semibold text-foreground">Address</span>
+                    <span>Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P., India</span>
+                 </div>
               </div>
             </div>
           </div>
           
           <div>
-            <h2 className="text-2xl font-headline font-bold mb-4">Follow Us</h2>
-            <div className="flex items-center gap-6">
+            <h2 className="text-2xl font-headline font-bold mb-6 text-center pt-6 border-t">Follow Us</h2>
+            <div className="flex items-center justify-center gap-6">
               <Link href="#" aria-label="Twitter" className="text-muted-foreground transition-colors hover:text-primary">
-                <Twitter className="h-7 w-7" />
+                <Twitter className="h-8 w-8" />
               </Link>
               <Link href="#" aria-label="GitHub" className="text-muted-foreground transition-colors hover:text-primary">
-                <Github className="h-7 w-7" />
+                <Github className="h-8 w-8" />
               </Link>
               <Link href="#" aria-label="LinkedIn" className="text-muted-foreground transition-colors hover:text-primary">
-                <Linkedin className="h-7 w-7" />
+                <Linkedin className="h-8 w-8" />
               </Link>
             </div>
           </div>
-        </div>
-
-        <div>
-          <h2 className="text-2xl font-headline font-bold mb-4">Send Us a Message</h2>
-          <p className="text-muted-foreground mb-6">Use the form below to send us a message and we'll get back to you as soon as possible.</p>
-          <ContactForm />
         </div>
       </div>
     </div>
