@@ -15,6 +15,7 @@ import {
 import { AdminProvider } from "@/context/AdminContext";
 import '../globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
 
 function AdminLayoutContent({
@@ -71,7 +72,7 @@ export default function AdminRootLayout({
                 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700;800&display=swap" rel="stylesheet" />
             </head>
-            <body>
+            <body className={cn('min-h-screen bg-background font-body antialiased')}>
                 <AdminProvider>
                     <AdminLayoutContent>{children}</AdminLayoutContent>
                     <Toaster />
