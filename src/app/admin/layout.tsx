@@ -1,8 +1,10 @@
 
 'use client';
-import { useAdmin } from "@/context/AdminContext";
-import { useRouter } from "next/navigation";
-import Link from 'next/link';
+import { AdminProvider } from "@/context/AdminContext";
+import '../globals.css';
+import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -12,24 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { AdminProvider } from "@/context/AdminContext";
-import '../globals.css';
-import { Toaster } from "@/components/ui/toaster";
-import { cn } from "@/lib/utils";
-
 
 function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isAdmin, logout } = useAdmin();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    logout();
-    router.push('/');
-  };
 
   return (
     <div>
@@ -45,10 +35,7 @@ function AdminLayoutContent({
                   <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild><Link href="/" target="_blank">View Site</Link></DropdownMenuItem>
-                     {isAdmin && (
-                        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-                    )}
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
             </div>
