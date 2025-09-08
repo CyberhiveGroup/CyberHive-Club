@@ -36,9 +36,7 @@ export function MainNav() {
           <SheetContent side="left" className="p-0">
             <SheetHeader className="p-4 border-b">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-               <Link href="/" className="flex items-center" onClick={() => setIsSheetOpen(false)}>
-                  <Logo />
-                </Link>
+               <Logo onClick={() => setIsSheetOpen(false)} />
             </SheetHeader>
             <div className="flex flex-col h-full">
               <nav className="flex flex-col gap-4 p-4 flex-1">
@@ -63,9 +61,7 @@ export function MainNav() {
         {/* Desktop Nav */}
         <div className="hidden flex-1 items-center justify-center md:flex">
           <div className="flex items-center gap-6">
-            <Link href="/" className="mr-6 flex items-center space-x-2">
-              <Logo />
-            </Link>
+             <Logo className="mr-6" />
             <nav className="flex items-center space-x-6 text-sm font-medium">
               {navLinks.map((link) => (
                 <Link
@@ -85,9 +81,7 @@ export function MainNav() {
 
         {/* Mobile Logo (centered) */}
         <div className="flex-1 flex justify-center md:hidden">
-           <Link href="/" className="flex items-center space-x-2">
-            <Logo />
-          </Link>
+           <Logo />
         </div>
         
         {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}

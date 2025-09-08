@@ -1,11 +1,14 @@
 
+'use client';
+
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, onClick }: { className?: string, onClick?: () => void }) {
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <Link href="/" className={cn('flex items-center gap-2', className)} onClick={onClick}>
       <Image src="/logo.png" alt="CyberHive Logo" width={56} height={56} />
-    </div>
+    </Link>
   );
 }
