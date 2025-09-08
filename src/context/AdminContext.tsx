@@ -17,7 +17,6 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Check session storage on initial load
     const storedIsAdmin = sessionStorage.getItem(SESSION_STORAGE_KEY);
     if (storedIsAdmin === 'true') {
       setIsAdmin(true);
