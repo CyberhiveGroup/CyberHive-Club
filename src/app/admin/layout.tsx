@@ -91,7 +91,7 @@ function AdminLayoutContent({
         
         <SidebarInset>
             <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40">
-                <div className="container mx-auto flex h-16 items-center justify-between">
+                <div className="flex h-16 items-center justify-between px-4 md:px-6">
                     <div>
                         <SidebarTrigger />
                     </div>
