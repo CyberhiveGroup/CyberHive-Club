@@ -1,5 +1,5 @@
 
-import { Mail, MapPin, Github, Twitter, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Github, Twitter, Linkedin, Instagram, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ContactPage() {
@@ -39,15 +39,24 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl font-headline font-bold mb-6 text-center pt-6 border-t">Follow Us</h2>
             <div className="flex items-center justify-center gap-6">
-              <Link href="#" aria-label="Twitter" className="text-muted-foreground transition-colors hover:text-primary">
-                <Twitter className="h-8 w-8" />
-              </Link>
-              <Link href="#" aria-label="GitHub" className="text-muted-foreground transition-colors hover:text-primary">
-                <Github className="h-8 w-8" />
-              </Link>
-              <Link href="#" aria-label="LinkedIn" className="text-muted-foreground transition-colors hover:text-primary">
-                <Linkedin className="h-8 w-8" />
-              </Link>
+                <Link href="mailto:cyberhive@ggits.org" aria-label="Email" className="text-muted-foreground transition-colors hover:text-primary">
+                    <Mail className="h-8 w-8" />
+                </Link>
+                <Link href="#" aria-label="WhatsApp" className="text-muted-foreground transition-colors hover:text-primary">
+                    <MessageCircle className="h-8 w-8" />
+                </Link>
+                <Link href="#" aria-label="Instagram" className="text-muted-foreground transition-colors hover:text-primary">
+                    <Instagram className="h-8 w-8" />
+                </Link>
+                <Link href="#" aria-label="Twitter" className="text-muted-foreground transition-colors hover:text-primary">
+                    <Twitter className="h-8 w-8" />
+                </Link>
+                <Link href="#" aria-label="GitHub" className="text-muted-foreground transition-colors hover:text-primary">
+                    <Github className="h-8 w-8" />
+                </Link>
+                <Link href="#" aria-label="LinkedIn" className="text-muted-foreground transition-colors hover:text-primary">
+                    <Linkedin className="h-8 w-8" />
+                </Link>
             </div>
           </div>
         </div>
