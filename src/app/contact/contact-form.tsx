@@ -49,17 +49,17 @@ export function ContactForm() {
     const result = await submitContactForm(values);
     setIsSubmitting(false);
 
-    if (result.success && result.data) {
+    if (result.success) {
       toast({
-        title: 'Message Sent Successfully!',
-        description: `Your message has been routed to ${result.data.recipient}. Reason: ${result.data.reason}`,
+        title: 'Message Sent!',
+        description: result.message,
         variant: 'default',
       });
       form.reset();
     } else {
       toast({
         title: 'Error Sending Message',
-        description: result.error || 'An unexpected error occurred. Please try again.',
+        description: result.message || 'An unexpected error occurred. Please try again.',
         variant: 'destructive',
       });
     }

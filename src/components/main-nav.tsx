@@ -8,7 +8,6 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -56,16 +55,6 @@ export function MainNav() {
                   </Link>
                 ))}
               </nav>
-              <div className="p-4 border-t">
-                <SignedOut>
-                    <SignInButton>
-                        <Button className="w-full">Sign In</Button>
-                    </SignInButton>
-                </SignedOut>
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
-              </div>
             </div>
           </SheetContent>
         </Sheet>
@@ -91,16 +80,6 @@ export function MainNav() {
               ))}
             </nav>
           </div>
-          <div>
-            <SignedOut>
-                <SignInButton>
-                    <Button variant="outline">Sign In</Button>
-                </SignInButton>
-            </SignedOut>
-            <SignedIn>
-                <UserButton />
-            </SignedIn>
-          </div>
         </div>
 
         {/* Mobile Logo (centered) */}
@@ -112,9 +91,6 @@ export function MainNav() {
         
         {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
         <div className="w-10 md:hidden">
-           <SignedIn>
-                <UserButton />
-            </SignedIn>
         </div>
 
       </div>

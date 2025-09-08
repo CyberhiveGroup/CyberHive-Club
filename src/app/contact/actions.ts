@@ -1,7 +1,6 @@
 'use server';
 
 import { z } from 'zod';
-import { routeContactFormSubmission, type RouteContactFormSubmissionOutput } from '@/ai/flows/route-contact-form-submissions';
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -11,8 +10,7 @@ const contactFormSchema = z.object({
 
 type FormState = {
   success: boolean;
-  data?: RouteContactFormSubmissionOutput;
-  error?: string;
+  message: string;
 }
 
 export async function submitContactForm(
@@ -23,29 +21,17 @@ export async function submitContactForm(
   if (!validatedFields.success) {
     return {
       success: false,
-      error: 'Invalid form data.',
+      message: 'Invalid form data.',
     };
   }
 
-  const { email, message } = validatedFields.data;
+  // const { name, email, message } = validatedFields.data;
 
-  try {
-    const result = await routeContactFormSubmission({
-      senderEmail: email,
-      message: message,
-    });
-    
-    // In a real application, you would now use the `result.recipient` 
-    // to send an email or log the submission to a database.
-    // For this demo, we just return the AI's routing decision.
-    
-    return { success: true, data: result };
+  // In a real application, you would now use this data
+  // to send an email or log the submission to a database.
+  // For this demo, we'll just simulate a success response.
+  
+  console.log('New contact form submission:', validatedFields.data);
 
-  } catch (error) {
-    console.error('AI routing failed:', error);
-    return {
-      success: false,
-      error: 'Our AI assistant could not route your message. Please try again later.',
-    };
-  }
+  return { success: true, message: "Your message has been sent successfully! We'll get back to you shortly." };
 }

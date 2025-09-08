@@ -49,7 +49,7 @@ export default function ContactPage() {
 
         <div>
           <h2 className="text-2xl font-headline font-bold mb-4">Send Us a Message</h2>
-          <p className="text-muted-foreground mb-6">Your message will be automatically routed to the correct department by our AI assistant.</p>
+          <p className="text-muted-foreground mb-6">Use the form below to send us a message and we'll get back to you as soon as possible.</p>
           <ContactForm />
         </div>
       </div>
