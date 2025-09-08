@@ -230,9 +230,11 @@
     inset: -3px;
   }
 
-  .team-cluster-card {
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  .team-stack-card > div {
+    /* This ensures the inner div (with the image) fills the card completely */
+    border-radius: inherit;
   }
+
 
   /* Roaming Bee Styles */
   .roaming-bee-container {
