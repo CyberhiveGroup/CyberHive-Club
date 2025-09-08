@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -60,7 +61,7 @@ export function MainNav() {
         </Sheet>
         
         {/* Desktop Nav */}
-        <div className="hidden flex-1 items-center justify-between md:flex">
+        <div className="hidden flex-1 items-center justify-center md:flex">
           <div className="flex items-center gap-6">
             <Link href="/" className="mr-6 flex items-center space-x-2">
               <Logo />
