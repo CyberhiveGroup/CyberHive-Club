@@ -73,7 +73,7 @@ export default function Home() {
         </section>
 
         {/* Hexagonal Navigation Section */}
-        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-background to-background relative">
+        <section className="w-full py-12 md:py-24 bg-dot-pattern bg-gradient-to-b from-background to-background relative">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center text-center mb-16">
                <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">{textContent.centralTitle}</h2>
