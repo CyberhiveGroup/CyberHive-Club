@@ -121,6 +121,8 @@ export default function AdminDashboardPage() {
         }
     };
     
+    type ContentArrays = Pick<typeof content, 'teamMembers' | 'cslClasses' | 'upcomingEvents' | 'pastEvents' | 'resources'>;
+
     const handleListSave = <T extends {id: number}>(listName: keyof ContentArrays, item: T) => {
         setContent(prev => {
             const list = prev[listName] as T[];
@@ -140,7 +142,6 @@ export default function AdminDashboardPage() {
         }));
     };
     
-    type ContentArrays = Pick<typeof content, 'teamMembers' | 'cslClasses' | 'upcomingEvents' | 'pastEvents' | 'resources'>;
 
     const handleResetToDefaults = () => {
         if (window.confirm('Are you sure you want to reset all content to the original defaults? This cannot be undone.')) {
@@ -357,6 +358,5 @@ export default function AdminDashboardPage() {
         </div>
     );
 }
-
 
     
