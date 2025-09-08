@@ -205,8 +205,8 @@ export default function AdminFooterPage() {
     const socialLinkFields = [{ name: 'platform', label: 'Platform (e.g., twitter)' }, { name: 'href', label: 'URL' }];
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex justify-between items-center">
                  <div>
                     <h1 className="text-3xl font-headline font-bold">Footer Content</h1>
                     <p className="text-muted-foreground">Manage the content of your website footer.</p>

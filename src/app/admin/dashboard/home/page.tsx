@@ -54,8 +54,8 @@ export default function AdminHomePage() {
     };
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-headline font-bold">Home Page Content</h1>
                     <p className="text-muted-foreground">Edit the text content for the main landing page.</p>
@@ -84,14 +84,14 @@ export default function AdminHomePage() {
                 </CardContent>
             </Card>
 
-             <Card className="mt-6">
+             <Card>
                 <CardHeader>
                     <CardTitle>Other Sections</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {Object.entries(content.home).filter(([key]) => !key.toLowerCase().includes('hero')).map(([key, value]) => (
                         <div key={key} className="grid gap-2">
-                            <Label htmlFor={`home-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
+                            <Label htmlFor={`home-${key}`}>{key.replace(/([AZ])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
                             {String(value).length > 100 ? (
                                 <Textarea id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} rows={4}/>
                             ): (

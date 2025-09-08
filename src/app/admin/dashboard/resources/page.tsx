@@ -225,8 +225,8 @@ export default function AdminResourcesPage() {
     };
     
     return (
-        <div>
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex justify-between items-center">
                  <div>
                     <h1 className="text-3xl font-headline font-bold">Resources</h1>
                     <p className="text-muted-foreground">Manage your resources.</p>

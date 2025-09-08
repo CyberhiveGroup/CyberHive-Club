@@ -230,8 +230,8 @@ export default function AdminEventsPage() {
     };
     
     return (
-        <div>
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex justify-between items-center">
                  <div>
                     <h1 className="text-3xl font-headline font-bold">Events</h1>
                     <p className="text-muted-foreground">Manage your upcoming and past events.</p>

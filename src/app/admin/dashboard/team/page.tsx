@@ -211,8 +211,8 @@ export default function AdminTeamPage() {
     ];
     
     return (
-        <div>
-            <div className="flex justify-between items-center mb-8">
+        <div className="space-y-8">
+            <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-headline font-bold">Team Members</h1>
                     <p className="text-muted-foreground">Manage the members of your team.</p>
