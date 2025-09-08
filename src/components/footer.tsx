@@ -160,7 +160,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border/40 py-4">
-        <div className="container mx-auto px-4 text-sm text-muted-foreground md:px-6 flex justify-between items-center">
+        <div className="container mx-auto flex flex-col md:flex-row justify-center items-center gap-4 px-4 text-sm text-muted-foreground md:px-6">
             <span>© {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.</span>
             <AdminLogin />
         </div>
