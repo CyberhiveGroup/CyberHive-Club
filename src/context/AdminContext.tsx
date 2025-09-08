@@ -2,39 +2,40 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useAuth, useUser } from '@clerk/nextjs';
 
 interface AdminContextType {
   isAdmin: boolean;
-  login: () => void;
-  logout: () => void;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const SESSION_STORAGE_KEY = 'isAdmin';
+// Define your admin user IDs here
+const ADMIN_USER_IDS = [
+    process.env.NEXT_PUBLIC_ADMIN_USER_ID,
+].filter(Boolean);
+
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
+  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
+  const { user, isLoaded: isUserLoaded } = useUser();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const storedIsAdmin = sessionStorage.getItem(SESSION_STORAGE_KEY);
-    if (storedIsAdmin === 'true') {
-      setIsAdmin(true);
+    if (isAuthLoaded && isUserLoaded && isSignedIn && user) {
+        const userIsAdmin = ADMIN_USER_IDS.includes(user.id);
+        setIsAdmin(userIsAdmin);
+    } else {
+        setIsAdmin(false);
     }
-  }, []);
+  }, [isSignedIn, user, isAuthLoaded, isUserLoaded]);
 
-  const login = () => {
-    setIsAdmin(true);
-    sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
-  };
-
-  const logout = () => {
-    setIsAdmin(false);
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
-  };
+  // For simplicity, we'll just expose the boolean.
+  // Login/logout is handled by Clerk's components.
+  const value = { isAdmin };
 
   return (
-    <AdminContext.Provider value={{ isAdmin, login, logout }}>
+    <AdminContext.Provider value={value}>
       {children}
     </AdminContext.Provider>
   );

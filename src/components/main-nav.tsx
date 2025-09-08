@@ -9,7 +9,8 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { UserButton, SignedIn, SignedOut } from '@clerk/nextjs';
+import { UserButton, SignedIn, useUser } from '@clerk/nextjs';
+import { useAdmin } from '@/context/AdminContext';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -22,6 +23,10 @@ const navLinks = [
 export function MainNav() {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const { isAdmin } = useAdmin();
+  const { isSignedIn } = useUser();
+
+  const showUserButton = isSignedIn && isAdmin;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
@@ -56,14 +61,11 @@ export function MainNav() {
                 ))}
               </nav>
                <div className="p-4 border-t">
-                  <SignedOut>
-                    <Button asChild className="w-full">
-                      <Link href="/sign-in">Sign In</Link>
-                    </Button>
-                  </SignedOut>
-                  <SignedIn>
-                    <UserButton />
-                  </SignedIn>
+                  {showUserButton && (
+                    <SignedIn>
+                      <UserButton />
+                    </SignedIn>
+                  )}
                 </div>
             </div>
           </SheetContent>
@@ -89,17 +91,11 @@ export function MainNav() {
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            <SignedOut>
-              <Button asChild variant="secondary" size="sm">
-                <Link href="/sign-in">Sign In</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link href="/sign-up">Sign Up</Link>
-              </Button>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            {showUserButton && (
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            )}
           </div>
         </div>
 
@@ -110,9 +106,11 @@ export function MainNav() {
         
         {/* This div is to balance the flexbox for mobile view, ensuring the logo is truly centered */}
         <div className="w-10 md:hidden flex items-center justify-end">
-             <SignedIn>
-                <UserButton />
-            </SignedIn>
+             {showUserButton && (
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+            )}
         </div>
 
       </div>
