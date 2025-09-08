@@ -217,8 +217,8 @@ export default function AdminFooterPage() {
                 </Button>
             </div>
             
-            <div className="space-y-8">
-                <Card>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <Card className="lg:col-span-1">
                     <CardHeader>
                         <CardTitle>General</CardTitle>
                     </CardHeader>
@@ -234,7 +234,7 @@ export default function AdminFooterPage() {
                     </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="lg:col-span-1">
                     <CardHeader>
                         <CardTitle>Quick Links</CardTitle>
                         <CardDescription>Manage the quick links section in the footer.</CardDescription>
@@ -254,7 +254,7 @@ export default function AdminFooterPage() {
                     </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="lg:col-span-1">
                     <CardHeader>
                         <CardTitle>Social Links</CardTitle>
                         <CardDescription>Manage the social media links.</CardDescription>

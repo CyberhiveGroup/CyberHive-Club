@@ -66,41 +66,43 @@ export default function AdminHomePage() {
                 </Button>
             </div>
             
-            <Card>
-                <CardHeader>
-                    <CardTitle>Hero Section</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    {Object.entries(content.home).filter(([key]) => key.toLowerCase().includes('hero')).map(([key, value]) => (
-                        <div key={key} className="grid gap-2">
-                            <Label htmlFor={`home-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
-                            {String(value).length > 100 ? (
-                                <Textarea id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} rows={4}/>
-                            ): (
-                                <Input id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} />
-                            )}
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Hero Section</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        {Object.entries(content.home).filter(([key]) => key.toLowerCase().includes('hero')).map(([key, value]) => (
+                            <div key={key} className="grid gap-2">
+                                <Label htmlFor={`home-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
+                                {String(value).length > 100 ? (
+                                    <Textarea id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} rows={4}/>
+                                ): (
+                                    <Input id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} />
+                                )}
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
 
-             <Card>
-                <CardHeader>
-                    <CardTitle>Other Sections</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    {Object.entries(content.home).filter(([key]) => !key.toLowerCase().includes('hero')).map(([key, value]) => (
-                        <div key={key} className="grid gap-2">
-                            <Label htmlFor={`home-${key}`}>{key.replace(/([AZ])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
-                            {String(value).length > 100 ? (
-                                <Textarea id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} rows={4}/>
-                            ): (
-                                <Input id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} />
-                            )}
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Other Sections</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        {Object.entries(content.home).filter(([key]) => !key.toLowerCase().includes('hero')).map(([key, value]) => (
+                            <div key={key} className="grid gap-2">
+                                <Label htmlFor={`home-${key}`}>{key.replace(/([AZ])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
+                                {String(value).length > 100 ? (
+                                    <Textarea id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} rows={4}/>
+                                ): (
+                                    <Input id={`home-${key}`} value={value as string} onChange={e => handleTextChange(key, e.target.value)} />
+                                )}
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 }
