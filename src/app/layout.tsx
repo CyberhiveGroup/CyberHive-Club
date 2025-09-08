@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   title: 'CyberHive Hub',
   description: 'The official website for the CyberHive cybersecurity club.',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.ico?v=2',
   },
 };
 
