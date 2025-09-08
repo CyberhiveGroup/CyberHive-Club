@@ -67,7 +67,7 @@ function ListEditor<T extends { id: number; title?: string }>({
 
 
   return (
-    <>
+    <div className="w-full">
         <div className="mb-4 border rounded-md bg-card">
             {items.map(item => (
                 <div key={item.id} className="flex items-center justify-between p-3 border-b last:border-b-0">
@@ -101,7 +101,7 @@ function ListEditor<T extends { id: number; title?: string }>({
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    </>
+    </div>
   );
 }
 

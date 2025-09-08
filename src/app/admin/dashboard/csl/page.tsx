@@ -24,7 +24,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-// Reusable ListEditor for managing any list of items with CRUD
 function ListEditor<T extends { id: number; title?: string, name?: string }>({
   items,
   renderForm,
@@ -45,12 +44,8 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
 
   const handleAddNewClick = () => {
     onAddNew();
-    // A bit of a hack: assumes onAddNew creates a new item and we can find it to edit.
-    // A better implementation would have onAddNew return the new item.
-    // For now, this relies on parent component logic to create and then set editing.
-    // This is brittle. A better way would be to create a new item state here.
-    // For now, let's create a placeholder new item to trigger the form.
-    setEditingItem({id: 0} as T);
+    const newItem = { id: 0 } as T;
+    setEditingItem(newItem);
   }
 
   const handleSave = (item: T) => {
@@ -70,7 +65,7 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
   };
 
   return (
-    <>
+    <div className="w-full">
         <div className="mb-4 border rounded-md bg-card">
             {items.map(item => (
                 <div key={item.id} className="flex items-center justify-between p-3 border-b last:border-b-0">
@@ -86,7 +81,7 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
             {items.length === 0 && <p className="p-4 text-center text-muted-foreground">No items to display.</p>}
         </div>
 
-        <Button onClick={() => setEditingItem({id: 0} as T)} disabled={isSaving}>Add New</Button>
+        <Button onClick={handleAddNewClick} disabled={isSaving}>Add New</Button>
         
         {editingItem && renderForm(editingItem, handleSave, handleCancel)}
 
@@ -104,11 +99,10 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    </>
+    </div>
   );
 }
 
-// Generic form component
 const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
     const [formData, setFormData] = React.useState(item);
     
@@ -173,7 +167,7 @@ export default function AdminCSLPage() {
     
     const handleListSave = (item: CSLClass) => {
         const newItem = { ...item };
-        if (newItem.id === 0) { // It's a new item
+        if (newItem.id === 0) {
             newItem.id = getNewId(content.cslClasses);
         }
 
@@ -195,11 +189,7 @@ export default function AdminCSLPage() {
         }));
         toast({ title: "CSL Class Deleted", variant: 'destructive' });
     };
-
-    const handleAddNew = () => {
-        // This function is now just a placeholder as the form opening is handled inside ListEditor
-    };
-
+    
     const handleSaveAll = () => {
         setIsSaving(true);
         setTimeout(() => {
@@ -234,7 +224,7 @@ export default function AdminCSLPage() {
                 items={content.cslClasses}
                 onSave={handleListSave}
                 onDelete={handleListDelete}
-                onAddNew={handleAddNew}
+                onAddNew={() => {}}
                 isSaving={isSaving}
                 renderForm={(item, onSave, onCancel) => {
                     const formItem = item?.id === 0 

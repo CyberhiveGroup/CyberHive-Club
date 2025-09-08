@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useAdmin } from '@/context/AdminContext';
 import { useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -23,7 +23,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-// Reusable ListEditor for managing any list of items with CRUD
 function ListEditor<T extends { id: number; title?: string, name?: string }>({
   items,
   renderForm,
@@ -57,9 +56,13 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
     }
     setDeletingId(null);
   };
+  
+  const handleAddNewClick = () => {
+    setEditingItem({ id: 0 } as T);
+  }
 
   return (
-    <>
+    <div className="w-full">
         <div className="mb-4 border rounded-md bg-card">
             {items.map(item => (
                 <div key={item.id} className="flex items-center justify-between p-3 border-b last:border-b-0">
@@ -75,7 +78,7 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
             {items.length === 0 && <p className="p-4 text-center text-muted-foreground">No items to display.</p>}
         </div>
 
-        <Button onClick={onAddNew} disabled={isSaving}>Add New</Button>
+        <Button onClick={handleAddNewClick} disabled={isSaving}>Add New</Button>
         
         {editingItem && renderForm(editingItem, handleSave, handleCancel)}
 
@@ -93,12 +96,11 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    </>
+    </div>
   );
 }
 
 
-// Generic form component
 const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
     const [formData, setFormData] = React.useState(item);
     
@@ -156,13 +158,19 @@ export default function AdminTeamPage() {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
     
+    const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);
+    
     const handleListSave = (item: TeamMember) => {
+        const newItem = { ...item };
+        if (newItem.id === 0) {
+            newItem.id = getNewId(content.teamMembers);
+        }
         setContent(prev => {
             const list = prev.teamMembers;
-            const itemExists = list.some(i => i.id === item.id);
+            const itemExists = list.some(i => i.id === newItem.id);
             const newList = itemExists 
-                ? list.map(i => i.id === item.id ? item : i)
-                : [...list, item];
+                ? list.map(i => i.id === newItem.id ? newItem : i)
+                : [...list, newItem];
             return { ...prev, teamMembers: newList };
         });
          toast({ title: "Team Member Saved", description: `${item.name} has been saved.` });
@@ -175,23 +183,7 @@ export default function AdminTeamPage() {
         }));
         toast({ title: "Team Member Deleted", variant: 'destructive' });
     };
-
-    const handleAddNew = () => {
-        const newId = content.teamMembers.length > 0 ? Math.max(...content.teamMembers.map(i => i.id)) + 1 : 1;
-        const newItem: TeamMember = { id: newId, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait' };
-        
-        // This is a workaround to open the form for the new item.
-        // A better approach would be to have the ListEditor manage this state.
-        // For now, we add it and then immediately set it to be edited.
-        setContent(prev => ({ ...prev, teamMembers: [...prev.teamMembers, newItem] }));
-
-        // We need a slight delay for react to process the state update.
-        setTimeout(() => {
-            const editor = document.querySelector(`[data-id="${newId}"] button`);
-            if (editor) (editor as HTMLElement).click();
-        }, 100);
-    };
-
+    
      const handleSaveAll = () => {
         setIsSaving(true);
         setTimeout(() => {
@@ -210,6 +202,13 @@ export default function AdminTeamPage() {
         { name: 'imageHint', label: 'Image Hint' },
     ];
     
+    const getFormItem = (item: TeamMember | null) => {
+      if (!item) return null;
+      return item.id === 0
+        ? { id: 0, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait' }
+        : item;
+    }
+    
     return (
         <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
@@ -226,14 +225,12 @@ export default function AdminTeamPage() {
                 items={content.teamMembers}
                 onSave={handleListSave}
                 onDelete={handleListDelete}
-                onAddNew={() => {
-                    const newId = content.teamMembers.length > 0 ? Math.max(...content.teamMembers.map(i => i.id)) + 1 : 1;
-                    const newItem: TeamMember = { id: newId, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait' };
-                    setContent(prev => ({...prev, teamMembers: [...prev.teamMembers, newItem]}));
-                    // The form will be opened via the renderForm prop in the ListEditor
-                }}
+                onAddNew={() => {}}
                 isSaving={isSaving}
-                renderForm={(item, onSave, onCancel) => item ? <GenericForm item={item} onSave={onSave} onCancel={onCancel} fields={teamMemberFields} /> : null}
+                renderForm={(item, onSave, onCancel) => {
+                    const formItem = getFormItem(item);
+                    return formItem ? <GenericForm item={formItem} onSave={onSave} onCancel={onCancel} fields={teamMemberFields} /> : null
+                }}
             />
         </div>
     );

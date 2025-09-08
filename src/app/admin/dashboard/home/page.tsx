@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 export default function AdminHomePage() {
     const { isAdmin } = useAdmin();
     const router = useRouter();
-    const { content, setContent, isLoading, initialContent } = useContent();
+    const { content, setContent, isLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
 
@@ -42,8 +42,6 @@ export default function AdminHomePage() {
     
     const handleSave = () => {
         setIsSaving(true);
-        // The useContent hook already saves to localStorage on change.
-        // We can add any additional logic here, e.g., saving to a backend.
         setTimeout(() => {
             toast({
                 title: "Content Saved",
