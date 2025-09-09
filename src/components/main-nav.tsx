@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -8,8 +9,7 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { UserButton, SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs';
-import { useAdmin } from '@/context/AdminContext';
+import { UserButton, SignedIn } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -22,14 +22,62 @@ const navLinks = [
 export function MainNav() {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  const { isAdmin } = useAdmin();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo & Mobile Menu */}
+        <div className="flex items-center md:flex-1 md:justify-start">
+          <div className="md:hidden">
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0">
+                <SheetHeader className="p-4 border-b">
+                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                  <Logo onClick={() => setIsSheetOpen(false)} />
+                </SheetHeader>
+                <div className="flex flex-col h-full">
+                  <nav className="flex flex-col gap-4 p-4 flex-1">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                          'text-lg font-medium transition-colors hover:text-primary',
+                          pathname === link.href ? 'text-primary' : 'text-foreground'
+                        )}
+                        onClick={() => setIsSheetOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </nav>
+                  <div className="p-4 border-t">
+                    <SignedIn>
+                      <UserButton />
+                    </SignedIn>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+          <div className="hidden md:block">
+            <Logo />
+          </div>
+        </div>
+
+        {/* Centered Mobile Logo */}
+        <div className="md:hidden">
+          <Logo />
+        </div>
+        
         {/* Desktop Nav */}
-        <div className="hidden flex-1 items-center justify-start md:flex">
-            <Logo className="mr-6" />
+        <div className="hidden md:flex justify-center">
             <nav className="flex items-center space-x-6 text-sm font-medium">
               {navLinks.map((link) => (
                 <Link
@@ -46,64 +94,14 @@ export function MainNav() {
             </nav>
         </div>
 
-        {/* Mobile Nav */}
-        <div className="flex-1 md:hidden">
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-0">
-                <SheetHeader className="p-4 border-b">
-                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <Logo onClick={() => setIsSheetOpen(false)} />
-                </SheetHeader>
-                <div className="flex flex-col h-full">
-                    <nav className="flex flex-col gap-4 p-4 flex-1">
-                        {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={cn(
-                            'text-lg font-medium transition-colors hover:text-primary',
-                            pathname === link.href ? 'text-primary' : 'text-foreground'
-                            )}
-                            onClick={() => setIsSheetOpen(false)}
-                        >
-                            {link.label}
-                        </Link>
-                        ))}
-                    </nav>
-                    <div className="p-4 border-t">
-                        <SignedIn>
-                            <UserButton />
-                        </SignedIn>
-                    </div>
-                </div>
-            </SheetContent>
-            </Sheet>
-        </div>
-        <div className="flex-1 text-center md:hidden">
-            <Logo />
-        </div>
-        <div className="flex-1 flex justify-end md:hidden">
+        {/* Auth Buttons */}
+        <div className="flex items-center md:flex-1 md:justify-end">
+          <div className="w-9 h-9 flex items-center justify-end">
             <SignedIn>
-                <div className="flex items-center">
-                    <UserButton />
-                </div>
+              <UserButton />
             </SignedIn>
+          </div>
         </div>
-
-
-        {/* Desktop Auth */}
-        <div className="hidden md:flex items-center justify-end gap-4">
-            <SignedIn>
-                <UserButton />
-            </SignedIn>
-        </div>
-
       </div>
     </header>
   );
