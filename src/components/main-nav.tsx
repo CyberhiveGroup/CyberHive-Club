@@ -30,7 +30,7 @@ export function MainNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
       <div className="container flex h-16 items-center">
-        <div className="md:hidden flex items-center">
+        <div className="flex-1 items-center justify-start md:hidden flex">
             {/* Mobile Nav Trigger */}
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -96,7 +96,7 @@ export function MainNav() {
            <Logo />
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex-1 flex items-center justify-end gap-4">
             {showUserButton && (
               <SignedIn>
                 <UserButton />
