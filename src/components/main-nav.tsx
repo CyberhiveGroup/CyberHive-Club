@@ -22,6 +22,7 @@ const navLinks = [
 export function MainNav() {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const { isAdmin } = useAdmin();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm">
@@ -46,89 +47,58 @@ export function MainNav() {
         </div>
 
         {/* Mobile Nav */}
-        <div className="flex md:hidden items-center justify-between w-full">
-            <div className="flex-1">
-                 <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-                    <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                        <Menu className="h-6 w-6" />
-                        <span className="sr-only">Toggle Menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="p-0">
-                        <SheetHeader className="p-4 border-b">
-                        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                        <Logo onClick={() => setIsSheetOpen(false)} />
-                        </SheetHeader>
-                        <div className="flex flex-col h-full">
-                            <nav className="flex flex-col gap-4 p-4 flex-1">
-                                {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={cn(
-                                    'text-lg font-medium transition-colors hover:text-primary',
-                                    pathname === link.href ? 'text-primary' : 'text-foreground'
-                                    )}
-                                    onClick={() => setIsSheetOpen(false)}
-                                >
-                                    {link.label}
-                                </Link>
-                                ))}
-                            </nav>
-                             <div className="p-4 border-t">
-                                <SignedOut>
-                                    <div className="flex flex-col gap-2">
-                                        <SignInButton>
-                                            <Button variant="secondary" className="w-full">Sign In</Button>
-                                        </SignInButton>
-                                        <SignUpButton>
-                                            <Button className="w-full">Sign Up</Button>
-                                        </SignUpButton>
-                                    </div>
-                                </SignedOut>
-                                <SignedIn>
-                                    <UserButton />
-                                </SignedIn>
-                            </div>
-                        </div>
-                    </SheetContent>
-                </Sheet>
-            </div>
-            <div className="flex-1 text-center">
-                <Logo />
-            </div>
-             <div className="flex-1 flex justify-end">
-                <div className="hidden sm:block">
-                     <SignedOut>
-                        <div className="flex items-center gap-2">
-                        <SignInButton>
-                            <Button variant="secondary" size="sm">Sign In</Button>
-                        </SignInButton>
-                        <SignUpButton>
-                            <Button size="sm">Sign Up</Button>
-                        </SignUpButton>
-                        </div>
-                    </SignedOut>
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
+        <div className="flex-1 md:hidden">
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle Menu</span>
+                </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0">
+                <SheetHeader className="p-4 border-b">
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <Logo onClick={() => setIsSheetOpen(false)} />
+                </SheetHeader>
+                <div className="flex flex-col h-full">
+                    <nav className="flex flex-col gap-4 p-4 flex-1">
+                        {navLinks.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={cn(
+                            'text-lg font-medium transition-colors hover:text-primary',
+                            pathname === link.href ? 'text-primary' : 'text-foreground'
+                            )}
+                            onClick={() => setIsSheetOpen(false)}
+                        >
+                            {link.label}
+                        </Link>
+                        ))}
+                    </nav>
+                    <div className="p-4 border-t">
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                    </div>
                 </div>
-            </div>
+            </SheetContent>
+            </Sheet>
         </div>
+        <div className="flex-1 text-center md:hidden">
+            <Logo />
+        </div>
+        <div className="flex-1 flex justify-end md:hidden">
+            <SignedIn>
+                <div className="flex items-center">
+                    <UserButton />
+                </div>
+            </SignedIn>
+        </div>
+
 
         {/* Desktop Auth */}
         <div className="hidden md:flex items-center justify-end gap-4">
-             <SignedOut>
-                <div className="flex items-center gap-2">
-                <SignInButton>
-                    <Button variant="secondary" size="sm">Sign In</Button>
-                </SignInButton>
-                <SignUpButton>
-                    <Button size="sm">Sign Up</Button>
-                </SignUpButton>
-                </div>
-            </SignedOut>
             <SignedIn>
                 <UserButton />
             </SignedIn>
