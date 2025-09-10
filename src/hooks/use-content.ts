@@ -31,6 +31,12 @@ const initialTextContent = {
         missionParagraph: "CyberHive is dedicated to fostering a collaborative environment for students to explore the vast field of cybersecurity. We aim to bridge the gap between academic knowledge and real-world application by providing hands-on training, hosting competitive events, and connecting members with industry professionals. Our goal is to empower the next generation of cybersecurity leaders with the skills, knowledge, and network to succeed.",
         teamTitle: 'Meet the Team',
         teamSubtitle: 'The leadership behind the hive mind.'
+    },
+    contact: {
+        title: 'Get In Touch',
+        subtitle: "Have a question, suggestion, or want to partner with us? We'd love to hear from you.",
+        email: "cyberhive@ggits.org",
+        address: "Gyan Ganga Institute of Technology and Sciences, Jabalpur M.P., India"
     }
 };
 
@@ -72,6 +78,7 @@ export function useContent() {
                     ...parsed,
                     home: { ...initialContent.home, ...parsed.home },
                     about: { ...initialContent.about, ...parsed.about },
+                    contact: { ...initialContent.contact, ...parsed.contact },
                     aboutImages: { ...initialContent.aboutImages, ...parsed.aboutImages },
                     footer: { ...initialContent.footer, ...parsed.footer },
                 };

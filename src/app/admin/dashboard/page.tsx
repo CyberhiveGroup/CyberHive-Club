@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, BookOpen, Calendar, Home, Shield, Users, Footprints } from "lucide-react";
+import { Activity, BookOpen, Calendar, Home, Shield, Users, Footprints, Mail } from "lucide-react";
 import Link from "next/link";
 
 const dashboardItems = [
@@ -10,6 +10,7 @@ const dashboardItems = [
     { title: "CSL Classes", href: "/admin/dashboard/csl", icon: <BookOpen className="h-6 w-6" />, description: "Manage all Cyber Siksha Lab classes." },
     { title: "Events", href: "/admin/dashboard/events", icon: <Calendar className="h-6 w-6" />, description: "Create and manage upcoming and past events." },
     { title: "Resources", href: "/admin/dashboard/resources", icon: <Shield className="h-6 w-6" />, description: "Curate and manage helpful resources." },
+    { title: "Contact Page", href: "/admin/dashboard/contact", icon: <Mail className="h-6 w-6" />, description: "Manage the content on the contact page." },
     { title: "Footer", href: "/admin/dashboard/footer", icon: <Footprints className="h-6 w-6" />, description: "Manage footer links and content." },
 ];
 
