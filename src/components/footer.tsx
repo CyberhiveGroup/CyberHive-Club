@@ -27,6 +27,9 @@ export function Footer() {
     const getSocialIcon = (platform: keyof typeof socialIcons) => {
         return socialIcons[platform] || null;
     }
+    
+    const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
+
 
   return (
     <footer className="w-full border-t border-border/40 bg-background/95">
@@ -50,18 +53,33 @@ export function Footer() {
         <div className="flex flex-col items-center md:items-end">
            <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Connect</h3>
           <div className="flex items-center gap-4">
-            {footer.socialLinks.map((link) => (
-                 <a
-                    key={link.id}
-                    href={link.href}
-                    aria-label={link.platform.charAt(0).toUpperCase() + link.platform.slice(1)}
-                    className="text-muted-foreground transition-colors hover:text-primary"
-                    target={link.href.startsWith('http') ? '_blank' : undefined}
-                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            {footer.socialLinks.map((link) => {
+                const linkLabel = link.platform.charAt(0).toUpperCase() + link.platform.slice(1);
+                if (isExternalLink(link.href)) {
+                    return (
+                        <a
+                            key={link.id}
+                            href={link.href}
+                            aria-label={linkLabel}
+                            className="text-muted-foreground transition-colors hover:text-primary"
+                            target={link.href.startsWith('http') ? '_blank' : undefined}
+                            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        >
+                            {getSocialIcon(link.platform)}
+                        </a>
+                    )
+                }
+                return (
+                    <Link
+                        key={link.id}
+                        href={link.href}
+                        aria-label={linkLabel}
+                        className="text-muted-foreground transition-colors hover:text-primary"
                     >
-                    {getSocialIcon(link.platform)}
-                </a>
-            ))}
+                        {getSocialIcon(link.platform)}
+                    </Link>
+                )
+            })}
           </div>
         </div>
       </div>

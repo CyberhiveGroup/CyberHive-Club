@@ -24,6 +24,8 @@ export default function ContactPage() {
         linkedin: <Linkedin className="h-8 w-8" />
     };
 
+    const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
+
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
       <section className="text-center mb-16">
@@ -60,18 +62,33 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl font-headline font-bold mb-6 text-center pt-6 border-t">Follow Us</h2>
             <div className="flex items-center justify-center gap-6">
-                {footerContent.socialLinks.map(link => (
-                    <a 
-                        key={link.id} 
-                        href={link.href} 
-                        aria-label={link.platform} 
-                        className="text-muted-foreground transition-colors hover:text-primary"
-                        target={link.href.startsWith('http') ? '_blank' : undefined}
-                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    >
-                        {socialIcons[link.platform as keyof typeof socialIcons]}
-                    </a>
-                ))}
+                {footerContent.socialLinks.map(link => {
+                    const socialIcon = socialIcons[link.platform as keyof typeof socialIcons];
+                    if (isExternalLink(link.href)) {
+                        return (
+                             <a 
+                                key={link.id} 
+                                href={link.href} 
+                                aria-label={link.platform} 
+                                className="text-muted-foreground transition-colors hover:text-primary"
+                                target={link.href.startsWith('http') ? '_blank' : undefined}
+                                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            >
+                                {socialIcon}
+                            </a>
+                        )
+                    }
+                    return (
+                        <Link
+                            key={link.id}
+                            href={link.href}
+                            aria-label={link.platform}
+                            className="text-muted-foreground transition-colors hover:text-primary"
+                        >
+                             {socialIcon}
+                        </Link>
+                    )
+                })}
             </div>
           </div>
         </div>
