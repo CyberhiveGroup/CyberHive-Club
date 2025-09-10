@@ -64,12 +64,13 @@ export default function ContactPage() {
             <div className="flex items-center justify-center gap-6">
                 {footerContent.socialLinks.map(link => {
                     const socialIcon = socialIcons[link.platform as keyof typeof socialIcons];
+                    const linkLabel = link.platform.charAt(0).toUpperCase() + link.platform.slice(1);
                     if (isExternalLink(link.href)) {
                         return (
                              <a 
                                 key={link.id} 
                                 href={link.href} 
-                                aria-label={link.platform} 
+                                aria-label={linkLabel}
                                 className="text-muted-foreground transition-colors hover:text-primary"
                                 target={link.href.startsWith('http') ? '_blank' : undefined}
                                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -82,7 +83,7 @@ export default function ContactPage() {
                         <Link
                             key={link.id}
                             href={link.href}
-                            aria-label={link.platform}
+                            aria-label={linkLabel}
                             className="text-muted-foreground transition-colors hover:text-primary"
                         >
                              {socialIcon}
