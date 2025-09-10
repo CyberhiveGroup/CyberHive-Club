@@ -17,6 +17,9 @@ import Autoplay from "embla-carousel-autoplay"
 
 export default function AboutPage() {
     const { content, isLoading } = useContent();
+    const plugin = React.useRef(
+        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+    );
 
     if (isLoading) {
         return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading content...</div>;
@@ -39,13 +42,9 @@ export default function AboutPage() {
         <div className="relative group">
             <Carousel 
                 className="w-full"
-                plugins={[
-                    Autoplay({
-                      delay: 3000,
-                      stopOnInteraction: false,
-                      stopOnMouseEnter: true,
-                    }),
-                ]}
+                plugins={[plugin.current]}
+                onMouseEnter={plugin.current.stop}
+                onMouseLeave={plugin.current.reset}
             >
                 <CarouselContent>
                     {aboutImages.carouselUrls.map((img, index) => (
