@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, usePathname } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,10 +17,10 @@ export default function TeamMemberPage({ params }: { params: { memberId: string 
     return <div className="container mx-auto px-4 py-12 text-center">Loading member details...</div>;
   }
   
-  const member = content.teamMembers.find(m => m.id === parseInt(params.memberId));
+  const member = content.teamMembers.find(m => m.id === parseInt(params.memberId, 10));
 
   if (!member) {
-    notFound();
+    return notFound();
   }
 
   return (
