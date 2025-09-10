@@ -103,10 +103,16 @@ function ListEditor<T extends { id: number; title?: string, name?: string }>({
 
 
 const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
-    const [formData, setFormData] = React.useState(item);
+    const [formData, setFormData] = React.useState({
+      ...item,
+      contact: item.contact || { email: '', linkedin: '', github: '' },
+    });
     
     React.useEffect(() => {
-        setFormData(item);
+        setFormData({
+            ...item,
+            contact: item.contact || { email: '', linkedin: '', github: '' },
+        });
     }, [item]);
 
     const handleChange = (field: string, value: any) => {
@@ -142,7 +148,7 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
                              {field.type === 'textarea' ? (
                                 <Textarea id={field.name} value={formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
                             ) : (
-                                <Input id={field.name} value={field.name.startsWith('contact.') ? formData.contact?.[field.name.split('.')[1]] || '' : formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
+                                <Input id={field.name} value={field.name.startsWith('contact.') ? formData.contact?.[field.name.split('.')[1]] ?? '' : formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
                             )}
                         </div>
                     ))}
@@ -267,5 +273,3 @@ export default function AdminTeamPage() {
         </div>
     );
 }
-
-    
