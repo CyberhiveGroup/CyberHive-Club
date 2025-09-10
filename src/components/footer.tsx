@@ -51,14 +51,16 @@ export function Footer() {
            <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Connect</h3>
           <div className="flex items-center gap-4">
             {footer.socialLinks.map((link) => (
-                 <Link
+                 <a
                     key={link.id}
                     href={link.href}
                     aria-label={link.platform.charAt(0).toUpperCase() + link.platform.slice(1)}
                     className="text-muted-foreground transition-colors hover:text-primary"
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     >
                     {getSocialIcon(link.platform)}
-                </Link>
+                </a>
             ))}
           </div>
         </div>

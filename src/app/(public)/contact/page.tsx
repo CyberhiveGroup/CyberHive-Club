@@ -14,6 +14,15 @@ export default function ContactPage() {
     }
 
     const { contact: textContent, footer: footerContent } = content;
+    
+    const socialIcons = {
+        email: <Mail className="h-8 w-8" />,
+        whatsapp: <MessageCircle className="h-8 w-8" />,
+        instagram: <Instagram className="h-8 w-8" />,
+        twitter: <Twitter className="h-8 w-8" />,
+        github: <Github className="h-8 w-8" />,
+        linkedin: <Linkedin className="h-8 w-8" />
+    };
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -52,18 +61,16 @@ export default function ContactPage() {
             <h2 className="text-2xl font-headline font-bold mb-6 text-center pt-6 border-t">Follow Us</h2>
             <div className="flex items-center justify-center gap-6">
                 {footerContent.socialLinks.map(link => (
-                    <Link key={link.id} href={link.href} aria-label={link.platform} className="text-muted-foreground transition-colors hover:text-primary">
-                        {
-                            {
-                                email: <Mail className="h-8 w-8" />,
-                                whatsapp: <MessageCircle className="h-8 w-8" />,
-                                instagram: <Instagram className="h-8 w-8" />,
-                                twitter: <Twitter className="h-8 w-8" />,
-                                github: <Github className="h-8 w-8" />,
-                                linkedin: <Linkedin className="h-8 w-8" />
-                            }[link.platform]
-                        }
-                    </Link>
+                    <a 
+                        key={link.id} 
+                        href={link.href} 
+                        aria-label={link.platform} 
+                        className="text-muted-foreground transition-colors hover:text-primary"
+                        target={link.href.startsWith('http') ? '_blank' : undefined}
+                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    >
+                        {socialIcons[link.platform as keyof typeof socialIcons]}
+                    </a>
                 ))}
             </div>
           </div>
