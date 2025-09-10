@@ -218,9 +218,21 @@ export default function AdminTeamPage() {
     
     const getFormItem = (item: TeamMember | null) => {
       if (!item) return null;
-      return item.id === 0
-        ? { id: 0, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait', bio: '', contact: { email: '', linkedin: '', github: '' } }
-        : item;
+      if (item.id === 0) {
+        return { 
+          id: 0, 
+          name: 'New Member', 
+          role: '', 
+          imageUrl: 'https://picsum.photos/400/400', 
+          imageHint: 'person portrait', 
+          bio: '', 
+          contact: { email: '', linkedin: '', github: '' } 
+        };
+      }
+      return {
+        ...item,
+        contact: item.contact || { email: '', linkedin: '', github: '' }
+      }
     }
     
     return (
