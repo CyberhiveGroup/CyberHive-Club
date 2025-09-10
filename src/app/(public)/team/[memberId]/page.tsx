@@ -40,7 +40,7 @@ export default function TeamMemberPage() {
                     )}
                 >
                     <CardContent className="p-6 flex items-center justify-start gap-8">
-                        <Avatar className="h-32 w-32 border-4 border-secondary">
+                        <Avatar className="h-40 w-40 border-4 border-secondary">
                              <AvatarImage src={member.imageUrl} alt={member.name} />
                              <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                         </Avatar>
