@@ -112,7 +112,13 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
     const handleChange = (field: string, value: any) => {
         if (field.startsWith('contact.')) {
             const contactField = field.split('.')[1];
-            setFormData(prev => ({ ...prev, contact: { ...prev.contact, [contactField]: value } }));
+            setFormData((prev: any) => ({
+                ...prev,
+                contact: {
+                    ...(prev.contact || {}),
+                    [contactField]: value,
+                },
+            }));
         } else {
             setFormData(prev => ({ ...prev, [field]: value }));
         }
@@ -261,3 +267,5 @@ export default function AdminTeamPage() {
         </div>
     );
 }
+
+    
