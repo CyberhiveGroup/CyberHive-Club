@@ -3,21 +3,23 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { notFound, usePathname } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Linkedin, Github } from 'lucide-react';
 import Link from 'next/link';
 
-export default function TeamMemberPage({ params }: { params: { memberId: string } }) {
+export default function TeamMemberPage() {
   const { content, isLoading } = useContent();
+  const params = useParams();
+  const memberId = params.memberId as string;
   
   if (isLoading) {
     return <div className="container mx-auto px-4 py-12 text-center">Loading member details...</div>;
   }
   
-  const member = content.teamMembers.find(m => m.id === parseInt(params.memberId, 10));
+  const member = content.teamMembers.find(m => m.id === parseInt(memberId, 10));
 
   if (!member) {
     return notFound();
