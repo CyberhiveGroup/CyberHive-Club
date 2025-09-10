@@ -18,7 +18,7 @@ import Autoplay from "embla-carousel-autoplay"
 export default function AboutPage() {
     const { content, isLoading } = useContent();
     const plugin = React.useRef(
-        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
 
     if (isLoading) {
@@ -43,6 +43,7 @@ export default function AboutPage() {
             <Carousel 
                 className="w-full"
                 plugins={[plugin.current]}
+                opts={{ loop: true }}
                 onMouseEnter={plugin.current.stop}
                 onMouseLeave={plugin.current.reset}
             >
