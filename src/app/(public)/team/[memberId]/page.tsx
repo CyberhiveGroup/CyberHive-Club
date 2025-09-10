@@ -40,6 +40,10 @@ export default function TeamMemberPage() {
                     )}
                 >
                     <CardContent className="p-6 flex items-center justify-between gap-6">
+                        <Avatar className="h-24 w-24 border-4 border-secondary">
+                             <AvatarImage src={member.imageUrl} alt={member.name} />
+                             <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
                         <div className="flex-1 space-y-3">
                             <div>
                                 <h2 className="text-2xl font-headline font-bold text-primary">{member.name}</h2>
@@ -60,10 +64,6 @@ export default function TeamMemberPage() {
                                 </a>
                             </div>
                         </div>
-                        <Avatar className="h-24 w-24 border-4 border-secondary">
-                             <AvatarImage src={member.imageUrl} alt={member.name} />
-                             <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
                     </CardContent>
                 </Card>
             ))}
