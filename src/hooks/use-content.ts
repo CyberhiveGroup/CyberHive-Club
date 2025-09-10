@@ -42,7 +42,13 @@ const initialTextContent = {
 
 const initialImages = {
     aboutImages: {
-        missionImageUrl: "https://picsum.photos/800/600?random=20"
+        missionImageUrl: "https://picsum.photos/800/600?random=20",
+        carouselUrls: [
+            { url: "https://picsum.photos/seed/ch-about1/800/600", alt: "CyberHive team working together", hint: "team collaboration" },
+            { url: "https://picsum.photos/seed/ch-about2/800/600", alt: "Students in a workshop", hint: "learning workshop" },
+            { url: "https://picsum.photos/seed/ch-about3/800/600", alt: "Cybersecurity competition event", hint: "hacking competition" },
+            { url: "https://picsum.photos/seed/ch-about4/800/600", alt: "Networking with professionals", hint: "professional networking" },
+        ]
     }
 };
 

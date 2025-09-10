@@ -5,6 +5,15 @@ import * as React from 'react';
 import Image from "next/image";
 import { useContent } from '@/hooks/use-content';
 import { TeamCarousel } from '@/components/team-carousel';
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 export default function AboutPage() {
     const { content, isLoading } = useContent();
@@ -28,14 +37,39 @@ export default function AboutPage() {
           <p className="text-muted-foreground">{textContent.missionParagraph}</p>
         </div>
         <div className="relative group">
-          <Image
-            src={aboutImages.missionImageUrl}
-            alt="CyberHive team working together"
-            width={800}
-            height={600}
-            data-ai-hint="team collaboration"
-            className="rounded-lg object-cover shadow-lg"
-          />
+            <Carousel 
+                className="w-full"
+                plugins={[
+                    Autoplay({
+                      delay: 3000,
+                      stopOnInteraction: false,
+                      stopOnMouseEnter: true,
+                    }),
+                ]}
+            >
+                <CarouselContent>
+                    {aboutImages.carouselUrls.map((img, index) => (
+                    <CarouselItem key={index}>
+                        <div className="p-1">
+                        <Card>
+                            <CardContent className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden">
+                                <Image
+                                    src={img.url}
+                                    alt={img.alt}
+                                    width={800}
+                                    height={600}
+                                    data-ai-hint={img.hint}
+                                    className="object-cover w-full h-full"
+                                />
+                            </CardContent>
+                        </Card>
+                        </div>
+                    </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-4" />
+                <CarouselNext className="absolute right-4" />
+            </Carousel>
         </div>
       </section>
 
