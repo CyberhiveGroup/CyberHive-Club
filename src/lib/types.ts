@@ -4,6 +4,12 @@ export type TeamMember = {
   role: string;
   imageUrl: string;
   imageHint: string;
+  bio: string;
+  contact: {
+    email: string;
+    linkedin: string;
+    github: string;
+  }
 };
 
 export type CSLClass = {

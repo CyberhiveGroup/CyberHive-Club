@@ -6,28 +6,52 @@ export const teamMembers: TeamMember[] = [
     name: 'Alex "Hex" Johnson',
     role: 'Club President & Co-Founder',
     imageUrl: 'https://picsum.photos/400/400?random=1',
-    imageHint: 'person portrait'
+    imageHint: 'person portrait',
+    bio: 'Alex is a cybersecurity enthusiast with a passion for offensive security and building secure systems. As the co-founder of CyberHive, his goal is to create a community where students can learn, collaborate, and push the boundaries of their knowledge. He specializes in network penetration testing and red team operations.',
+    contact: {
+      email: 'alex.hex@example.com',
+      linkedin: 'https://www.linkedin.com/in/alex-hex-johnson',
+      github: 'https://github.com/alex-hex-johnson',
+    }
   },
   {
     id: 2,
     name: 'Brenda "Firewall" Smith',
     role: 'Vice President & CTF Captain',
     imageUrl: 'https://picsum.photos/400/400?random=2',
-    imageHint: 'person portrait'
+    imageHint: 'person portrait',
+    bio: 'Brenda is the strategic mind behind our competitive CTF team. With a knack for defensive security and cryptography, she leads our members in national competitions. Her focus is on security architecture and ensuring digital fortresses are impenetrable. She also mentors new members in the art of puzzle-solving.',
+    contact: {
+      email: 'brenda.firewall@example.com',
+      linkedin: 'https://www.linkedin.com/in/brenda-firewall-smith',
+      github: 'https://github.com/brenda-firewall-smith',
+    }
   },
   {
     id: 3,
     name: 'Charlie "Root" Brown',
     role: 'Head of CSL Classes',
     imageUrl: 'https://picsum.photos/400/400?random=3',
-    imageHint: 'person portrait'
+    imageHint: 'person portrait',
+    bio: 'Charlie is the educational backbone of CyberHive. He designs and leads the Cyber Siksha Lab (CSL) curriculum, making complex topics like malware analysis and reverse engineering accessible to all skill levels. His mission is to empower every member with practical, hands-on cybersecurity skills.',
+    contact: {
+      email: 'charlie.root@example.com',
+      linkedin: 'https://www.linkedin.com/in/charlie-root-brown',
+      github: 'https://github.com/charlie-root-brown',
+    }
   },
   {
     id: 4,
     name: 'Diana "Phish" Miller',
     role: 'Events Coordinator',
     imageUrl: 'https://picsum.photos/400/400?random=4',
-    imageHint: 'person portrait'
+    imageHint: 'person portrait',
+    bio: 'Diana is the social engineer of the group, but in a good way! She organizes all of CyberHive\'s events, from technical workshops and guest speaker sessions to social nights and networking events. Her expertise in social engineering and human-factor security makes our events both educational and engaging.',
+    contact: {
+      email: 'diana.phish@example.com',
+      linkedin: 'https://www.linkedin.com/in/diana-phish-miller',
+      github: 'https://github.com/diana-phish-miller',
+    }
   },
 ];
 
@@ -160,7 +184,7 @@ export const resources: Resource[] = [
     title: 'Cybersecurity Starter Guide',
     description: 'A comprehensive PDF guide for beginners covering the fundamental concepts of cybersecurity.',
     type: 'PDF',
-    href: '#',
+    href: '/resources/cybersecurity-starter-guide.pdf',
   },
   {
     id: 2,

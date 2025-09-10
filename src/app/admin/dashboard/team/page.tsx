@@ -21,7 +21,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import { Textarea } from '@/components/ui/textarea';
 
 function ListEditor<T extends { id: number; title?: string, name?: string }>({
   items,
@@ -109,7 +110,12 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
     }, [item]);
 
     const handleChange = (field: string, value: any) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        if (field.startsWith('contact.')) {
+            const contactField = field.split('.')[1];
+            setFormData(prev => ({ ...prev, contact: { ...prev.contact, [contactField]: value } }));
+        } else {
+            setFormData(prev => ({ ...prev, [field]: value }));
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -127,7 +133,11 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
                     {fields.map(field => (
                         <div key={field.name} className="grid gap-2">
                             <Label htmlFor={field.name}>{field.label}</Label>
-                            <Input id={field.name} value={formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
+                             {field.type === 'textarea' ? (
+                                <Textarea id={field.name} value={formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
+                            ) : (
+                                <Input id={field.name} value={field.name.startsWith('contact.') ? formData.contact?.[field.name.split('.')[1]] || '' : formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
+                            )}
                         </div>
                     ))}
                     <div className="flex justify-end gap-2">
@@ -200,12 +210,16 @@ export default function AdminTeamPage() {
         { name: 'role', label: 'Role' },
         { name: 'imageUrl', label: 'Image URL' },
         { name: 'imageHint', label: 'Image Hint' },
+        { name: 'bio', label: 'Biography', type: 'textarea' },
+        { name: 'contact.email', label: 'Email' },
+        { name: 'contact.linkedin', label: 'LinkedIn URL' },
+        { name: 'contact.github', label: 'GitHub URL' },
     ];
     
     const getFormItem = (item: TeamMember | null) => {
       if (!item) return null;
       return item.id === 0
-        ? { id: 0, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait' }
+        ? { id: 0, name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait', bio: '', contact: { email: '', linkedin: '', github: '' } }
         : item;
     }
     

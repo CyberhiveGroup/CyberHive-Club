@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -58,7 +59,9 @@ export function TeamCarousel() {
                     {teamMembers.map((member) => (
                         <CarouselItem key={member.id} className="md:basis-1/2 lg:basis-1/3">
                            <div className="p-1">
-                                <TeamMemberCard member={member} />
+                                <Link href={`/team/${member.id}`}>
+                                    <TeamMemberCard member={member} />
+                                </Link>
                            </div>
                         </CarouselItem>
                     ))}
