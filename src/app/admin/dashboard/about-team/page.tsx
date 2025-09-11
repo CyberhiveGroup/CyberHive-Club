@@ -254,8 +254,8 @@ export default function AdminAboutTeamPage() {
         <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-headline font-bold">About Page Team</h1>
-                    <p className="text-muted-foreground">Manage the team members displayed on the About page carousel.</p>
+                    <h1 className="text-3xl font-headline font-bold">About Page Teams</h1>
+                    <p className="text-muted-foreground">Manage the teams displayed on the About page carousel.</p>
                 </div>
                 <Button onClick={handleSaveAll} disabled={isSaving}>
                     {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
