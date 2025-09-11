@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
-export default function LeadershipMemberPage() {
+export default function TeamMemberPage() {
   const { content, isLoading } = useContent();
   const params = useParams();
   const memberId = params.memberId as string;
@@ -20,17 +20,17 @@ export default function LeadershipMemberPage() {
     return <div className="container mx-auto px-4 py-12 text-center">Loading team details...</div>;
   }
   
-  const { leadershipTeam } = content;
+  const { teamMembers } = content;
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
         <div className="text-center mb-12">
-            <h1 className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl">Our Leadership</h1>
-            <p className="text-lg text-muted-foreground mt-2">The core leadership behind the hive mind.</p>
+            <h1 className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl">Our Team</h1>
+            <p className="text-lg text-muted-foreground mt-2">The dedicated members of the CyberHive community.</p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
-            {leadershipTeam.map((member) => (
+            {teamMembers.map((member) => (
                 <Card 
                     key={member.id} 
                     className={cn(
@@ -48,6 +48,7 @@ export default function LeadershipMemberPage() {
                                 <h2 className="text-2xl font-headline font-bold text-primary">{member.name}</h2>
                                 <p className="font-semibold text-foreground/80">{member.role}</p>
                             </div>
+                             <p className="text-sm text-muted-foreground pt-2">{member.bio}</p>
                             <div className="space-y-2 pt-2">
                                  <a href={`mailto:${member.contact.email}`} className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
                                     <Mail className="h-4 w-4" />

@@ -163,7 +163,7 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 };
 
 
-export default function AdminLeadershipPage() {
+export default function AdminTeamPage() {
     const { isAdmin } = useAdmin();
     const router = useRouter();
     const { content, setContent, isLoading } = useContent();
@@ -180,20 +180,23 @@ export default function AdminLeadershipPage() {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
     
-    const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);
+    const getNewId = (list: any[]) => {
+      const allIds = list.map(i => i.id);
+      return allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+    }
     
     const handleListSave = (item: TeamMember) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(content.leadershipTeam);
+            newItem.id = getNewId(content.teamMembers);
         }
         setContent(prev => {
-            const list = prev.leadershipTeam;
+            const list = prev.teamMembers;
             const itemExists = list.some(i => i.id === newItem.id);
             const newList = itemExists 
                 ? list.map(i => i.id === newItem.id ? newItem : i)
                 : [...list, newItem];
-            return { ...prev, leadershipTeam: newList };
+            return { ...prev, teamMembers: newList };
         });
          toast({ title: "Team Member Saved", description: `${item.name} has been saved.` });
     };
@@ -201,7 +204,7 @@ export default function AdminLeadershipPage() {
     const handleListDelete = (id: number) => {
         setContent(prev => ({
             ...prev,
-            leadershipTeam: prev.leadershipTeam.filter(i => i.id !== id),
+            teamMembers: prev.teamMembers.filter(i => i.id !== id),
         }));
         toast({ title: "Team Member Deleted", variant: 'destructive' });
     };
@@ -251,8 +254,8 @@ export default function AdminLeadershipPage() {
         <div className="w-full space-y-8">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-headline font-bold">Leadership Team</h1>
-                    <p className="text-muted-foreground">Manage the members of your leadership team.</p>
+                    <h1 className="text-3xl font-headline font-bold">Team Members</h1>
+                    <p className="text-muted-foreground">Manage the members of your team.</p>
                 </div>
                 <Button onClick={handleSaveAll} disabled={isSaving}>
                     {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -260,7 +263,7 @@ export default function AdminLeadershipPage() {
                 </Button>
             </div>
             <ListEditor<TeamMember>
-                items={content.leadershipTeam}
+                items={content.teamMembers}
                 onSave={handleListSave}
                 onDelete={handleListDelete}
                 onAddNew={() => {}}

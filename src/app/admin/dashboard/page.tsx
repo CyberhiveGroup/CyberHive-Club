@@ -6,8 +6,7 @@ import Link from "next/link";
 const dashboardItems = [
     { title: "Home Page", href: "/admin/dashboard/home", icon: <Home className="h-6 w-6" />, description: "Edit content for the main landing page." },
     { title: "About Page", href: "/admin/dashboard/about", icon: <Users className="h-6 w-6" />, description: "Manage the About Us page content." },
-    { title: "Leadership Team", href: "/admin/dashboard/leadership", icon: <Users className="h-6 w-6" />, description: "Manage the main leadership team." },
-    { title: "About Page Team", href: "/admin/dashboard/about-team", icon: <Users className="h-6 w-6" />, description: "Manage the team members on the about page." },
+    { title: "Team", href: "/admin/dashboard/team", icon: <Users className="h-6 w-6" />, description: "Manage the team members." },
     { title: "CSL Classes", href: "/admin/dashboard/csl", icon: <BookOpen className="h-6 w-6" />, description: "Manage all Cyber Siksha Lab classes." },
     { title: "Events", href: "/admin/dashboard/events", icon: <Calendar className="h-6 w-6" />, description: "Create and manage upcoming and past events." },
     { title: "Resources", href: "/admin/dashboard/resources", icon: <Shield className="h-6 w-6" />, description: "Curate and manage helpful resources." },

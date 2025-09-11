@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import {
-    leadershipTeam as initialLeadershipTeam,
     teamMembers as initialTeamMembers,
     cslClasses as initialCslClasses,
     upcomingEvents as initialUpcomingEvents,
@@ -55,7 +54,6 @@ const initialImages = {
 
 
 export const initialContent = {
-    leadershipTeam: initialLeadershipTeam,
     teamMembers: initialTeamMembers,
     cslClasses: initialCslClasses,
     upcomingEvents: initialUpcomingEvents,

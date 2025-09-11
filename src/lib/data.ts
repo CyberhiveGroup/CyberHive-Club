@@ -1,6 +1,6 @@
 import type { TeamMember, CSLClass, Event, Resource, FooterContent } from './types';
 
-export const leadershipTeam: TeamMember[] = [
+export const teamMembers: TeamMember[] = [
   {
     id: 1,
     name: 'Alex "Hex" Johnson',
@@ -53,10 +53,6 @@ export const leadershipTeam: TeamMember[] = [
       github: 'https://github.com/diana-phish-miller',
     }
   },
-];
-
-export const teamMembers: TeamMember[] = [
-  ...leadershipTeam,
   {
     id: 5,
     name: 'Eve "Data" Williams',

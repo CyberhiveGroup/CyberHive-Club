@@ -59,7 +59,7 @@ export function TeamCarousel() {
                     {teamMembers.map((member) => (
                         <CarouselItem key={member.id} className="md:basis-1/2 lg:basis-1/3">
                            <div className="p-1">
-                                <Link href={`/leadership/${member.id}`}>
+                                <Link href={`/team/${member.id}`}>
                                     <TeamMemberCard member={member} />
                                 </Link>
                            </div>

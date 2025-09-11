@@ -56,15 +56,9 @@ function AdminLayoutContent({
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                         <SidebarMenuButton href="/admin/dashboard/leadership" tooltip="Leadership Team">
+                         <SidebarMenuButton href="/admin/dashboard/team" tooltip="Team">
                             <Users />
-                            <span>Leadership</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                         <SidebarMenuButton href="/admin/dashboard/about-team" tooltip="About Page Team">
-                            <Users />
-                            <span>About Team</span>
+                            <span>Team</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
