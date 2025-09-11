@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Loader2, Trash2, Plus } from 'lucide-react';
 import type { Event } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
@@ -105,7 +105,7 @@ function ListEditor<T extends { id: number; title?: string }>({
   );
 }
 
-const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
+const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: (item: any) => void, onCancel: () => void, fields: any[] }) => {
     const [formData, setFormData] = React.useState(item);
     
     React.useEffect(() => {
@@ -120,6 +120,28 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
         e.preventDefault();
         onSave(formData);
     };
+
+    const handleGalleryChange = (index: number, field: 'url' | 'alt' | 'hint', value: string) => {
+        setFormData(prev => {
+            const newGallery = [...(prev.gallery || [])];
+            newGallery[index] = { ...newGallery[index], [field]: value };
+            return { ...prev, gallery: newGallery };
+        });
+    };
+
+    const addGalleryItem = () => {
+        setFormData(prev => ({
+            ...prev,
+            gallery: [...(prev.gallery || []), { url: 'https://picsum.photos/600/400', alt: 'New Image', hint: 'new image' }]
+        }));
+    };
+
+    const removeGalleryItem = (index: number) => {
+        setFormData(prev => ({
+            ...prev,
+            gallery: prev.gallery?.filter((_, i) => i !== index)
+        }));
+    };
     
     return (
         <Card className="mt-6">
@@ -132,19 +154,44 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
                         <div key={field.name} className="grid gap-2">
                             <Label htmlFor={field.name}>{field.label}</Label>
                             {field.type === 'textarea' ? (
-                                <Textarea id={field.name} value={formData[field.name]} onChange={e => handleChange(field.name, e.target.value)} rows={4} />
+                                <Textarea id={field.name} value={formData[field.name as keyof Event] as string} onChange={e => handleChange(field.name, e.target.value)} rows={4} />
                             ) : field.type === 'select' ? (
-                                 <Select value={formData[field.name]} onValueChange={value => handleChange(field.name, value)}>
+                                 <Select value={formData[field.name as keyof Event] as string} onValueChange={value => handleChange(field.name, value)}>
                                     <SelectTrigger id={field.name}><SelectValue placeholder={field.placeholder} /></SelectTrigger>
                                     <SelectContent>
-                                        {field.options.map(opt => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
+                                        {field.options.map((opt:string) => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             ) : (
-                                <Input id={field.name} value={formData[field.name]} onChange={e => handleChange(field.name, e.target.value)} />
+                                <Input id={field.name} value={formData[field.name as keyof Event] as string} onChange={e => handleChange(field.name, e.target.value)} />
                             )}
                         </div>
                     ))}
+                    <div className="space-y-4 pt-4 border-t">
+                        <h3 className="text-lg font-medium">Gallery Images</h3>
+                        {formData.gallery?.map((img, index) => (
+                            <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                                 <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive h-8 w-8" onClick={() => removeGalleryItem(index)}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                                <div className="grid gap-1.5">
+                                    <Label htmlFor={`gallery-url-${index}`}>URL</Label>
+                                    <Input id={`gallery-url-${index}`} value={img.url} onChange={e => handleGalleryChange(index, 'url', e.target.value)} />
+                                </div>
+                                <div className="grid gap-1.5">
+                                    <Label htmlFor={`gallery-alt-${index}`}>Alt Text</Label>
+                                    <Input id={`gallery-alt-${index}`} value={img.alt} onChange={e => handleGalleryChange(index, 'alt', e.target.value)} />
+                                </div>
+                                <div className="grid gap-1.5">
+                                    <Label htmlFor={`gallery-hint-${index}`}>AI Hint</Label>
+                                    <Input id={`gallery-hint-${index}`} value={img.hint} onChange={e => handleGalleryChange(index, 'hint', e.target.value)} />
+                                </div>
+                            </div>
+                        ))}
+                        <Button type="button" variant="outline" onClick={addGalleryItem}><Plus className="mr-2 h-4 w-4" /> Add Gallery Image</Button>
+                    </div>
+
+
                     <div className="flex justify-end gap-2">
                          <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
                          <Button type="submit">Save</Button>
@@ -180,7 +227,7 @@ export default function AdminEventsPage() {
         if (newItem.id === 0) {
             const upcomingIds = content.upcomingEvents.map(e => e.id);
             const pastIds = content.pastEvents.map(e => e.id);
-            newItem.id = getNewId([...upcomingIds, ...pastIds]);
+            newItem.id = getNewId([...upcomingIds, ...pastIds, ...content.cslClasses.map(c => c.id), ...content.resources.map(r => r.id)]);
         }
         
         setContent(prev => {
@@ -218,15 +265,15 @@ export default function AdminEventsPage() {
         { name: 'date', label: 'Date' },
         { name: 'description', label: 'Description', type: 'textarea' },
         { name: 'category', label: 'Category', type: 'select', options: eventCategories, placeholder: 'Select a category' },
-        { name: 'imageUrl', label: 'Image URL' },
+        { name: 'imageUrl', label: 'Image URL (for card)' },
         { name: 'imageHint', label: 'Image Hint' },
     ];
     
-    const getFormItem = (item: Event | null) => {
+    const getFormItem = (item: Event | null): Event | null => {
         if (!item) return null;
         return item.id === 0
-            ? { id: 0, title: '', date: '', description: '', category: 'Workshop', imageUrl: 'https://picsum.photos/600/400', imageHint: '' }
-            : item;
+            ? { id: 0, title: '', date: '', description: '', category: 'Workshop', imageUrl: 'https://picsum.photos/600/400', imageHint: '', gallery: [] }
+            : { ...item, gallery: item.gallery || [] };
     };
     
     return (
