@@ -2,7 +2,6 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,7 +11,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
-export default function TeamMemberPage() {
+export default function LeadershipMemberPage() {
   const { content, isLoading } = useContent();
   const params = useParams();
   const memberId = params.memberId as string;
@@ -21,17 +20,17 @@ export default function TeamMemberPage() {
     return <div className="container mx-auto px-4 py-12 text-center">Loading team details...</div>;
   }
   
-  const { teamMembers } = content;
+  const { leadershipTeam } = content;
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
         <div className="text-center mb-12">
-            <h1 className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl">Our Team</h1>
-            <p className="text-lg text-muted-foreground mt-2">The leadership behind the hive mind.</p>
+            <h1 className="text-4xl font-headline font-bold uppercase tracking-wider text-primary sm:text-5xl">Our Leadership</h1>
+            <p className="text-lg text-muted-foreground mt-2">The core leadership behind the hive mind.</p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
-            {teamMembers.map((member) => (
+            {leadershipTeam.map((member) => (
                 <Card 
                     key={member.id} 
                     className={cn(

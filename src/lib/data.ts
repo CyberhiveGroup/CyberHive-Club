@@ -1,6 +1,6 @@
 import type { TeamMember, CSLClass, Event, Resource, FooterContent } from './types';
 
-export const teamMembers: TeamMember[] = [
+export const leadershipTeam: TeamMember[] = [
   {
     id: 1,
     name: 'Alex "Hex" Johnson',
@@ -53,6 +53,23 @@ export const teamMembers: TeamMember[] = [
       github: 'https://github.com/diana-phish-miller',
     }
   },
+];
+
+export const teamMembers: TeamMember[] = [
+  ...leadershipTeam,
+  {
+    id: 5,
+    name: 'Eve "Data" Williams',
+    role: 'Treasurer',
+    imageUrl: 'https://picsum.photos/400/400?random=5',
+    imageHint: 'person portrait',
+    bio: 'Eve keeps the hive\'s finances in order, managing budgets for events, hardware, and software. She has a keen interest in financial technologies and blockchain security.',
+    contact: {
+      email: 'eve.data@example.com',
+      linkedin: 'https://linkedin.com/in/eve-data-williams',
+      github: 'https://github.com/eve-data-williams'
+    }
+  }
 ];
 
 export const cslClasses: CSLClass[] = [
