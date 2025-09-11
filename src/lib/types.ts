@@ -12,6 +12,13 @@ export type TeamMember = {
   }
 };
 
+export type Team = {
+    id: number;
+    name: string;
+    description: string;
+    members: TeamMember[];
+}
+
 export type CSLClass = {
   id: number;
   title: string;

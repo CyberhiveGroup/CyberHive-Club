@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import {
-    teamMembers as initialTeamMembers,
+    teamData as initialTeamData,
     cslClasses as initialCslClasses,
     upcomingEvents as initialUpcomingEvents,
     pastEvents as initialPastEvents,
@@ -29,8 +29,8 @@ const initialTextContent = {
         subtitle: 'We are more than just a club; we are a community united by a passion for cybersecurity.',
         missionTitle: 'Our Mission',
         missionParagraph: "CyberHive is dedicated to fostering a collaborative environment for students to explore the vast field of cybersecurity. We aim to bridge the gap between academic knowledge and real-world application by providing hands-on training, hosting competitive events, and connecting members with industry professionals. Our goal is to empower the next generation of cybersecurity leaders with the skills, knowledge, and network to succeed.",
-        teamTitle: 'Meet the Team',
-        teamSubtitle: 'The leadership behind the hive mind.'
+        teamTitle: 'Meet the Teams',
+        teamSubtitle: 'The specialized groups that make up the hive mind.'
     },
     contact: {
         title: 'Get In Touch',
@@ -54,7 +54,7 @@ const initialImages = {
 
 
 export const initialContent = {
-    teamMembers: initialTeamMembers,
+    teams: initialTeamData,
     cslClasses: initialCslClasses,
     upcomingEvents: initialUpcomingEvents,
     pastEvents: initialPastEvents,

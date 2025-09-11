@@ -2,10 +2,9 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useContent } from '@/hooks/use-content';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
@@ -13,25 +12,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import type { TeamMember } from '@/lib/types';
+import type { Team } from '@/lib/types';
+import { Users } from 'lucide-react';
 
-const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
     return (
-        <Card className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-primary/20">
-            <div className="relative aspect-[3/4]">
-                <Image
-                    src={member.imageUrl}
-                    alt={member.name}
-                    fill
-                    data-ai-hint={member.imageHint}
-                    className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="font-headline text-3xl font-bold uppercase">{member.name}</h3>
-                    <p className="text-primary text-lg">{member.role}</p>
+        <Card className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-primary/20 h-full flex flex-col">
+            <CardHeader className="flex-row items-center gap-4">
+                 <div className="p-3 bg-primary/10 text-primary rounded-lg">
+                    <Users className="h-6 w-6" />
                 </div>
-            </div>
+                <div>
+                    <CardTitle className="font-headline text-2xl uppercase">{team.name}</CardTitle>
+                </div>
+            </CardHeader>
+            <CardContent className="flex-grow">
+                <CardDescription>{team.description}</CardDescription>
+            </CardContent>
         </Card>
     );
 };
@@ -41,10 +38,10 @@ export function TeamCarousel() {
     const { content, isLoading } = useContent();
 
     if (isLoading) {
-        return <div className="text-center py-10">Loading team...</div>;
+        return <div className="text-center py-10">Loading teams...</div>;
     }
     
-    const { teamMembers } = content;
+    const { teams } = content;
 
     return (
         <div className="mt-16">
@@ -56,11 +53,11 @@ export function TeamCarousel() {
                 className="w-full"
             >
                 <CarouselContent>
-                    {teamMembers.map((member) => (
-                        <CarouselItem key={member.id} className="md:basis-1/2 lg:basis-1/3">
-                           <div className="p-1">
-                                <Link href={`/team/${member.id}`}>
-                                    <TeamMemberCard member={member} />
+                    {teams.map((team) => (
+                        <CarouselItem key={team.id} className="md:basis-1/2 lg:basis-1/3">
+                           <div className="p-1 h-full">
+                                <Link href={`/team/${team.id}`}>
+                                    <TeamCard team={team} />
                                 </Link>
                            </div>
                         </CarouselItem>
