@@ -37,38 +37,30 @@ export default function TeamDetailPage() {
         <div className="max-w-4xl mx-auto space-y-8">
             {team.members.length > 0 ? (
                 team.members.map((member) => (
-                    <Card 
-                        key={member.id} 
-                        className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/20"
-                    >
-                        <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
-                            <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0">
-                                 <AvatarImage src={member.imageUrl} alt={member.name} />
-                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 space-y-3 text-center md:text-left">
-                                <div>
-                                    <h2 className="text-2xl font-headline font-bold text-primary">{member.name}</h2>
-                                    <p className="font-semibold text-foreground/80">{member.role}</p>
+                    <Link href={`/members/${member.id}`} key={member.id}>
+                        <Card 
+                            className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1"
+                        >
+                            <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
+                                <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0">
+                                    <AvatarImage src={member.imageUrl} alt={member.name} />
+                                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1 space-y-3 text-center md:text-left">
+                                    <div>
+                                        <h2 className="text-2xl font-headline font-bold text-primary">{member.name}</h2>
+                                        <p className="font-semibold text-foreground/80">{member.role}</p>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0 line-clamp-3">{member.bio}</p>
+                                    <div className="flex justify-center md:justify-start items-center gap-4 pt-2">
+                                        <Mail className="h-5 w-5 text-muted-foreground" />
+                                        <Linkedin className="h-5 w-5 text-muted-foreground" />
+                                        <Github className="h-5 w-5 text-muted-foreground" />
+                                    </div>
                                 </div>
-                                 <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0">{member.bio}</p>
-                                <div className="space-y-2 pt-2 flex flex-col items-center md:items-start">
-                                     <a href={`mailto:${member.contact.email}`} className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
-                                        <Mail className="h-4 w-4" />
-                                        <span>{member.contact.email}</span>
-                                    </a>
-                                     <a href={member.contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
-                                        <Linkedin className="h-4 w-4" />
-                                        <span>LinkedIn Profile</span>
-                                    </a>
-                                     <a href={member.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
-                                        <Github className="h-4 w-4" />
-                                        <span>GitHub Profile</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </Link>
                 ))
             ) : (
                 <Card className="text-center py-12">
