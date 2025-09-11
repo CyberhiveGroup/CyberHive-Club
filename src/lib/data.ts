@@ -188,7 +188,12 @@ export const pastEvents: Event[] = [
     description: 'This workshop covered fundamental secure coding principles to help developers write more robust and less vulnerable applications.',
     category: 'Workshop',
     imageUrl: 'https://picsum.photos/600/400?random=15',
-    imageHint: 'programming screen'
+    imageHint: 'programming screen',
+    gallery: [
+        { url: 'https://picsum.photos/seed/event5-1/800/600', alt: 'Presenter at workshop', hint: 'speaker presentation' },
+        { url: 'https://picsum.photos/seed/event5-2/800/600', alt: 'Attendees collaborating', hint: 'students working' },
+        { url: 'https://picsum.photos/seed/event5-3/800/600', alt: 'Code on a screen', hint: 'security code' },
+    ]
   },
   {
     id: 6,
@@ -197,7 +202,11 @@ export const pastEvents: Event[] = [
     description: 'The first meeting of the year to form teams for upcoming CTF competitions and go over the basics of competitive hacking.',
     category: 'Competition',
     imageUrl: 'https://picsum.photos/600/400?random=16',
-    imageHint: 'team meeting'
+    imageHint: 'team meeting',
+    gallery: [
+        { url: 'https://picsum.photos/seed/event6-1/800/600', alt: 'Team planning on whiteboard', hint: 'strategy session' },
+        { url: 'https://picsum.photos/seed/event6-2/800/600', alt: 'Students on laptops', hint: 'hacking competition' },
+    ]
   },
   {
     id: 7,
@@ -206,7 +215,10 @@ export const pastEvents: Event[] = [
     description: 'A fascinating talk on how artificial intelligence and machine learning are shaping the future of threat detection and automated defense.',
     category: 'Talk',
     imageUrl: 'https://picsum.photos/600/400?random=17',
-    imageHint: 'artificial intelligence'
+    imageHint: 'artificial intelligence',
+    gallery: [
+        { url: 'https://picsum.photos/seed/event7-1/800/600', alt: 'Guest speaker on stage', hint: 'conference speaker' },
+    ]
   },
   {
     id: 8,
@@ -215,7 +227,12 @@ export const pastEvents: Event[] = [
     description: 'A fun and informal summer BBQ to bring the club members together before the start of the new academic year.',
     category: 'Social',
     imageUrl: 'https://picsum.photos/600/400?random=18',
-    imageHint: 'food grill'
+    imageHint: 'food grill',
+    gallery: [
+        { url: 'https://picsum.photos/seed/event8-1/800/600', alt: 'People mingling at a BBQ', hint: 'outdoor party' },
+        { url: 'https://picsum.photos/seed/event8-2/800/600', alt: 'Grilling food', hint: 'barbecue food' },
+        { url: 'https://picsum.photos/seed/event8-3/800/600', alt: 'Group photo of members', hint: 'friends group' },
+    ]
   },
 ];
 

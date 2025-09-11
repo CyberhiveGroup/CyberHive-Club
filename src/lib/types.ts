@@ -35,6 +35,7 @@ export type Event = {
   category: 'Workshop' | 'Competition' | 'Talk' | 'Social';
   imageUrl: string;
   imageHint: string;
+  gallery?: { url: string; alt: string; hint: string; }[];
 };
 
 export type Resource = {
