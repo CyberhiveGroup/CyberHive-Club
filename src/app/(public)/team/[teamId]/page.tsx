@@ -40,8 +40,7 @@ export default function TeamDetailPage() {
                 team.members.map((member) => (
                     <Card 
                         key={member.id}
-                        className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1 cursor-pointer"
-                        onClick={() => router.push(`/members/${member.id}`)}
+                        className="overflow-hidden shadow-lg"
                     >
                         <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
                             <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0">
@@ -55,10 +54,10 @@ export default function TeamDetailPage() {
                                 </div>
                                 <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0 line-clamp-3">{member.bio}</p>
                                 <div className="flex justify-center md:justify-start items-center gap-4 pt-2">
-                                    <Mail className="h-5 w-5 text-muted-foreground" />
-                                    <Linkedin className="h-5 w-5 text-muted-foreground" />
-                                    <Github className="h-5 w-5 text-muted-foreground" />
-                                    {member.contact.instagram && <Instagram className="h-5 w-5 text-muted-foreground" />}
+                                    <a href={`mailto:${member.contact.email}`} className="text-muted-foreground hover:text-primary"><Mail className="h-5 w-5" /></a>
+                                    <a href={member.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Linkedin className="h-5 w-5" /></a>
+                                    <a href={member.contact.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Github className="h-5 w-5" /></a>
+                                    {member.contact.instagram && <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Instagram className="h-5 w-5" /></a>}
                                 </div>
                             </div>
                         </CardContent>
