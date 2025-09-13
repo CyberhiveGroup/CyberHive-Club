@@ -42,8 +42,6 @@ export default function ContactPage() {
         linkedin: <Linkedin className="h-8 w-8" />
     };
 
-    const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
-
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
       <section className="text-center mb-16">
@@ -83,15 +81,18 @@ export default function ContactPage() {
                 {footerContent.socialLinks.map(link => {
                     const socialIcon = socialIcons[link.platform as keyof typeof socialIcons];
                     const linkLabel = link.platform.charAt(0).toUpperCase() + link.platform.slice(1);
-                    if (isExternalLink(link.href)) {
+                    const href = link.platform === 'email' ? `mailto:${link.href}` : link.href;
+                    const isExternal = href.startsWith('http') || href.startsWith('mailto:');
+
+                    if (isExternal) {
                         return (
                              <a 
                                 key={link.id} 
-                                href={link.href} 
+                                href={href} 
                                 aria-label={linkLabel}
                                 className="text-muted-foreground transition-colors hover:text-primary"
-                                target={link.href.startsWith('http') ? '_blank' : undefined}
-                                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                target={href.startsWith('http') ? '_blank' : undefined}
+                                rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                             >
                                 {socialIcon}
                             </a>
@@ -100,7 +101,7 @@ export default function ContactPage() {
                     return (
                         <Link
                             key={link.id}
-                            href={link.href}
+                            href={href}
                             aria-label={linkLabel}
                             className="text-muted-foreground transition-colors hover:text-primary"
                         >
