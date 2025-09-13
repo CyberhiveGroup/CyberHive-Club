@@ -52,12 +52,12 @@ export default function AboutPage() {
                     <CarouselItem key={index}>
                         <div className="p-1">
                         <Card>
-                            <CardContent className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden">
+                            <CardContent className="flex aspect-[2/1] items-center justify-center p-0 rounded-lg overflow-hidden">
                                 <Image
                                     src={img.url}
                                     alt={img.alt}
                                     width={600}
-                                    height={400}
+                                    height={300}
                                     data-ai-hint={img.hint}
                                     className="object-cover w-full h-full"
                                 />
