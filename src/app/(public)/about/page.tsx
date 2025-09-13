@@ -56,8 +56,8 @@ export default function AboutPage() {
                                 <Image
                                     src={img.url}
                                     alt={img.alt}
-                                    width={800}
-                                    height={600}
+                                    width={600}
+                                    height={400}
                                     data-ai-hint={img.hint}
                                     className="object-cover w-full h-full"
                                 />
