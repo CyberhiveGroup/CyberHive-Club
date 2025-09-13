@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Linkedin, Github, ArrowLeft } from 'lucide-react';
+import { Mail, Linkedin, Github, ArrowLeft, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
@@ -59,6 +59,12 @@ export default function MemberDetailPage() {
                             <Github className="h-4 w-4" />
                             <span>GitHub Profile</span>
                         </a>
+                         {member.contact.instagram && (
+                            <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
+                                <Instagram className="h-4 w-4" />
+                                <span>Instagram Profile</span>
+                            </a>
+                        )}
                     </div>
                 </div>
             </CardContent>

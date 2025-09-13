@@ -1,3 +1,4 @@
+
 export type TeamMember = {
   id: number;
   name: string;
@@ -9,6 +10,7 @@ export type TeamMember = {
     email: string;
     linkedin: string;
     github: string;
+    instagram: string;
   }
 };
 

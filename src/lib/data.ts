@@ -1,3 +1,4 @@
+
 import type { Team, CSLClass, Event, Resource, FooterContent } from './types';
 
 export const teamData: Team[] = [
@@ -17,6 +18,7 @@ export const teamData: Team[] = [
                 email: 'alex.hex@example.com',
                 linkedin: 'https://www.linkedin.com/in/alex-hex-johnson',
                 github: 'https://github.com/alex-hex-johnson',
+                instagram: 'https://instagram.com/alex-hex-johnson'
                 }
             },
             {
@@ -30,6 +32,7 @@ export const teamData: Team[] = [
                 email: 'brenda.firewall@example.com',
                 linkedin: 'https://www.linkedin.com/in/brenda-firewall-smith',
                 github: 'https://github.com/brenda-firewall-smith',
+                instagram: 'https://instagram.com/brenda-firewall-smith'
                 }
             },
         ]
@@ -50,6 +53,7 @@ export const teamData: Team[] = [
                 email: 'charlie.root@example.com',
                 linkedin: 'https://www.linkedin.com/in/charlie-root-brown',
                 github: 'https://github.com/charlie-root-brown',
+                instagram: 'https://instagram.com/charlie-root-brown'
                 }
             },
         ]
@@ -70,6 +74,7 @@ export const teamData: Team[] = [
                 email: 'diana.phish@example.com',
                 linkedin: 'https://www.linkedin.com/in/diana-phish-miller',
                 github: 'https://github.com/diana-phish-miller',
+                instagram: 'https://instagram.com/diana-phish-miller'
                 }
             },
         ]
@@ -89,7 +94,8 @@ export const teamData: Team[] = [
                 contact: {
                 email: 'eve.data@example.com',
                 linkedin: 'https://linkedin.com/in/eve-data-williams',
-                github: 'https://github.com/eve-data-williams'
+                github: 'https://github.com/eve-data-williams',
+                instagram: 'https://instagram.com/eve-data-williams'
                 }
             }
         ]

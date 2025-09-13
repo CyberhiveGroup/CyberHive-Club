@@ -30,7 +30,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMember>, onSave: (item: TeamMember) => void, onCancel: () => void, teamId: number }) => {
     const [formData, setFormData] = React.useState({
       ...item,
-      contact: item.contact || { email: '', linkedin: '', github: '' },
+      contact: item.contact || { email: '', linkedin: '', github: '', instagram: '' },
     });
 
     const handleChange = (field: string, value: any) => {
@@ -38,7 +38,7 @@ const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMemb
             const contactField = field.split('.')[1];
             setFormData(prev => ({
                 ...prev,
-                contact: { ...(prev.contact || {}), [contactField]: value }
+                contact: { ...(prev.contact || { email: '', linkedin: '', github: '', instagram: '' }), [contactField]: value }
             }));
         } else {
             setFormData(prev => ({ ...prev, [field]: value }));
@@ -59,6 +59,7 @@ const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMemb
         { name: 'contact.email', label: 'Email' },
         { name: 'contact.linkedin', label: 'LinkedIn URL' },
         { name: 'contact.github', label: 'GitHub URL' },
+        { name: 'contact.instagram', label: 'Instagram URL' },
     ];
 
     return (
@@ -166,7 +167,7 @@ export default function AdminTeamPage() {
 
         setContent(prev => ({
             ...prev,
-            teams: isNew ? [...prev.teams, newTeam] : prev.teams.map(t => t.id === newTeam.id ? newTeam : t),
+            teams: isNew ? [...prev.teams, newTeam] : prev.teams.map(t => t.id === newTeam..id ? newTeam : t),
         }));
         toast({ title: isNew ? "Team Added" : "Team Updated" });
         setEditingTeam(null);
@@ -286,7 +287,7 @@ export default function AdminTeamPage() {
                                         </div>
                                     ))}
                                     {team.members.length === 0 && <p className="text-center text-muted-foreground py-4">No members in this team yet.</p>}
-                                     <Button onClick={() => setEditingMember({ teamId: team.id, member: { name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait', bio: '' } })} className="w-full mt-4"><Plus className="mr-2 h-4 w-4" /> Add Member</Button>
+                                     <Button onClick={() => setEditingMember({ teamId: team.id, member: { name: 'New Member', role: '', imageUrl: 'https://picsum.photos/400/400', imageHint: 'person portrait', bio: '', contact: { email: '', linkedin: '', github: '', instagram: '' } } })} className="w-full mt-4"><Plus className="mr-2 h-4 w-4" /> Add Member</Button>
                                 </CollapsibleContent>
                             </Collapsible>
                         </CardContent>
