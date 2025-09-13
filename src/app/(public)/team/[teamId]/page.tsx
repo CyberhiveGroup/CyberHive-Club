@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Linkedin, Github, ArrowLeft } from 'lucide-react';
+import { Mail, Linkedin, Github, ArrowLeft, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
@@ -58,6 +58,7 @@ export default function TeamDetailPage() {
                                     <Mail className="h-5 w-5 text-muted-foreground" />
                                     <Linkedin className="h-5 w-5 text-muted-foreground" />
                                     <Github className="h-5 w-5 text-muted-foreground" />
+                                    {member.contact.instagram && <Instagram className="h-5 w-5 text-muted-foreground" />}
                                 </div>
                             </div>
                         </CardContent>
