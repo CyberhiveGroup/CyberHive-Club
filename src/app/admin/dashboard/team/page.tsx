@@ -167,7 +167,7 @@ export default function AdminTeamPage() {
 
         setContent(prev => ({
             ...prev,
-            teams: isNew ? [...prev.teams, newTeam] : prev.teams.map(t => t.id === newTeam..id ? newTeam : t),
+            teams: isNew ? [...prev.teams, newTeam] : prev.teams.map(t => t.id === newTeam.id ? newTeam : t),
         }));
         toast({ title: isNew ? "Team Added" : "Team Updated" });
         setEditingTeam(null);
