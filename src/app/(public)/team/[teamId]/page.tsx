@@ -40,7 +40,7 @@ export default function TeamDetailPage() {
                 team.members.map((member) => (
                     <Card 
                         key={member.id}
-                        className="overflow-hidden shadow-lg"
+                        className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-primary/20"
                     >
                         <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
                             <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0">
