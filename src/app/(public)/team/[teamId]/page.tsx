@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Linkedin, Github, ArrowLeft, Instagram } from 'lucide-react';
+import { Mail, Linkedin, Github, ArrowLeft, Instagram, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
@@ -48,13 +48,14 @@ export default function TeamDetailPage() {
                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 space-y-3 text-center md:text-left">
-                                <div className="mb-2">
+                                <div className="mb-2 -mt-2">
                                     <h2 className="text-2xl font-headline font-bold text-primary -mb-1">{member.name}</h2>
                                     <p className="font-semibold text-foreground/80">{member.role}</p>
                                 </div>
                                 <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0 line-clamp-3">{member.bio}</p>
                                 <div className="flex justify-center md:justify-start items-center gap-4 pt-2">
                                     <a href={`mailto:${member.contact.email}`} className="text-muted-foreground hover:text-primary"><Mail className="h-6 w-6" /></a>
+                                    {member.contact.phone && <a href={`tel:${member.contact.phone}`} className="text-muted-foreground hover:text-primary"><Phone className="h-6 w-6" /></a>}
                                     <a href={member.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Linkedin className="h-6 w-6" /></a>
                                     <a href={member.contact.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Github className="h-6 w-6" /></a>
                                     {member.contact.instagram && <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Instagram className="h-6 w-6" /></a>}

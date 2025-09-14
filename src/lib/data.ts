@@ -15,10 +15,11 @@ export const teamData: Team[] = [
                 imageHint: 'person portrait',
                 bio: 'Alex is a cybersecurity enthusiast with a passion for offensive security and building secure systems. As the co-founder of CyberHive, his goal is to create a community where students can learn, collaborate, and push the boundaries of their knowledge. He specializes in network penetration testing and red team operations.',
                 contact: {
-                email: 'alex.hex@example.com',
-                linkedin: 'https://www.linkedin.com/in/alex-hex-johnson',
-                github: 'https://github.com/alex-hex-johnson',
-                instagram: 'https://instagram.com/alex-hex-johnson'
+                    email: 'alex.hex@example.com',
+                    linkedin: 'https://www.linkedin.com/in/alex-hex-johnson',
+                    github: 'https://github.com/alex-hex-johnson',
+                    instagram: 'https://instagram.com/alex-hex-johnson',
+                    phone: '123-456-7890'
                 }
             },
             {
@@ -29,10 +30,11 @@ export const teamData: Team[] = [
                 imageHint: 'person portrait',
                 bio: 'Brenda is the strategic mind behind our competitive CTF team. With a knack for defensive security and cryptography, she leads our members in national competitions. Her focus is on security architecture and ensuring digital fortresses are impenetrable. She also mentors new members in the art of puzzle-solving.',
                 contact: {
-                email: 'brenda.firewall@example.com',
-                linkedin: 'https://www.linkedin.com/in/brenda-firewall-smith',
-                github: 'https://github.com/brenda-firewall-smith',
-                instagram: 'https://instagram.com/brenda-firewall-smith'
+                    email: 'brenda.firewall@example.com',
+                    linkedin: 'https://www.linkedin.com/in/brenda-firewall-smith',
+                    github: 'https://github.com/brenda-firewall-smith',
+                    instagram: 'https://instagram.com/brenda-firewall-smith',
+                    phone: '123-456-7891'
                 }
             },
         ]
@@ -50,10 +52,11 @@ export const teamData: Team[] = [
                 imageHint: 'person portrait',
                 bio: 'Charlie is the educational backbone of CyberHive. He designs and leads the Cyber Siksha Lab (CSL) curriculum, making complex topics like malware analysis and reverse engineering accessible to all skill levels. His mission is to empower every member with practical, hands-on cybersecurity skills.',
                 contact: {
-                email: 'charlie.root@example.com',
-                linkedin: 'https://www.linkedin.com/in/charlie-root-brown',
-                github: 'https://github.com/charlie-root-brown',
-                instagram: 'https://instagram.com/charlie-root-brown'
+                    email: 'charlie.root@example.com',
+                    linkedin: 'https://www.linkedin.com/in/charlie-root-brown',
+                    github: 'https://github.com/charlie-root-brown',
+                    instagram: 'https://instagram.com/charlie-root-brown',
+                    phone: '123-456-7892'
                 }
             },
         ]
@@ -71,10 +74,11 @@ export const teamData: Team[] = [
                 imageHint: 'person portrait',
                 bio: 'Diana is the social engineer of the group, but in a good way! She organizes all of CyberHive\'s events, from technical workshops and guest speaker sessions to social nights and networking events. Her expertise in social engineering and human-factor security makes our events both educational and engaging.',
                 contact: {
-                email: 'diana.phish@example.com',
-                linkedin: 'https://www.linkedin.com/in/diana-phish-miller',
-                github: 'https://github.com/diana-phish-miller',
-                instagram: 'https://instagram.com/diana-phish-miller'
+                    email: 'diana.phish@example.com',
+                    linkedin: 'https://www.linkedin.com/in/diana-phish-miller',
+                    github: 'https://github.com/diana-phish-miller',
+                    instagram: 'https://instagram.com/diana-phish-miller',
+                    phone: '123-456-7893'
                 }
             },
         ]
@@ -92,10 +96,11 @@ export const teamData: Team[] = [
                 imageHint: 'person portrait',
                 bio: 'Eve keeps the hive\'s finances in order, managing budgets for events, hardware, and software. She has a keen interest in financial technologies and blockchain security.',
                 contact: {
-                email: 'eve.data@example.com',
-                linkedin: 'https://linkedin.com/in/eve-data-williams',
-                github: 'https://github.com/eve-data-williams',
-                instagram: 'https://instagram.com/eve-data-williams'
+                    email: 'eve.data@example.com',
+                    linkedin: 'https://linkedin.com/in/eve-data-williams',
+                    github: 'https://github.com/eve-data-williams',
+                    instagram: 'https://instagram.com/eve-data-williams',
+                    phone: '123-456-7894'
                 }
             }
         ]

@@ -10,7 +10,8 @@ export type TeamMember = {
     email: string;
     linkedin: string;
     github: string;
-    instagram: string;
+    instagram?: string;
+    phone?: string;
   }
 };
 
