@@ -44,6 +44,16 @@ const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMemb
             setFormData(prev => ({ ...prev, [field]: value }));
         }
     };
+    
+    const handleFileChange = (field: string, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleChange(field, e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,7 +63,7 @@ const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMemb
     const fields = [
         { name: 'name', label: 'Name' },
         { name: 'role', label: 'Role' },
-        { name: 'imageUrl', label: 'Image URL' },
+        { name: 'imageUrl', label: 'Image File', type: 'file' },
         { name: 'imageHint', label: 'Image Hint' },
         { name: 'bio', label: 'Biography', type: 'textarea' },
         { name: 'contact.email', label: 'Email' },
@@ -76,6 +86,11 @@ const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMemb
                                 <Label htmlFor={field.name}>{field.label}</Label>
                                 {field.type === 'textarea' ? (
                                     <Textarea id={field.name} value={(formData as any)[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
+                                ) : field.type === 'file' ? (
+                                    <>
+                                        <Input id={field.name} type="file" onChange={e => e.target.files && handleFileChange(field.name, e.target.files[0])} accept="image/jpeg, image/png" />
+                                        {(formData as any)[field.name] && <img src={(formData as any)[field.name]} alt="preview" className="mt-2 rounded-md max-h-32" />}
+                                    </>
                                 ) : (
                                     <Input id={field.name} value={field.name.startsWith('contact.') ? formData.contact?.[field.name.split('.')[1] as keyof typeof formData.contact] ?? '' : (formData as any)[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
                                 )}

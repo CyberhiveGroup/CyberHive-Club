@@ -116,6 +116,16 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleFileChange = (field: string, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleChange(field, e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSave(formData);
@@ -140,6 +150,8 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
                                         {field.options.map(opt => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
+                            ) : field.type === 'file' ? (
+                                <Input id={field.name} type="file" onChange={e => e.target.files && handleFileChange(field.name, e.target.files[0])} accept="application/pdf" />
                             ) : (
                                 <Input id={field.name} value={formData[field.name]} onChange={e => handleChange(field.name, e.target.value)} />
                             )}
@@ -210,11 +222,14 @@ export default function AdminResourcesPage() {
         }, 1000);
     };
 
-    const resourceFields = [
+    const resourceFields = (type: Resource['type']) => [
         { name: 'title', label: 'Title' },
         { name: 'description', label: 'Description', type: 'textarea' },
         { name: 'type', label: 'Type', type: 'select', options: resourceTypes, placeholder: 'Select a type' },
-        { name: 'href', label: 'Link (URL)' },
+        ...(type === 'PDF' 
+            ? [{ name: 'href', label: 'PDF File', type: 'file' }]
+            : [{ name: 'href', label: 'Link (URL)' }]
+        ),
     ];
 
     const getFormItem = (item: Resource | null) => {
@@ -244,7 +259,7 @@ export default function AdminResourcesPage() {
                 isSaving={isSaving}
                 renderForm={(item, onSave, onCancel) => {
                     const formItem = getFormItem(item);
-                    return formItem ? <GenericForm item={formItem} onSave={onSave} onCancel={onCancel} fields={resourceFields} /> : null
+                    return formItem ? <GenericForm item={formItem} onSave={onSave} onCancel={onCancel} fields={resourceFields(formItem.type)} /> : null
                 }}
             />
         </div>

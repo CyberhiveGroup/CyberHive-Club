@@ -114,6 +114,16 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleFileChange = (field: string, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleChange(field, e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSave(formData);
@@ -131,6 +141,11 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
                             <Label htmlFor={field.name}>{field.label}</Label>
                             {field.type === 'textarea' ? (
                                 <Textarea id={field.name} value={formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} rows={4} />
+                            ) : field.type === 'file' ? (
+                                <>
+                                    <Input id={field.name} type="file" onChange={e => e.target.files && handleFileChange(field.name, e.target.files[0])} accept="image/jpeg, image/png" />
+                                    {formData[field.name] && <img src={formData[field.name]} alt="preview" className="mt-2 rounded-md max-h-32" />}
+                                </>
                             ) : (
                                 <Input id={field.name} value={formData[field.name] || ''} onChange={e => handleChange(field.name, e.target.value)} />
                             )}
@@ -204,7 +219,7 @@ export default function AdminCSLPage() {
     const cslClassFields = [
         { name: 'title', label: 'Title' },
         { name: 'description', label: 'Description', type: 'textarea' },
-        { name: 'imageUrl', label: 'Image URL' },
+        { name: 'imageUrl', label: 'Image File', type: 'file' },
         { name: 'imageHint', label: 'Image Hint' },
     ];
     

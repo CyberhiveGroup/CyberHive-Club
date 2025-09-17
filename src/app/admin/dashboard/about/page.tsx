@@ -48,6 +48,16 @@ export default function AdminAboutPage() {
             return { ...prev, aboutImages: { ...prev.aboutImages, carouselUrls: newCarouselUrls }};
         })
     }
+
+    const handleFileChange = (index: number, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleCarouselChange(index, 'url', e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
     
     const addCarouselItem = () => {
         setContent(prev => ({
@@ -126,8 +136,9 @@ export default function AdminAboutPage() {
                                 <Trash2 className="h-4 w-4" />
                             </Button>
                             <div className="grid gap-2">
-                                <Label htmlFor={`carousel-url-${index}`}>Image URL</Label>
-                                <Input id={`carousel-url-${index}`} value={item.url} onChange={e => handleCarouselChange(index, 'url', e.target.value)} />
+                                <Label htmlFor={`carousel-url-${index}`}>Image File</Label>
+                                <Input id={`carousel-url-${index}`} type="file" onChange={e => e.target.files && handleFileChange(index, e.target.files[0])} accept="image/jpeg, image/png" />
+                                {item.url && <img src={item.url} alt="preview" className="mt-2 rounded-md max-h-32" />}
                             </div>
                              <div className="grid gap-2">
                                 <Label htmlFor={`carousel-alt-${index}`}>Alt Text</Label>

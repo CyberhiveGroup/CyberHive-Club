@@ -116,6 +116,16 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleFileChange = (field: string, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleChange(field, e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSave(formData);
@@ -127,6 +137,16 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
             newGallery[index] = { ...newGallery[index], [field]: value };
             return { ...prev, gallery: newGallery };
         });
+    };
+
+    const handleGalleryFileChange = (index: number, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleGalleryChange(index, 'url', e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
     };
 
     const addGalleryItem = () => {
@@ -162,6 +182,11 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
                                         {field.options.map((opt:string) => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
+                            ) : field.type === 'file' ? (
+                                <>
+                                    <Input id={field.name} type="file" onChange={e => e.target.files && handleFileChange(field.name, e.target.files[0])} accept="image/jpeg, image/png" />
+                                    {formData[field.name as keyof Event] && <img src={formData[field.name as keyof Event] as string} alt="preview" className="mt-2 rounded-md max-h-32" />}
+                                </>
                             ) : (
                                 <Input id={field.name} value={formData[field.name as keyof Event] as string} onChange={e => handleChange(field.name, e.target.value)} />
                             )}
@@ -175,8 +200,9 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                                 <div className="grid gap-1.5">
-                                    <Label htmlFor={`gallery-url-${index}`}>URL</Label>
-                                    <Input id={`gallery-url-${index}`} value={img.url} onChange={e => handleGalleryChange(index, 'url', e.target.value)} />
+                                    <Label htmlFor={`gallery-url-${index}`}>Image File</Label>
+                                    <Input id={`gallery-url-${index}`} type="file" onChange={e => e.target.files && handleGalleryFileChange(index, e.target.files[0])} accept="image/jpeg, image/png" />
+                                    {img.url && <img src={img.url} alt="preview" className="mt-2 rounded-md max-h-32" />}
                                 </div>
                                 <div className="grid gap-1.5">
                                     <Label htmlFor={`gallery-alt-${index}`}>Alt Text</Label>
@@ -265,7 +291,7 @@ export default function AdminEventsPage() {
         { name: 'date', label: 'Date' },
         { name: 'description', label: 'Description', type: 'textarea' },
         { name: 'category', label: 'Category', type: 'select', options: eventCategories, placeholder: 'Select a category' },
-        { name: 'imageUrl', label: 'Image URL (for card)' },
+        { name: 'imageUrl', label: 'Image File (for card)', type: 'file' },
         { name: 'imageHint', label: 'Image Hint' },
     ];
     
@@ -333,5 +359,3 @@ export default function AdminEventsPage() {
         </div>
     );
 }
-
-    
