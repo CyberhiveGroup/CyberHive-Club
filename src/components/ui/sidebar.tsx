@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
@@ -560,15 +560,20 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const pathname = usePathname()
+    const router = useRouter();
     const { isMobile, state, open, setOpen, setOpenMobile } = useSidebar()
 
     const isActive = isActiveProp ?? (href ? pathname === href : false)
 
-    const handleClick = () => {
-        if (isMobile) {
-            setOpenMobile(false)
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        if (href) {
+            router.push(href as string);
         }
-    }
+        if (isMobile) {
+            setOpenMobile(false);
+        }
+    };
 
     const buttonContent = (
       <div className={cn("flex items-center gap-3", state === 'collapsed' && 'justify-center')}>
