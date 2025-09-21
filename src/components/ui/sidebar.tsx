@@ -539,7 +539,8 @@ const sidebarMenuButtonVariants = cva(
 
 const SidebarMenuButton = React.forwardRef<
   HTMLAnchorElement,
-  React.ComponentProps<typeof Link> & {
+  Omit<React.ComponentProps<typeof Link>, "href"> & {
+    href: string
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
@@ -555,45 +556,45 @@ const SidebarMenuButton = React.forwardRef<
       className,
       href,
       children,
+      onClick,
       ...props
     },
     ref
   ) => {
     const pathname = usePathname()
-    const router = useRouter();
-    const { isMobile, state, open, setOpen, setOpenMobile } = useSidebar()
+    const router = useRouter()
+    const { isMobile, state, setOpenMobile } = useSidebar()
 
     const isActive = isActiveProp ?? (href ? pathname === href : false)
 
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        if (href) {
-            router.push(href as string);
-        }
-        if (isMobile) {
-            setOpenMobile(false);
-        }
-    };
+    const Comp = asChild ? Slot : "a";
 
-    const buttonContent = (
-      <div className={cn("flex items-center gap-3", state === 'collapsed' && 'justify-center')}>
-        {children}
-      </div>
-    );
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (onClick) {
+        onClick(e)
+      }
+      if (!e.defaultPrevented) {
+        e.preventDefault()
+        router.push(href)
+        if (isMobile) {
+          setOpenMobile(false)
+        }
+      }
+    }
 
     const button = (
-      <Link
+      <Comp
         ref={ref}
         href={href}
+        onClick={handleClick}
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className, state === 'collapsed' && 'justify-center')}
-        onClick={handleClick}
+        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
         {...props}
       >
         {children}
-      </Link>
+      </Comp>
     )
 
     if (!tooltip) {
@@ -631,7 +632,7 @@ const SidebarMenuAction = React.forwardRef<
       ref={ref}
       data-sidebar="menu-action"
       className={cn(
-        "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-foreground outline-none ring-ring transition-transform hover:bg-muted hover:text-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-foreground outline-none ring-ring transition-transform hover:bg-muted hover:text-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-accent-foreground peer-data-[active=true]/menu-button:text-accent-foreground",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
         "peer-data-[size=sm]/menu-button:top-1",
