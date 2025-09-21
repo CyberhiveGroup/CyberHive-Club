@@ -2,8 +2,6 @@
 'use client';
 
 import * as React from 'react';
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -148,8 +146,6 @@ const TeamForm = ({ item, onSave, onCancel }: { item: Partial<Team>, onSave: (it
 
 
 export default function AdminTeamPage() {
-    const { isAdmin, isCheckingAdminStatus } = useAdmin();
-    const router = useRouter();
     const { content, setContent, isLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
@@ -160,13 +156,7 @@ export default function AdminTeamPage() {
     const [editingMember, setEditingMember] = React.useState<{ teamId: number, member: Partial<TeamMember> } | null>(null);
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
-    React.useEffect(() => {
-        if (!isCheckingAdminStatus && !isAdmin && process.env.NODE_ENV === 'production') {
-            router.push('/admin');
-        }
-    }, [isAdmin, isCheckingAdminStatus, router]);
-
-    if (isCheckingAdminStatus || isLoading) {
+    if (isLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
