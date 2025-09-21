@@ -567,7 +567,7 @@ const SidebarMenuButton = React.forwardRef<
 
     const isActive = isActiveProp ?? (href ? pathname === href : false)
 
-    const Comp = asChild ? Slot : "a";
+    const Comp = asChild ? Slot : Link;
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (onClick) {
