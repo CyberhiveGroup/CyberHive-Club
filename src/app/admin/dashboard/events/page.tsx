@@ -229,19 +229,19 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
 };
 
 export default function AdminEventsPage() {
-    const { isAdmin } = useAdmin();
+    const { isAdmin, isCheckingAdminStatus } = useAdmin();
     const router = useRouter();
     const { content, setContent, isLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
 
     React.useEffect(() => {
-        if (!isAdmin && process.env.NODE_ENV === 'production') {
+        if (!isCheckingAdminStatus && !isAdmin && process.env.NODE_ENV === 'production') {
             router.push('/admin');
         }
-    }, [isAdmin, router]);
+    }, [isAdmin, isCheckingAdminStatus, router]);
 
-    if (isLoading) {
+    if (isCheckingAdminStatus || isLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 

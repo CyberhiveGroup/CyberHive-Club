@@ -6,6 +6,7 @@ import { useAuth, useUser } from '@clerk/nextjs';
 
 interface AdminContextType {
   isAdmin: boolean;
+  isCheckingAdminStatus: boolean;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -20,19 +21,18 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
   const { user, isLoaded: isUserLoaded } = useUser();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isCheckingAdminStatus, setIsCheckingAdminStatus] = useState(true);
 
   useEffect(() => {
-    if (isAuthLoaded && isUserLoaded && isSignedIn && user) {
-        const userIsAdmin = ADMIN_USER_IDS.includes(user.id);
+    const isLoaded = isAuthLoaded && isUserLoaded;
+    if (isLoaded) {
+        const userIsAdmin = !!(isSignedIn && user && ADMIN_USER_IDS.includes(user.id));
         setIsAdmin(userIsAdmin);
-    } else {
-        setIsAdmin(false);
+        setIsCheckingAdminStatus(false);
     }
   }, [isSignedIn, user, isAuthLoaded, isUserLoaded]);
 
-  // For simplicity, we'll just expose the boolean.
-  // Login/logout is handled by Clerk's components.
-  const value = { isAdmin };
+  const value = { isAdmin, isCheckingAdminStatus };
 
   return (
     <AdminContext.Provider value={value}>

@@ -148,7 +148,7 @@ const TeamForm = ({ item, onSave, onCancel }: { item: Partial<Team>, onSave: (it
 
 
 export default function AdminTeamPage() {
-    const { isAdmin } = useAdmin();
+    const { isAdmin, isCheckingAdminStatus } = useAdmin();
     const router = useRouter();
     const { content, setContent, isLoading } = useContent();
     const { toast } = useToast();
@@ -161,12 +161,12 @@ export default function AdminTeamPage() {
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
     React.useEffect(() => {
-        if (!isAdmin && process.env.NODE_ENV === 'production') {
+        if (!isCheckingAdminStatus && !isAdmin && process.env.NODE_ENV === 'production') {
             router.push('/admin');
         }
-    }, [isAdmin, router]);
+    }, [isAdmin, isCheckingAdminStatus, router]);
 
-    if (isLoading) {
+    if (isCheckingAdminStatus || isLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
