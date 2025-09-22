@@ -23,9 +23,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
-
 
 const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMember>, onSave: (item: TeamMember) => void, onCancel: () => void, teamId: number }) => {
     const [formData, setFormData] = React.useState({
@@ -151,8 +148,6 @@ export default function AdminTeamPage() {
     const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
-    const { isAdmin, isCheckingAdminStatus } = useAdmin();
-    const router = useRouter();
 
     const [editingTeam, setEditingTeam] = React.useState<Partial<Team> | null>(null);
     const [deletingTeamId, setDeletingTeamId] = React.useState<number | null>(null);
@@ -160,15 +155,7 @@ export default function AdminTeamPage() {
     const [editingMember, setEditingMember] = React.useState<{ teamId: number, member: Partial<TeamMember> } | null>(null);
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
-    React.useEffect(() => {
-        if (!isCheckingAdminStatus) {
-            if (!isAdmin) {
-                router.push('/admin');
-            }
-        }
-    }, [isAdmin, isCheckingAdminStatus, router]);
-
-    if (isCheckingAdminStatus || isContentLoading || !isAdmin) {
+    if (isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 

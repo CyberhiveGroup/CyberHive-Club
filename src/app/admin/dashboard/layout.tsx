@@ -1,0 +1,135 @@
+'use client';
+
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { useAdmin } from '@/context/AdminContext';
+import { Loader2 } from 'lucide-react';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { Home, Users, BookOpen, Calendar, Shield, Footprints, Mail } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Link from 'next/link';
+
+function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
+  const { isAdmin, isCheckingAdminStatus } = useAdmin();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!isCheckingAdminStatus && !isAdmin) {
+      router.push('/admin');
+    }
+  }, [isAdmin, isCheckingAdminStatus, router]);
+
+  if (isCheckingAdminStatus) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return null; // or a login prompt, router.push should handle it
+  }
+
+  return (
+    <SidebarProvider>
+      <div className="flex min-h-screen">
+        <Sidebar>
+            <SidebarHeader>
+                 <Link href="/admin/dashboard" className="flex items-center gap-2">
+                    <div className="bg-primary text-primary-foreground rounded-full p-2">
+                        <Home className="h-5 w-5" />
+                    </div>
+                    <span className="font-headline text-lg font-bold">CMS</span>
+                 </Link>
+            </SidebarHeader>
+            <SidebarContent>
+                 <SidebarMenu>
+                    <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard" tooltip="Dashboard">
+                            <Home />
+                            <span>Dashboard</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/home" tooltip="Home Page">
+                            <Home />
+                            <span>Home Page</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/about" tooltip="About Page">
+                            <Users />
+                            <span>About Page</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/team" tooltip="Team">
+                            <Users />
+                            <span>Team</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/csl" tooltip="CSL Classes">
+                            <BookOpen />
+                            <span>CSL Classes</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/events" tooltip="Events">
+                            <Calendar />
+                            <span>Events</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/resources" tooltip="Resources">
+                            <Shield />
+                            <span>Resources</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/contact" tooltip="Contact Page">
+                            <Mail />
+                            <span>Contact Page</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                         <SidebarMenuButton href="/admin/dashboard/footer" tooltip="Footer">
+                            <Footprints />
+                            <span>Footer</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                 </SidebarMenu>
+            </SidebarContent>
+        </Sidebar>
+        
+        <SidebarInset>
+            <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40 flex h-16 items-center justify-between px-4 md:px-6">
+                <div>
+                    <SidebarTrigger />
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                     <Avatar>
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+            </header>
+            <main className="flex-1 p-4 md:p-6 lg:p-8">
+                {children}
+            </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
+  )
+}
+
+
+export default AdminDashboardLayout;

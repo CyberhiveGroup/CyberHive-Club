@@ -22,8 +22,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
 
 const resourceTypes = ['PDF', 'Link', 'External Link'];
 
@@ -171,18 +169,8 @@ export default function AdminResourcesPage() {
     const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
-    const { isAdmin, isCheckingAdminStatus } = useAdmin();
-    const router = useRouter();
 
-    React.useEffect(() => {
-        if (!isCheckingAdminStatus) {
-            if (!isAdmin) {
-                router.push('/admin');
-            }
-        }
-    }, [isAdmin, isCheckingAdminStatus, router]);
-
-    if (isCheckingAdminStatus || isContentLoading || !isAdmin) {
+    if (isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 

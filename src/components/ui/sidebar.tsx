@@ -556,31 +556,25 @@ const SidebarMenuButton = React.forwardRef<
       className,
       href,
       children,
-      onClick,
       ...props
     },
     ref
   ) => {
     const pathname = usePathname()
+    const { isMobile, setOpenMobile } = useSidebar()
     const router = useRouter()
-    const { isMobile, state, setOpenMobile } = useSidebar()
 
     const isActive = isActiveProp ?? (href ? pathname === href : false)
-
-    const Comp = asChild ? Slot : Link;
+    const Comp = asChild ? Slot : 'a'
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      if (onClick) {
-        onClick(e)
+      e.preventDefault();
+      router.push(href);
+      if (isMobile) {
+        setOpenMobile(false);
       }
-      if (!e.defaultPrevented) {
-        e.preventDefault()
-        router.push(href)
-        if (isMobile) {
-          setOpenMobile(false)
-        }
-      }
-    }
+    };
+
 
     const button = (
       <Comp
@@ -609,7 +603,7 @@ const SidebarMenuButton = React.forwardRef<
         <TooltipContent
           side="right"
           align="center"
-          hidden={state !== "collapsed" || isMobile}
+          hidden={!isMobile && (isActive || false)}
           {...tooltipContent}
         />
       </Tooltip>

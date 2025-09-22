@@ -10,26 +10,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
-
 
 export default function AdminAboutPage() {
     const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
-    const { isAdmin, isCheckingAdminStatus } = useAdmin();
-    const router = useRouter();
 
-    React.useEffect(() => {
-        if (!isCheckingAdminStatus) {
-            if (!isAdmin) {
-                router.push('/admin');
-            }
-        }
-    }, [isAdmin, isCheckingAdminStatus, router]);
-
-    if (isCheckingAdminStatus || isContentLoading || !isAdmin) {
+    if (isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
