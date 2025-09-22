@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -26,10 +27,6 @@ function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
-  }
-
-  if (!isAdmin) {
-    return null; // or a login prompt, router.push should handle it
   }
 
   return (
