@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Avatar, AvatarFallback, AvatarImage } from '@/componentsui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 
 const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMember>, onSave: (item: TeamMember) => void, onCancel: () => void, teamId: number }) => {
@@ -333,4 +333,5 @@ export default function AdminTeamPage() {
             </AlertDialog>
         </div>
     );
-}
+
+    
