@@ -169,17 +169,15 @@ export default function AdminCSLPage() {
     const router = useRouter();
 
     React.useEffect(() => {
-        if (!isCheckingAdminStatus && !isAdmin) {
-            router.push('/admin');
+        if (!isCheckingAdminStatus) {
+            if (!isAdmin) {
+                router.push('/admin');
+            }
         }
     }, [isAdmin, isCheckingAdminStatus, router]);
 
-    if (isCheckingAdminStatus || isContentLoading) {
+    if (isCheckingAdminStatus || isContentLoading || !isAdmin) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
-    }
-
-    if (!isAdmin) {
-        return null;
     }
 
     const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);

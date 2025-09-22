@@ -161,17 +161,15 @@ export default function AdminTeamPage() {
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
     React.useEffect(() => {
-        if (!isCheckingAdminStatus && !isAdmin) {
-            router.push('/admin');
+        if (!isCheckingAdminStatus) {
+            if (!isAdmin) {
+                router.push('/admin');
+            }
         }
     }, [isAdmin, isCheckingAdminStatus, router]);
 
-    if (isCheckingAdminStatus || isContentLoading) {
+    if (isCheckingAdminStatus || isContentLoading || !isAdmin) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
-    }
-    
-    if (!isAdmin) {
-        return null;
     }
 
 
