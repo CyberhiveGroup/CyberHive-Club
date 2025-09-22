@@ -23,6 +23,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAdmin } from '@/context/AdminContext';
+import { useRouter } from 'next/navigation';
 
 
 const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMember>, onSave: (item: TeamMember) => void, onCancel: () => void, teamId: number }) => {
@@ -146,19 +148,32 @@ const TeamForm = ({ item, onSave, onCancel }: { item: Partial<Team>, onSave: (it
 
 
 export default function AdminTeamPage() {
-    const { content, setContent, isLoading } = useContent();
+    const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
-    
+    const { isAdmin, isCheckingAdminStatus } = useAdmin();
+    const router = useRouter();
+
     const [editingTeam, setEditingTeam] = React.useState<Partial<Team> | null>(null);
     const [deletingTeamId, setDeletingTeamId] = React.useState<number | null>(null);
 
     const [editingMember, setEditingMember] = React.useState<{ teamId: number, member: Partial<TeamMember> } | null>(null);
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
-    if (isLoading) {
+    React.useEffect(() => {
+        if (!isCheckingAdminStatus && !isAdmin) {
+            router.push('/admin');
+        }
+    }, [isAdmin, isCheckingAdminStatus, router]);
+
+    if (isCheckingAdminStatus || isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
+    
+    if (!isAdmin) {
+        return null;
+    }
+
 
     const getNewId = (list: {id: number}[]) => list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1;
     const getNewMemberId = (teams: Team[]) => {
@@ -335,3 +350,4 @@ export default function AdminTeamPage() {
     );
 
     
+}

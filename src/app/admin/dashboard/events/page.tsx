@@ -22,6 +22,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { useAdmin } from '@/context/AdminContext';
+import { useRouter } from 'next/navigation';
 
 const eventCategories = ['Workshop', 'Competition', 'Talk', 'Social'];
 
@@ -227,13 +229,26 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
 };
 
 export default function AdminEventsPage() {
-    const { content, setContent, isLoading } = useContent();
+    const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
+    const { isAdmin, isCheckingAdminStatus } = useAdmin();
+    const router = useRouter();
 
-    if (isLoading) {
+    React.useEffect(() => {
+        if (!isCheckingAdminStatus && !isAdmin) {
+            router.push('/admin');
+        }
+    }, [isAdmin, isCheckingAdminStatus, router]);
+
+    if (isCheckingAdminStatus || isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
+    
+    if (!isAdmin) {
+        return null;
+    }
+
 
     const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);
     
