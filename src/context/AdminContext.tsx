@@ -12,7 +12,7 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 // Define your admin user IDs here
 const ADMIN_USER_IDS = [
-    process.env.NEXT_PUBLIC_ADMIN_USER_ID,
+    process.env.NEXT_PUBLIC_ADMIN_USER_ID || '',
 ].filter(Boolean);
 
 
