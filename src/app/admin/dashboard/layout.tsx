@@ -29,6 +29,10 @@ function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
+  if (!isAdmin) {
+    return null;
+  }
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
