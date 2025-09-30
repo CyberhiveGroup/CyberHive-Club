@@ -46,7 +46,7 @@ function EventCard({ event }: { event: Event }) {
 
 
 function EventsPageContent() {
-  const { content, isLoading } = useContent();
+  const { content } = useContent();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'past' ? 'past' : 'upcoming';
   
@@ -55,7 +55,7 @@ function EventsPageContent() {
   const [category, setCategory] = React.useState('All');
   const [sortOrder, setSortOrder] = React.useState('desc');
 
-  const { upcomingEvents, pastEvents } = content;
+  const { upcomingEvents, pastEvents } = content || {};
 
   const filteredUpcomingEvents = React.useMemo(() => {
     if (!upcomingEvents) return [];
@@ -78,11 +78,11 @@ function EventsPageContent() {
   }, [sortOrder, pastEvents, category, searchTerm]);
   
   const allCategories = ['All', ...eventCategories];
-
-  if (isLoading) {
-    return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading events...</div>;
-  }
   
+  if (!content) {
+    return null;
+  }
+
   const currentEvents = activeTab === 'upcoming' ? filteredUpcomingEvents : sortedPastEvents;
   const showNoEventsMessage = currentEvents.length === 0;
 

@@ -1,0 +1,153 @@
+
+'use client';
+
+import * as React from 'react';
+import { useContent } from '@/hooks/use-content';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Loader2, Trash2 } from 'lucide-react';
+
+export default function AdminAboutPage() {
+    const { content, setContent, isLoading } = useContent();
+    const [localContent, setLocalContent] = React.useState(content);
+    const [isSaving, setIsSaving] = React.useState(false);
+
+    React.useEffect(() => {
+        setLocalContent(content);
+    }, [content]);
+
+    if (isLoading || !localContent) {
+        return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+    }
+
+    const handleTextChange = (page: 'about', field: string, value: string) => {
+        setLocalContent(prev => {
+            if (!prev) return null;
+            return {
+                ...prev,
+                [page]: {
+                    ...prev[page],
+                    [field]: value,
+                }
+            }
+        });
+    };
+    
+    const handleCarouselChange = (index: number, field: 'url' | 'alt' | 'hint', value: string) => {
+        setLocalContent(prev => {
+            if (!prev) return null;
+            const newCarouselUrls = [...prev.aboutImages.carouselUrls];
+            newCarouselUrls[index] = { ...newCarouselUrls[index], [field]: value };
+            return { ...prev, aboutImages: { ...prev.aboutImages, carouselUrls: newCarouselUrls }};
+        })
+    }
+
+    const handleFileChange = (index: number, file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                handleCarouselChange(index, 'url', e.target.result as string);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+    
+    const addCarouselItem = () => {
+        setLocalContent(prev => {
+            if (!prev) return null;
+            return {
+            ...prev,
+            aboutImages: {
+                ...prev.aboutImages,
+                carouselUrls: [
+                    ...prev.aboutImages.carouselUrls,
+                    { url: 'https://picsum.photos/800/600', alt: 'New Image', hint: 'new image' }
+                ]
+            }
+        }});
+    }
+    
+    const removeCarouselItem = (index: number) => {
+        setLocalContent(prev => {
+            if (!prev) return null;
+            return {
+            ...prev,
+            aboutImages: {
+                ...prev.aboutImages,
+                carouselUrls: prev.aboutImages.carouselUrls.filter((_, i) => i !== index)
+            }
+        }});
+    }
+
+     const handleSave = async () => {
+        setIsSaving(true);
+        await setContent(localContent);
+        setIsSaving(false);
+    };
+
+    return (
+        <div className="w-full space-y-8">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-3xl font-headline font-bold">About Page Content</h1>
+                    <p className="text-muted-foreground">Edit the text and images for the about page.</p>
+                </div>
+                <Button onClick={handleSave} disabled={isSaving}>
+                    {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Save Changes
+                </Button>
+            </div>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Page Content</CardTitle>
+                    <CardDescription>Edit the title, subtitle, and mission statement.</CardDescription>
+                </CardHeader>
+                <CardContent className="grid md:grid-cols-2 gap-6">
+                    {Object.entries(localContent.about).map(([key, value]) => (
+                        <div key={key} className="grid gap-2">
+                            <Label htmlFor={`about-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
+                            {String(value).length > 100 ? (
+                                <Textarea id={`about-${key}`} value={value as string} onChange={e => handleTextChange('about', key, e.target.value)} rows={4}/>
+                            ): (
+                                <Input id={`about-${key}`} value={value as string} onChange={e => handleTextChange('about', key, e.target.value)} />
+                            )}
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Mission Section Carousel</CardTitle>
+                    <CardDescription>Manage the images in the sliding carousel.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    {localContent.aboutImages.carouselUrls.map((item, index) => (
+                        <div key={index} className="p-4 border rounded-lg space-y-4 relative">
+                             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive" onClick={() => removeCarouselItem(index)}>
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                            <div className="grid gap-2">
+                                <Label htmlFor={`carousel-url-${index}`}>Image File</Label>
+                                <Input id={`carousel-url-${index}`} type="file" onChange={e => e.target.files && handleFileChange(index, e.target.files[0])} accept="image/jpeg, image/png" />
+                                {item.url && <img src={item.url} alt="preview" className="mt-2 rounded-md max-h-32" />}
+                            </div>
+                             <div className="grid gap-2">
+                                <Label htmlFor={`carousel-alt-${index}`}>Alt Text</Label>
+                                <Input id={`carousel-alt-${index}`} value={item.alt} onChange={e => handleCarouselChange(index, 'alt', e.target.value)} />
+                            </div>
+                             <div className="grid gap-2">
+                                <Label htmlFor={`carousel-hint-${index}`}>AI Hint</Label>
+                                <Input id={`carousel-hint-${index}`} value={item.hint} onChange={e => handleCarouselChange(index, 'hint', e.target.value)} />
+                            </div>
+                        </div>
+                    ))}
+                     <Button variant="outline" onClick={addCarouselItem}>Add Image to Carousel</Button>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}

@@ -33,9 +33,9 @@ const socialIcons = {
 }
 
 export function Footer() {
-    const { content, isLoading } = useContent();
+    const { content } = useContent();
 
-    if (isLoading) {
+    if (!content) {
         return <footer className="w-full border-t border-border/40 bg-background/95 py-10 text-center">Loading...</footer>;
     }
 

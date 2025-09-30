@@ -19,7 +19,7 @@ import {
 import Autoplay from "embla-carousel-autoplay"
 
 export default function EventDetailPage() {
-  const { content, isLoading } = useContent();
+  const { content } = useContent();
   const params = useParams();
   const router = useRouter();
   const eventId = params.eventId as string;
@@ -28,8 +28,8 @@ export default function EventDetailPage() {
         Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
 
-  if (isLoading) {
-    return <div className="container mx-auto px-4 py-12 text-center">Loading event details...</div>;
+  if (!content) {
+    return null;
   }
 
   const { upcomingEvents, pastEvents } = content;
@@ -106,5 +106,3 @@ export default function EventDetailPage() {
     </div>
   );
 }
-
-    

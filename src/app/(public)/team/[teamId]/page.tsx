@@ -12,13 +12,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
 
 export default function TeamDetailPage() {
-  const { content, isLoading } = useContent();
+  const { content } = useContent();
   const params = useParams();
   const router = useRouter();
   const teamId = params.teamId as string;
   
-  if (isLoading) {
-    return <div className="container mx-auto px-4 py-12 text-center">Loading team details...</div>;
+  if (!content) {
+    return null;
   }
   
   const { teams } = content;
