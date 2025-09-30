@@ -2,8 +2,6 @@
 'use client';
 
 import * as React from 'react';
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,7 +23,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 
 const MemberForm = ({ item, onSave, onCancel, teamId }: { item: Partial<TeamMember>, onSave: (item: TeamMember) => void, onCancel: () => void, teamId: number }) => {
     const [formData, setFormData] = React.useState({
@@ -148,27 +145,20 @@ const TeamForm = ({ item, onSave, onCancel }: { item: Partial<Team>, onSave: (it
 
 
 export default function AdminTeamPage() {
-    const { isAdmin } = useAdmin();
-    const router = useRouter();
-    const { content, setContent, isLoading } = useContent();
+    const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
-    
+
     const [editingTeam, setEditingTeam] = React.useState<Partial<Team> | null>(null);
     const [deletingTeamId, setDeletingTeamId] = React.useState<number | null>(null);
 
     const [editingMember, setEditingMember] = React.useState<{ teamId: number, member: Partial<TeamMember> } | null>(null);
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
-    React.useEffect(() => {
-        if (!isAdmin && process.env.NODE_ENV === 'production') {
-            router.push('/admin');
-        }
-    }, [isAdmin, router]);
-
-    if (isLoading) {
+    if (isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
+
 
     const getNewId = (list: {id: number}[]) => list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1;
     const getNewMemberId = (teams: Team[]) => {
@@ -343,4 +333,6 @@ export default function AdminTeamPage() {
             </AlertDialog>
         </div>
     );
+
+    
 }

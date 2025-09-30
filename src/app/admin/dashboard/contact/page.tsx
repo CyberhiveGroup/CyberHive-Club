@@ -2,8 +2,6 @@
 'use client';
 
 import * as React from 'react';
-import { useAdmin } from '@/context/AdminContext';
-import { useRouter } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -141,19 +139,11 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 };
 
 export default function AdminContactPage() {
-    const { isAdmin } = useAdmin();
-    const router = useRouter();
-    const { content, setContent, isLoading } = useContent();
+    const { content, setContent, isLoading: isContentLoading } = useContent();
     const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        if (!isAdmin && process.env.NODE_ENV === 'production') {
-            router.push('/admin');
-        }
-    }, [isAdmin, router]);
-
-    if (isLoading) {
+    if (isContentLoading) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
@@ -251,5 +241,3 @@ export default function AdminContactPage() {
         </div>
     );
 }
-
-    
