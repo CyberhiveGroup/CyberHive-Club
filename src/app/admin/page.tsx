@@ -15,7 +15,7 @@ export default function AdminPage() {
         if (isSignedIn) {
             router.push('/admin/dashboard');
         } else {
-            router.push('/sign-in');
+            router.push('/sign-in?redirect_url=/admin');
         }
     }, [isLoaded, isSignedIn, router]);
     
