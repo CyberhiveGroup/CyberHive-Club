@@ -10,6 +10,7 @@ import {
     resources as initialResources,
     footerContent as initialFooterContent,
 } from '@/lib/data';
+import { useToast } from './use-toast';
 
 const initialTextContent = {
     home: {
@@ -64,51 +65,82 @@ export const initialContent = {
     ...initialImages
 };
 
-const CONTENT_STORAGE_KEY = 'siteContent';
-
 type ContentType = typeof initialContent;
 
 export function useContent() {
-    const [content, setContent] = React.useState<ContentType>(initialContent);
+    const [content, setContentState] = React.useState<ContentType>(initialContent);
     const [isLoading, setIsLoading] = React.useState(true);
+    const { toast } = useToast();
 
-    // Load content from localStorage on mount
-    React.useEffect(() => {
-        try {
-            const savedContent = localStorage.getItem(CONTENT_STORAGE_KEY);
-            if (savedContent) {
-                // Deep merge to handle cases where new fields are added to initialContent
-                const parsed = JSON.parse(savedContent);
-                const mergedContent = {
-                    ...initialContent,
-                    ...parsed,
-                    home: { ...initialContent.home, ...parsed.home },
-                    about: { ...initialContent.about, ...parsed.about },
-                    contact: { ...initialContent.contact, ...parsed.contact },
-                    aboutImages: { ...initialContent.aboutImages, ...parsed.aboutImages },
-                    footer: { ...initialContent.footer, ...parsed.footer },
-                };
-                setContent(mergedContent);
+    const setContent = React.useCallback((newContent: ContentType | ((prevState: ContentType) => ContentType)) => {
+        setContentState(prev => {
+            const updatedContent = typeof newContent === 'function' ? newContent(prev) : newContent;
+            
+            // Debounced save
+            const timer = setTimeout(() => {
+                fetch('/api/content', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedContent),
+                }).then(res => res.json()).then(data => {
+                    if (data.success) {
+                       // Silently succeed
+                    } else {
+                        toast({
+                            title: "Save Error",
+                            description: "There was an error saving your changes.",
+                            variant: "destructive"
+                        })
+                    }
+                }).catch(() => {
+                    toast({
+                        title: "Network Error",
+                        description: "Could not connect to the server to save changes.",
+                        variant: "destructive"
+                    })
+                });
+            }, 1000); // 1-second debounce
+
+            // Clear previous timer to debounce
+            const oldTimer = (window as any).saveContentTimer;
+            if (oldTimer) {
+                clearTimeout(oldTimer);
             }
-        } catch (error) {
-            console.error("Failed to parse content from localStorage", error);
-            // Fallback to initial content if parsing fails
-            setContent(initialContent);
-        } finally {
-            setIsLoading(false);
-        }
+            (window as any).saveContentTimer = timer;
+
+            return updatedContent;
+        });
+
+    }, [toast]);
+
+    React.useEffect(() => {
+        setIsLoading(true);
+        fetch('/api/content')
+            .then(res => res.json())
+            .then(data => {
+                if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+                     const mergedContent = {
+                        ...initialContent,
+                        ...data,
+                        home: { ...initialContent.home, ...data.home },
+                        about: { ...initialContent.about, ...data.about },
+                        contact: { ...initialContent.contact, ...data.contact },
+                        aboutImages: { ...initialContent.aboutImages, ...data.aboutImages },
+                        footer: { ...initialContent.footer, ...data.footer },
+                    };
+                    setContentState(mergedContent);
+                } else {
+                    setContentState(initialContent);
+                }
+            })
+            .catch(error => {
+                console.error("Failed to fetch content from API", error);
+                setContentState(initialContent); // Fallback to initial content
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
-
-    // Save content to localStorage whenever it changes
-    React.useEffect(() => {
-        if (!isLoading) {
-            try {
-                localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(content));
-            } catch (error) {
-                console.error("Failed to save content to localStorage", error);
-            }
-        }
-    }, [content, isLoading]);
 
     return { content, setContent, isLoading, initialContent };
 }
