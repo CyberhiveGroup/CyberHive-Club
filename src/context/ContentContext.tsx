@@ -2,7 +2,7 @@
 'use client';
 
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { doc, getDoc, setDoc, Firestore } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, Firestore } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 import type { Team, CSLClass, Event, Resource, FooterContent } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -49,40 +49,54 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
   const firestore = useFirestore();
 
   useEffect(() => {
-    const loadContent = async () => {
-        if (!firestore) return;
-        setIsLoading(true);
-        try {
-            const contentRef = doc(firestore, 'content', 'site');
-            const docSnap = await getDoc(contentRef);
+    if (!firestore) return;
 
-            if (docSnap.exists()) {
-                setContent(docSnap.data() as AppContent);
-            } else {
-                // If the document doesn't exist, create it with default content from data.json
-                await setDoc(contentRef, defaultContent);
-                setContent(defaultContent);
-                 toast({
-                    title: "Content Initialized",
-                    description: "Your website content has been saved to the database.",
-                });
-            }
-            setError(null);
-        } catch (err: any) {
-            console.error(err);
-            setError('Could not load site content. Please try again later.');
+    setIsLoading(true);
+    const contentRef = doc(firestore, 'content', 'site');
+
+    const unsubscribe = onSnapshot(
+      contentRef,
+      async (docSnap) => {
+        if (docSnap.exists()) {
+          setContent(docSnap.data() as AppContent);
+        } else {
+          // If the document doesn't exist, create it with default content
+          try {
+            await setDoc(contentRef, defaultContent);
+            setContent(defaultContent);
             toast({
-                title: "Error Loading Content",
-                description: err.message || 'Could not load site content. Displaying default content.',
+              title: "Content Initialized",
+              description: "Your website content has been created in the database.",
+            });
+          } catch (e: any) {
+             console.error("Error creating content document:", e);
+             setError('Could not initialize site content.');
+             toast({
+                title: "Error Initializing Content",
+                description: e.message || 'Could not create content document.',
                 variant: 'destructive'
             });
-            // Fallback to static content on error
-            setContent(defaultContent);
-        } finally {
-            setIsLoading(false);
+          }
         }
-    };
-    loadContent();
+        setError(null);
+        setIsLoading(false);
+      },
+      (err: any) => {
+        console.error("Firestore snapshot error:", err);
+        setError('Could not load site content in real-time. Displaying last known content.');
+        toast({
+          title: "Real-time Update Error",
+          description: err.message || 'Could not connect for real-time updates.',
+          variant: 'destructive',
+        });
+        setIsLoading(false);
+        // Fallback to static content on error
+        setContent(defaultContent);
+      }
+    );
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, [firestore, toast]);
   
   const saveContent = useCallback(async (newContent: AppContent) => {
@@ -102,8 +116,7 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
             title: "Success!",
             description: "Your changes have been saved.",
         });
-        // Optimistically update the state
-        setContent(newContent);
+        // No need to optimistically update state, onSnapshot will do it
       })
       .catch((serverError) => {
         console.error(serverError);
