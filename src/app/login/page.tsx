@@ -5,6 +5,7 @@ import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/logo';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 const GoogleIcon = () => (
     <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
@@ -15,7 +16,7 @@ const GoogleIcon = () => (
     </svg>
 );
 
-export default function LoginPage() {
+function LoginPageContent() {
     const auth = useAuth();
     const { user, isLoading } = useUser();
     const router = useRouter();
@@ -81,4 +82,13 @@ export default function LoginPage() {
             </Card>
         </div>
     );
+}
+
+
+export default function LoginPage() {
+    return (
+        <FirebaseClientProvider>
+            <LoginPageContent />
+        </FirebaseClientProvider>
+    )
 }
