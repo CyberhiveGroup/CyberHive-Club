@@ -32,10 +32,10 @@ function ResourceCard({ resource }: { resource: Resource }) {
 }
 
 export default function ResourcesPage() {
-    const { content, isLoading } = useContent();
+    const { content } = useContent();
 
-    if (isLoading) {
-        return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading resources...</div>;
+    if (!content) {
+        return null;
     }
 
     return (

@@ -35,10 +35,10 @@ const TeamCard: React.FC<{ team: Team }> = ({ team }) => {
 
 
 export function TeamCarousel() {
-    const { content, isLoading } = useContent();
+    const { content } = useContent();
 
-    if (isLoading) {
-        return <div className="text-center py-10">Loading teams...</div>;
+    if (!content) {
+        return null;
     }
     
     const { teams } = content;

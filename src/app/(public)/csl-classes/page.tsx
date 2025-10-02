@@ -33,10 +33,10 @@ function CSLClassCard({ cslClass }: { cslClass: CSLClass }) {
 }
 
 function CSLClassesPageContent() {
-    const { content, isLoading } = useContent();
+    const { content } = useContent();
 
-    if (isLoading) {
-        return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading classes...</div>;
+    if (!content) {
+        return null;
     }
 
   return (

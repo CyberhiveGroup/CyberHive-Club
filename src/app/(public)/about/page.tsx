@@ -16,13 +16,13 @@ import {
 import Autoplay from "embla-carousel-autoplay"
 
 export default function AboutPage() {
-    const { content, isLoading } = useContent();
+    const { content } = useContent();
     const plugin = React.useRef(
         Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
 
-    if (isLoading) {
-        return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading content...</div>;
+    if (!content) {
+        return null;
     }
 
     const { about: textContent, aboutImages } = content;

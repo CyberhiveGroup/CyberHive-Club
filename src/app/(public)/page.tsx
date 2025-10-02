@@ -23,14 +23,14 @@ const navItems: HexagonItem[] = [
 
 export default function Home() {
   const [isRevealed, setIsRevealed] = React.useState(false);
-  const { content, isLoading } = useContent();
+  const { content } = useContent();
 
   const handleReveal = () => {
     setIsRevealed(true);
   };
   
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (!content) {
+    return null;
   }
 
   const { home: textContent, aboutImages } = content;
