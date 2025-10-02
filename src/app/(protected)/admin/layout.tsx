@@ -1,6 +1,8 @@
-
 'use client';
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/firebase/auth/use-user';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
@@ -61,6 +63,19 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { user, isLoading } = useUser();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading || !user) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
+  
   return (
     <ContentProvider>
         <div className="flex min-h-screen bg-background">
