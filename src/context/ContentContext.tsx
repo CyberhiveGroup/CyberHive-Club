@@ -151,26 +151,20 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
     }
     const contentRef = doc(firestore, 'content', 'site');
     
-    setDoc(contentRef, newContent, { merge: true })
-      .then(() => {
+    try {
+        await setDoc(contentRef, newContent, { merge: true });
         toast({
             title: "Success!",
             description: "Your changes have been saved.",
         });
-      })
-      .catch((serverError) => {
+    } catch (serverError: any) {
         console.error(serverError);
         toast({
             variant: "destructive",
             title: "Uh oh! Something went wrong.",
             description: serverError.message || "Could not save changes.",
         });
-        errorEmitter.emit('permission-error', {
-          path: contentRef.path,
-          operation: 'update',
-          requestResourceData: newContent,
-        });
-      });
+    }
   }, [firestore, toast]);
 
 
