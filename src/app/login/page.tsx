@@ -1,4 +1,3 @@
-
 'use client';
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
@@ -22,7 +21,10 @@ export default function LoginPage() {
     const router = useRouter();
 
     const handleGoogleSignIn = async () => {
-        if (!auth) return;
+        if (!auth) {
+            console.error("Authentication service is not available.");
+            return;
+        }
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
