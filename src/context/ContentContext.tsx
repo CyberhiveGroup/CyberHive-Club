@@ -1,9 +1,10 @@
 
 'use client';
 
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import type { Team, CSLClass, Event, Resource, FooterContent } from '@/lib/types';
 import { teamData, cslClasses, upcomingEvents, pastEvents, resources, footerContent } from '@/lib/data';
+import { useToast } from '@/hooks/use-toast';
 
 interface AppContent {
     home: any;
@@ -22,6 +23,8 @@ export interface ContentContextType {
   content: AppContent;
   isLoading: boolean;
   error: string | null;
+  saveContent: (newContent: AppContent) => Promise<void>;
+  setContent: React.Dispatch<React.SetStateAction<AppContent>>;
 }
 
 const defaultContent: AppContent = {
@@ -72,29 +75,80 @@ export const ContentContext = createContext<ContentContextType>({
   content: defaultContent,
   isLoading: true,
   error: null,
+  saveContent: async () => {},
+  setContent: () => {},
 });
 
 export const ContentProvider = ({ children }: { children: React.ReactNode }) => {
   const [content, setContent] = useState<AppContent>(defaultContent);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Simulate fetching data
-    const timer = setTimeout(() => {
-      try {
-        setContent(defaultContent);
-        setIsLoading(false);
-      } catch (e) {
-        setError('Failed to load content.');
-        setIsLoading(false);
-      }
-    }, 500); // Simulate network delay
-    return () => clearTimeout(timer);
-  }, []);
+    const loadContent = async () => {
+        setIsLoading(true);
+        try {
+            const res = await fetch('/api/content');
+            if (!res.ok) {
+                throw new Error('Failed to fetch content');
+            }
+            const data = await res.json();
+            setContent(data);
+            setError(null);
+        } catch (err: any) {
+            console.error(err);
+            setError('Could not load site content. Please try again later.');
+            toast({
+                title: "Error Loading Content",
+                description: err.message || 'Could not load site content. Please try again later.',
+                variant: 'destructive'
+            });
+            // Fallback to default content on error
+            setContent(defaultContent);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    loadContent();
+  }, [toast]);
+  
+  const saveContent = useCallback(async (newContent: AppContent) => {
+    try {
+        const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newContent),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to save content');
+        }
+        
+        toast({
+            title: "Success!",
+            description: "Your changes have been saved.",
+        });
+        
+        // Optimistically update the state
+        setContent(newContent);
+
+    } catch (e: any) {
+        console.error(e);
+        toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: e.message || "Could not save changes.",
+        });
+    }
+  }, [toast]);
+
 
   return (
-    <ContentContext.Provider value={{ content, isLoading, error }}>
+    <ContentContext.Provider value={{ content, setContent, isLoading, error, saveContent }}>
       {children}
     </ContentContext.Provider>
   );
