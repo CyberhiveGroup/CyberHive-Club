@@ -2,7 +2,7 @@
 'use client';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useContent } from "@/hooks/use-content";
-import { Users, Calendar, Briefcase, Shield, FileText } from "lucide-react";
+import { Users, Calendar, Briefcase, Shield, FileText, Mail } from "lucide-react";
 import Link from "next/link";
 
 
