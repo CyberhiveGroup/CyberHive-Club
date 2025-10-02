@@ -2,7 +2,7 @@
 'use client';
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase/auth/use-user';
+import { useUser, FirebaseClientProvider } from '@/firebase';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -59,37 +59,49 @@ function AdminSidebar() {
     )
 }
 
-export default function AdminLayout({
-  children,
+function AdminLayoutContent({
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  const { user, isLoading } = useUser();
-  const router = useRouter();
+    const { user, isLoading } = useUser();
+    const router = useRouter();
 
-  React.useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/login');
+    React.useEffect(() => {
+        if (!isLoading && !user) {
+            router.push('/login');
+        }
+    }, [user, isLoading, router]);
+
+    if (isLoading || !user) {
+        return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
-  }, [user, isLoading, router]);
 
-  if (isLoading || !user) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
-  }
-  
-  return (
-    <ContentProvider>
+    return (
         <div className="flex min-h-screen bg-background">
             <AdminSidebar />
             <main className="flex-1 p-8">
                 <ScrollArea className="h-full">
                     <div className="p-2">
-                     {children}
+                        {children}
                     </div>
                 </ScrollArea>
             </main>
             <Toaster />
         </div>
-    </ContentProvider>
-  );
+    );
+}
+
+export default function AdminLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <FirebaseClientProvider>
+            <ContentProvider>
+                <AdminLayoutContent>{children}</AdminLayoutContent>
+            </ContentProvider>
+        </FirebaseClientProvider>
+    );
 }
