@@ -1,7 +1,7 @@
 
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
-import { initialContent } from '@/hooks/use-content';
+import initialContent from '@/lib/content.json';
 import { getAuth } from '@clerk/nextjs/server';
 
 const ADMIN_USER_IDS = (process.env.NEXT_PUBLIC_ADMIN_USER_ID || '').split(',').filter(Boolean);
