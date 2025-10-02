@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { teamData, cslClasses, upcomingEvents, pastEvents, resources, footerContent } from '@/lib/data';
 
 const dataFilePath = path.join(process.cwd(), 'src', 'lib', 'data.json');
 
@@ -12,7 +11,7 @@ async function getContent() {
         const fileContent = await fs.readFile(dataFilePath, 'utf-8');
         return JSON.parse(fileContent);
     } catch (error) {
-        // If the file doesn't exist or is invalid, return the default imported data
+        // If the file doesn't exist or is invalid, return a default structure
         const defaultContent = {
             home: {
                 heroTitle: "CyberHive",
@@ -48,12 +47,17 @@ async function getContent() {
                 email: "cyberhive@ggits.org",
                 address: "Gyan Ganga Institute of Technology & Sciences, Jabalpur, Madhya Pradesh, India",
             },
-            teams: teamData,
-            cslClasses: cslClasses,
-            upcomingEvents: upcomingEvents,
-            pastEvents: pastEvents,
-            resources: resources,
-            footer: footerContent
+            teams: [],
+            cslClasses: [],
+            upcomingEvents: [],
+            pastEvents: [],
+            resources: [],
+            footer: {
+                tagline: "Building the next generation of cybersecurity experts.",
+                copyright: "© {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.",
+                quickLinks: [],
+                socialLinks: []
+            }
         };
         return defaultContent;
     }
