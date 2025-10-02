@@ -2,7 +2,6 @@
 import { MainNav } from '@/components/main-nav';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
-import { useContent } from '@/hooks/use-content';
 import { ContentProvider } from '@/context/ContentContext';
 
 export default function PublicLayout({
