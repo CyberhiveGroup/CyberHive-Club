@@ -1,3 +1,4 @@
+
 'use client';
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
@@ -56,7 +57,7 @@ export default function LoginPage() {
                         {user ? `Welcome, ${user.displayName}` : 'Admin Access'}
                     </CardTitle>
                     <CardDescription>
-                        {user ? 'You are now logged in.' : 'Please sign in to access the admin panel.'}
+                        {user ? 'You are now logged in.' : 'Sign in or create an account to access the admin panel.'}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -71,7 +72,7 @@ export default function LoginPage() {
                         </div>
                     ) : (
                         <Button onClick={handleGoogleSignIn} className="w-full">
-                            <GoogleIcon /> Sign in with Google
+                            <GoogleIcon /> Sign In or Sign Up with Google
                         </Button>
                     )}
                 </CardContent>
