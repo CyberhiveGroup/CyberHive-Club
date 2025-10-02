@@ -9,7 +9,6 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { UserButton, SignedIn } from '@clerk/nextjs';
 
 const navLinks = [
   { href: '/csl-classes', label: 'CSL' },
@@ -57,11 +56,6 @@ export function MainNav() {
                       </Link>
                     ))}
                   </nav>
-                  <div className="p-4 border-t">
-                    <SignedIn>
-                      <UserButton />
-                    </SignedIn>
-                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -77,7 +71,7 @@ export function MainNav() {
         </div>
         
         {/* Desktop Nav */}
-        <div className="hidden md:flex justify-center">
+        <div className="hidden md:flex justify-center flex-1">
             <nav className="flex items-center space-x-6 text-sm font-medium">
               {navLinks.map((link) => (
                 <Link
@@ -94,13 +88,8 @@ export function MainNav() {
             </nav>
         </div>
 
-        {/* Auth Buttons */}
+        {/* Empty div for spacing */}
         <div className="flex items-center md:flex-1 md:justify-end">
-          <div className="w-9 h-9 flex items-center justify-end">
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </div>
         </div>
       </div>
     </header>
