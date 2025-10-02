@@ -1,40 +1,48 @@
 /**
- * @fileoverview Firestore Security Rules for the entire application.
+ * @fileoverview Firestore Security Rules for the "proto0" project.
  *
  * Core Philosophy:
- * This ruleset prioritizes simplicity and security. It focuses on controlling
- * access to the main `/content` document, allowing only authenticated users to
- * read and write the site's content.
+ * This ruleset prioritizes simplicity and security, erring on the side of restrictive access control to protect data.
+ * It assumes a central administrative model where an authenticated user manages all site content.
  *
  * Data Structure:
- * - All site content is stored in a single document: `/content/{contentId}`
+ * All editable website content is stored within a single document located at `/content/{contentId}`.  The contentId is expected to be a single, fixed document ID (e.g., "global_content").
  *
  * Key Security Decisions:
- * - Authenticated users can read content.
- * - Authenticated users can update content.
- * - No user-specific data is stored; therefore, no ownership checks are needed.
+ *  - Content is only editable by authenticated users.
+ *  - Listing the `/content` collection is disabled to prevent unintended data exposure.
+ *
+ * Denormalization for Authorization:
+ *  - Not applicable here; all authorization decisions are based solely on user authentication.
  */
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Controls access to the main site content document.
+     * @description Protects the single website content document, allowing read access to everyone but restricting writes to only authenticated users.
      * @path /content/{contentId}
-     * @allow (get, list): Any authenticated user can read the site content.
-     * @allow (create, update, delete): Any authenticated user can modify site content.
-     * @deny None.
-     * @principle Allows authenticated read and write for site content.
+     * @allow (get, list): Any user can read the content.
+     * @allow (create, update, delete): Only authenticated users can modify the content.
+     * @deny (create, update, delete): Unauthenticated users cannot modify the content.
+     * @principle Enforces authenticated-user-only access for content modification.
      */
     match /content/{contentId} {
-      allow get: if isSignedIn();
-      allow list: if isSignedIn();
+      allow get: if true;
+      allow list: if false; // Listing is disabled to avoid unintended data exposure
+
       allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
     }
 
-    // Helper function to check if a user is signed in.
+    // --- Helper Functions ---
+
+    /**
+     * @description Checks if the user is signed in.
+     * @return {bool} True if the user is authenticated, false otherwise.
+     */
     function isSignedIn() {
       return request.auth != null;
     }
