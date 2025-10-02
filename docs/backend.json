@@ -1,8 +1,23 @@
 {
-  "entities": {},
+  "entities": {
+    "content": {
+      "title": "Site Content",
+      "description": "A single document containing all editable content for the website.",
+      "type": "object",
+      "properties": {}
+    }
+  },
   "auth": {
     "providers": [
       "google.com"
     ]
+  },
+  "firestore": {
+    "/content/{contentId}": {
+      "schema": {
+        "$ref": "#/entities/content"
+      },
+      "description": "Stores the entire site's content in a single document."
+    }
   }
 }

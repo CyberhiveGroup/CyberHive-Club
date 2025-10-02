@@ -2,9 +2,11 @@
 'use client';
 
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { doc, getDoc, setDoc, Firestore } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
 import type { Team, CSLClass, Event, Resource, FooterContent } from '@/lib/types';
-import { teamData, cslClasses, upcomingEvents, pastEvents, resources, footerContent } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 interface AppContent {
     home: any;
@@ -62,12 +64,17 @@ const defaultContent: AppContent = {
         email: "cyberhive@ggits.org",
         address: "Gyan Ganga Institute of Technology & Sciences, Jabalpur, Madhya Pradesh, India",
     },
-    teams: teamData,
-    cslClasses: cslClasses,
-    upcomingEvents: upcomingEvents,
-    pastEvents: pastEvents,
-    resources: resources,
-    footer: footerContent
+    teams: [],
+    cslClasses: [],
+    upcomingEvents: [],
+    pastEvents: [],
+    resources: [],
+    footer: {
+      tagline: "Building the next generation of cybersecurity experts.",
+      copyright: "© {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.",
+      quickLinks: [],
+      socialLinks: []
+    }
 };
 
 
@@ -84,67 +91,78 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const firestore = useFirestore();
 
   useEffect(() => {
     const loadContent = async () => {
+        if (!firestore) return;
         setIsLoading(true);
         try {
-            const res = await fetch('/api/content');
-            if (!res.ok) {
-                throw new Error('Failed to fetch content');
+            const contentRef = doc(firestore, 'content', 'site');
+            const docSnap = await getDoc(contentRef);
+
+            if (docSnap.exists()) {
+                setContent(docSnap.data() as AppContent);
+            } else {
+                // If the document doesn't exist, create it with default content
+                await setDoc(contentRef, defaultContent);
+                setContent(defaultContent);
+                 toast({
+                    title: "Content Initialized",
+                    description: "Default content has been loaded into Firestore.",
+                });
             }
-            const data = await res.json();
-            setContent(data);
             setError(null);
         } catch (err: any) {
             console.error(err);
             setError('Could not load site content. Please try again later.');
             toast({
                 title: "Error Loading Content",
-                description: err.message || 'Could not load site content. Please try again later.',
+                description: err.message || 'Could not load site content. Displaying default content.',
                 variant: 'destructive'
             });
-            // Fallback to default content on error
             setContent(defaultContent);
         } finally {
             setIsLoading(false);
         }
     };
     loadContent();
-  }, [toast]);
+  }, [firestore, toast]);
   
   const saveContent = useCallback(async (newContent: AppContent) => {
-    try {
-        const response = await fetch('/api/content', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newContent),
+    if (!firestore) {
+         toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "Firestore is not available.",
         });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to save content');
-        }
-        
+        return;
+    }
+    const contentRef = doc(firestore, 'content', 'site');
+    
+    setDoc(contentRef, newContent, { merge: true })
+      .then(() => {
         toast({
             title: "Success!",
             description: "Your changes have been saved.",
         });
-        
         // Optimistically update the state
         setContent(newContent);
-
-    } catch (e: any) {
-        console.error(e);
+      })
+      .catch((serverError) => {
+        console.error(serverError);
         toast({
             variant: "destructive",
             title: "Uh oh! Something went wrong.",
-            description: e.message || "Could not save changes.",
+            description: serverError.message || "Could not save changes.",
         });
-    }
-  }, [toast]);
+        errorEmitter.emit('permission-error', {
+          path: contentRef.path,
+          operation: 'update',
+          requestResourceData: newContent,
+        });
+      });
+  }, [firestore, toast]);
 
 
   return (
