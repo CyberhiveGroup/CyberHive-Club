@@ -1,0 +1,42 @@
+/**
+ * @fileoverview Firestore Security Rules for the entire application.
+ *
+ * Core Philosophy:
+ * This ruleset prioritizes simplicity and security. It focuses on controlling
+ * access to the main `/content` document, allowing only authenticated users to
+ * read and write the site's content.
+ *
+ * Data Structure:
+ * - All site content is stored in a single document: `/content/{contentId}`
+ *
+ * Key Security Decisions:
+ * - Authenticated users can read content.
+ * - Authenticated users can update content.
+ * - No user-specific data is stored; therefore, no ownership checks are needed.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Controls access to the main site content document.
+     * @path /content/{contentId}
+     * @allow (get, list): Any authenticated user can read the site content.
+     * @allow (create, update, delete): Any authenticated user can modify site content.
+     * @deny None.
+     * @principle Allows authenticated read and write for site content.
+     */
+    match /content/{contentId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    // Helper function to check if a user is signed in.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
+}
