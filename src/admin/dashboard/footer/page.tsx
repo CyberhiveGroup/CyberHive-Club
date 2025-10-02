@@ -138,14 +138,9 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 
 export default function AdminFooterPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
@@ -155,16 +150,16 @@ export default function AdminFooterPage() {
     const handleQuickLinkSave = (item: FooterLink) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(localContent.footer.quickLinks);
+            newItem.id = getNewId(content.footer.quickLinks);
         }
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, quickLinks: prev.footer.quickLinks.some(l => l.id === newItem.id) ? prev.footer.quickLinks.map(l => l.id === newItem.id ? newItem : l) : [...prev.footer.quickLinks, newItem] } }
         });
     };
 
     const handleQuickLinkDelete = (id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, quickLinks: prev.footer.quickLinks.filter(l => l.id !== id) } }
         });
@@ -173,23 +168,23 @@ export default function AdminFooterPage() {
     const handleSocialLinkSave = (item: SocialLink) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(localContent.footer.socialLinks);
+            newItem.id = getNewId(content.footer.socialLinks);
         }
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, socialLinks: prev.footer.socialLinks.some(l => l.id === newItem.id) ? prev.footer.socialLinks.map(l => l.id === newItem.id ? newItem : l) : [...prev.footer.socialLinks, newItem] } }
         });
     };
 
     const handleSocialLinkDelete = (id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, socialLinks: prev.footer.socialLinks.filter(l => l.id !== id) } }
         });
     };
     
     const handleTextChange = (field: 'tagline' | 'copyright', value: string) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, [field]: value } }
         });
@@ -197,7 +192,7 @@ export default function AdminFooterPage() {
     
     const handleSaveAll = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -225,11 +220,11 @@ export default function AdminFooterPage() {
                     <CardContent className="space-y-4">
                         <div className="grid gap-2">
                             <Label htmlFor="tagline">Tagline</Label>
-                            <Input id="tagline" value={localContent.footer.tagline} onChange={e => handleTextChange('tagline', e.target.value)} />
+                            <Input id="tagline" value={content.footer.tagline} onChange={e => handleTextChange('tagline', e.target.value)} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="copyright">Copyright Text</Label>
-                            <Input id="copyright" value={localContent.footer.copyright} onChange={e => handleTextChange('copyright', e.target.value)} />
+                            <Input id="copyright" value={content.footer.copyright} onChange={e => handleTextChange('copyright', e.target.value)} />
                         </div>
                     </CardContent>
                 </Card>
@@ -241,7 +236,7 @@ export default function AdminFooterPage() {
                     </CardHeader>
                     <CardContent>
                         <ListEditor<FooterLink>
-                            items={localContent.footer.quickLinks}
+                            items={content.footer.quickLinks}
                             onSave={handleQuickLinkSave}
                             onDelete={handleQuickLinkDelete}
                             onAddNew={() => {}}
@@ -261,7 +256,7 @@ export default function AdminFooterPage() {
                     </CardHeader>
                     <CardContent>
                         <ListEditor<SocialLink>
-                            items={localContent.footer.socialLinks}
+                            items={content.footer.socialLinks}
                             onSave={handleSocialLinkSave}
                             onDelete={handleSocialLinkDelete}
                             onAddNew={() => {}}

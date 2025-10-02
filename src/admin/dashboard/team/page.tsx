@@ -145,7 +145,6 @@ const TeamForm = ({ item, onSave, onCancel }: { item: Partial<Team>, onSave: (it
 
 export default function AdminTeamPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
     const [editingTeam, setEditingTeam] = React.useState<Partial<Team> | null>(null);
@@ -154,11 +153,7 @@ export default function AdminTeamPage() {
     const [editingMember, setEditingMember] = React.useState<{ teamId: number, member: Partial<TeamMember> } | null>(null);
     const [deletingMember, setDeletingMember] = React.useState<{ teamId: number, memberId: number } | null>(null);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
@@ -171,7 +166,7 @@ export default function AdminTeamPage() {
     
     // Team Handlers
     const handleTeamSave = (teamToSave: Team) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const isNew = !teamToSave.id;
             const newTeam = isNew ? { ...teamToSave, id: getNewId(prev.teams), members: [] } : teamToSave;
@@ -186,7 +181,7 @@ export default function AdminTeamPage() {
 
     const handleTeamDelete = () => {
         if (deletingTeamId === null) return;
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
                 ...prev,
@@ -201,7 +196,7 @@ export default function AdminTeamPage() {
         if (!editingMember) return;
         const { teamId } = editingMember;
         
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const isNew = !memberToSave.id;
             const newMember = isNew ? { ...memberToSave, id: getNewMemberId(prev.teams) } : memberToSave;
@@ -225,7 +220,7 @@ export default function AdminTeamPage() {
     const handleMemberDelete = () => {
         if (!deletingMember) return;
         const { teamId, memberId } = deletingMember;
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
                 ...prev,
@@ -242,7 +237,7 @@ export default function AdminTeamPage() {
 
     const handleSaveAll = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -263,7 +258,7 @@ export default function AdminTeamPage() {
             </div>
 
             <div className="space-y-6">
-                {localContent.teams.map(team => (
+                {content.teams.map(team => (
                     <Card key={team.id}>
                         <CardHeader className="flex-row items-center justify-between">
                             <div className="space-y-1.5">

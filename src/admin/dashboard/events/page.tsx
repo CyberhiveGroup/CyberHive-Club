@@ -227,23 +227,18 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: Event, onSave: 
 
 export default function AdminEventsPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
     
 
     const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);
     
-    type ContentArrays = Pick<typeof localContent, 'upcomingEvents' | 'pastEvents'>;
+    type ContentArrays = Pick<typeof content, 'upcomingEvents' | 'pastEvents'>;
     const handleListSave = (listName: keyof ContentArrays, item: Event) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const newItem = { ...item };
             if (newItem.id === 0) {
@@ -262,7 +257,7 @@ export default function AdminEventsPage() {
     };
 
     const handleListDelete = (listName: keyof ContentArrays, id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
             ...prev,
@@ -272,7 +267,7 @@ export default function AdminEventsPage() {
     
     const handleSaveAll = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -313,7 +308,7 @@ export default function AdminEventsPage() {
                     </CardHeader>
                     <CardContent>
                         <ListEditor<Event>
-                            items={localContent.upcomingEvents}
+                            items={content.upcomingEvents}
                             onSave={(item) => handleListSave('upcomingEvents', item)}
                             onDelete={(id) => handleListDelete('upcomingEvents', id)}
                             onAddNew={() => {}}
@@ -333,7 +328,7 @@ export default function AdminEventsPage() {
                     </CardHeader>
                     <CardContent>
                         <ListEditor<Event>
-                            items={localContent.pastEvents}
+                            items={content.pastEvents}
                             onSave={(item) => handleListSave('pastEvents', item)}
                             onDelete={(id) => handleListDelete('pastEvents', id)}
                             onAddNew={() => {}}

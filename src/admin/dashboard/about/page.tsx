@@ -9,22 +9,19 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Trash2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AdminAboutPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
+    const { toast } = useToast();
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
     const handleTextChange = (page: 'about', field: string, value: string) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
                 ...prev,
@@ -37,7 +34,7 @@ export default function AdminAboutPage() {
     };
     
     const handleCarouselChange = (index: number, field: 'url' | 'alt' | 'hint', value: string) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const newCarouselUrls = [...prev.aboutImages.carouselUrls];
             newCarouselUrls[index] = { ...newCarouselUrls[index], [field]: value };
@@ -56,7 +53,7 @@ export default function AdminAboutPage() {
     };
     
     const addCarouselItem = () => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
             ...prev,
@@ -71,7 +68,7 @@ export default function AdminAboutPage() {
     }
     
     const removeCarouselItem = (index: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
             ...prev,
@@ -84,7 +81,7 @@ export default function AdminAboutPage() {
 
      const handleSave = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -106,7 +103,7 @@ export default function AdminAboutPage() {
                     <CardDescription>Edit the title, subtitle, and mission statement.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-2 gap-6">
-                    {Object.entries(localContent.about).map(([key, value]) => (
+                    {Object.entries(content.about).map(([key, value]) => (
                         <div key={key} className="grid gap-2">
                             <Label htmlFor={`about-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
                             {String(value).length > 100 ? (
@@ -125,7 +122,7 @@ export default function AdminAboutPage() {
                     <CardDescription>Manage the images in the sliding carousel.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    {localContent.aboutImages.carouselUrls.map((item, index) => (
+                    {content.aboutImages.carouselUrls.map((item, index) => (
                         <div key={index} className="p-4 border rounded-lg space-y-4 relative">
                              <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive" onClick={() => removeCarouselItem(index)}>
                                 <Trash2 className="h-4 w-4" />

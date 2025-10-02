@@ -12,20 +12,15 @@ import { Loader2 } from 'lucide-react';
 
 export default function AdminHomePage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
 
     const handleTextChange = (field: string, value: string) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
                 ...prev,
@@ -39,7 +34,7 @@ export default function AdminHomePage() {
     
     const handleSave = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -63,7 +58,7 @@ export default function AdminHomePage() {
                         <CardDescription>The main title and subtitle on the landing page.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {Object.entries(localContent.home).filter(([key]) => key.toLowerCase().includes('hero')).map(([key, value]) => (
+                        {Object.entries(content.home).filter(([key]) => key.toLowerCase().includes('hero')).map(([key, value]) => (
                             <div key={key} className="grid gap-2">
                                 <Label htmlFor={`home-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
                                 {String(value).length > 100 ? (
@@ -82,7 +77,7 @@ export default function AdminHomePage() {
                          <CardDescription>Content for the other sections of the home page.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {Object.entries(localContent.home).filter(([key]) => !key.toLowerCase().includes('hero')).map(([key, value]) => (
+                        {Object.entries(content.home).filter(([key]) => !key.toLowerCase().includes('hero')).map(([key, value]) => (
                             <div key={key} className="grid gap-2">
                                 <Label htmlFor={`home-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
                                 {String(value).length > 100 ? (

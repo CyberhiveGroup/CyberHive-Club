@@ -166,14 +166,9 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 
 export default function AdminResourcesPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
@@ -182,10 +177,10 @@ export default function AdminResourcesPage() {
     const handleListSave = (item: Resource) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(localContent.resources);
+            newItem.id = getNewId(content.resources);
         }
         
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const list = prev.resources;
             const itemExists = list.some(i => i.id === newItem.id);
@@ -197,7 +192,7 @@ export default function AdminResourcesPage() {
     };
 
     const handleListDelete = (id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
             ...prev,
@@ -207,7 +202,7 @@ export default function AdminResourcesPage() {
 
     const handleSaveAll = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -241,7 +236,7 @@ export default function AdminResourcesPage() {
                 </Button>
             </div>
              <ListEditor<Resource>
-                items={localContent.resources}
+                items={content.resources}
                 onSave={handleListSave}
                 onDelete={handleListDelete}
                 onAddNew={() => {}}

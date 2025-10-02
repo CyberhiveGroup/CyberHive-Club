@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Trash2 } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import type { SocialLink } from '@/lib/types';
 import {
   AlertDialog,
@@ -140,21 +139,16 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 
 export default function AdminContactPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
     const getNewId = (list: any[]) => (list.length > 0 ? Math.max(...list.map(i => i.id)) + 1 : 1);
 
     const handleTextChange = (page: 'contact', field: string, value: string) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
                 ...prev,
@@ -169,16 +163,16 @@ export default function AdminContactPage() {
     const handleSocialLinkSave = (item: SocialLink) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(localContent.footer.socialLinks);
+            newItem.id = getNewId(content.footer.socialLinks);
         }
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, socialLinks: prev.footer.socialLinks.some(l => l.id === newItem.id) ? prev.footer.socialLinks.map(l => l.id === newItem.id ? newItem : l) : [...prev.footer.socialLinks, newItem] } }
         });
     };
 
     const handleSocialLinkDelete = (id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return { ...prev, footer: { ...prev.footer, socialLinks: prev.footer.socialLinks.filter(l => l.id !== id) } }
         });
@@ -186,7 +180,7 @@ export default function AdminContactPage() {
 
     const handleSave = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -211,7 +205,7 @@ export default function AdminContactPage() {
                         <CardDescription>Edit the title, subtitle, and contact details.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                        {Object.entries(localContent.contact).map(([key, value]) => (
+                        {Object.entries(content.contact).map(([key, value]) => (
                             <div key={key} className="grid gap-2">
                                 <Label htmlFor={`contact-${key}`}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</Label>
                                 {String(value).length > 100 ? (
@@ -230,7 +224,7 @@ export default function AdminContactPage() {
                     </CardHeader>
                     <CardContent>
                         <ListEditor<SocialLink>
-                            items={localContent.footer.socialLinks}
+                            items={content.footer.socialLinks}
                             onSave={handleSocialLinkSave}
                             onDelete={handleSocialLinkDelete}
                             onAddNew={() => {}}

@@ -160,14 +160,9 @@ const GenericForm = ({ item, onSave, onCancel, fields }: { item: any, onSave: (i
 
 export default function AdminCSLPage() {
     const { content, setContent, isLoading } = useContent();
-    const [localContent, setLocalContent] = React.useState(content);
     const [isSaving, setIsSaving] = React.useState(false);
 
-    React.useEffect(() => {
-        setLocalContent(content);
-    }, [content]);
-
-    if (isLoading || !localContent) {
+    if (isLoading || !content) {
         return <div className="flex h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>;
     }
 
@@ -177,10 +172,10 @@ export default function AdminCSLPage() {
     const handleListSave = (item: CSLClass) => {
         const newItem = { ...item };
         if (newItem.id === 0) {
-            newItem.id = getNewId(localContent.cslClasses);
+            newItem.id = getNewId(content.cslClasses);
         }
 
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             const list = prev.cslClasses;
             const itemExists = list.some(i => i.id === newItem.id);
@@ -192,7 +187,7 @@ export default function AdminCSLPage() {
     };
 
     const handleListDelete = (id: number) => {
-        setLocalContent(prev => {
+        setContent(prev => {
             if (!prev) return null;
             return {
             ...prev,
@@ -202,7 +197,7 @@ export default function AdminCSLPage() {
     
     const handleSaveAll = async () => {
         setIsSaving(true);
-        await setContent(localContent);
+        await setContent(content);
         setIsSaving(false);
     };
 
@@ -226,7 +221,7 @@ export default function AdminCSLPage() {
                 </Button>
             </div>
             <ListEditor<CSLClass>
-                items={localContent.cslClasses}
+                items={content.cslClasses}
                 onSave={handleListSave}
                 onDelete={handleListDelete}
                 onAddNew={() => {}}
