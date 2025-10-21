@@ -17,6 +17,7 @@ const adminNavItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: Home },
   { href: '/admin/home', label: 'Home Page', icon: FileText },
   { href: '/admin/about', label: 'About Page', icon: Users },
+  { href: '/admin/teams', label: 'Manage Teams', icon: Users },
   { href: '/admin/contact', label: 'Contact Page', icon: Mail },
   { href: '/admin/events', label: 'Events', icon: Calendar },
   { href: '/admin/csl-classes', label: 'CSL Classes', icon: Briefcase },

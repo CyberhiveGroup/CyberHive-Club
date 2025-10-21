@@ -12,7 +12,7 @@ export default function AdminDashboard() {
     if (isLoading) return <div>Loading dashboard data...</div>;
 
     const stats = [
-        { name: 'Teams', value: content.teams.length, icon: Users, href: '/admin/about' },
+        { name: 'Teams', value: content.teams.length, icon: Users, href: '/admin/teams' },
         { name: 'Upcoming Events', value: content.upcomingEvents.length, icon: Calendar, href: '/admin/events' },
         { name: 'CSL Classes', value: content.cslClasses.length, icon: Briefcase, href: '/admin/csl-classes' },
         { name: 'Resources', value: content.resources.length, icon: Shield, href: '/admin/resources' },
@@ -51,6 +51,10 @@ export default function AdminDashboard() {
                     <Link href="/admin/about" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Users className="h-8 w-8 text-primary" />
                         <span className="text-sm font-medium">About Page</span>
+                    </Link>
+                     <Link href="/admin/teams" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
+                        <Users className="h-8 w-8 text-primary" />
+                        <span className="text-sm font-medium">Manage Teams</span>
                     </Link>
                      <Link href="/admin/contact" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Mail className="h-8 w-8 text-primary" />
