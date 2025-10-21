@@ -3,60 +3,71 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser, FirebaseClientProvider } from '@/firebase';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft, PanelLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import { ContentProvider } from '@/context/ContentContext';
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter,
+  SidebarTrigger,
+  SidebarInset,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { Logo } from '@/components/logo';
 
 const adminNavItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: Home },
-  { href: '/admin/home', label: 'Home Page', icon: FileText },
-  { href: '/admin/about', label: 'About Page', icon: Users },
-  { href: '/admin/teams', label: 'Manage Teams', icon: Users },
-  { href: '/admin/contact', label: 'Contact Page', icon: Mail },
-  { href: '/admin/events', label: 'Events', icon: Calendar },
-  { href: '/admin/csl-classes', label: 'CSL Classes', icon: Briefcase },
-  { href: '/admin/resources', label: 'Resources', icon: Shield },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/dashboard', label: 'Dashboard', icon: Home, tooltip: 'Dashboard' },
+  { href: '/admin/home', label: 'Home Page', icon: FileText, tooltip: 'Home Page' },
+  { href: '/admin/about', label: 'About Page', icon: Users, tooltip: 'About Page' },
+  { href: '/admin/teams', label: 'Manage Teams', icon: Users, tooltip: 'Manage Teams' },
+  { href: '/admin/contact', label: 'Contact Page', icon: Mail, tooltip: 'Contact Page' },
+  { href: '/admin/events', label: 'Events', icon: Calendar, tooltip: 'Events' },
+  { href: '/admin/csl-classes', label: 'CSL Classes', icon: Briefcase, tooltip: 'CSL Classes' },
+  { href: '/admin/resources', label: 'Resources', icon: Shield, tooltip: 'Resources' },
+  { href: '/admin/settings', label: 'Settings', icon: Settings, tooltip: 'Settings' },
 ];
 
-function AdminSidebar() {
-    const pathname = usePathname();
+function AdminSidebarNav() {
+    const { state } = useSidebar();
     return (
-        <aside className="w-64 flex flex-col border-r bg-background">
-            <div className="p-4 border-b">
-                <h2 className="text-2xl font-bold font-headline text-primary">Admin Panel</h2>
-            </div>
-            <ScrollArea className="flex-1">
-                <nav className="flex flex-col gap-2 p-4">
-                {adminNavItems.map((item) => (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        className={cn(
-                            "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                            pathname === item.href
-                            ? "bg-primary text-primary-foreground"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                        )}
-                        >
-                        <item.icon className="h-5 w-5" />
-                        <span>{item.label}</span>
-                    </Link>
+        <>
+            <SidebarHeader>
+                 {state === 'expanded' && <Logo />}
+                 {state === 'collapsed' && <Logo className="[&>span]:hidden" />}
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarMenu>
+                    {adminNavItems.map((item) => (
+                         <SidebarMenuItem key={item.href}>
+                             <SidebarMenuButton href={item.href} tooltip={item.tooltip}>
+                                <item.icon />
+                                <span>{item.label}</span>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                     ))}
-                </nav>
-            </ScrollArea>
-             <div className="p-4 border-t">
-                <Button asChild variant="outline" className="w-full">
-                    <Link href="/"><ArrowLeft className="mr-2 h-4 w-4" />Back to Site</Link>
-                </Button>
-            </div>
-        </aside>
+                </SidebarMenu>
+            </SidebarContent>
+            <SidebarFooter>
+                <SidebarMenu>
+                     <SidebarMenuItem>
+                        <SidebarMenuButton href="/" tooltip="Back to Site">
+                            <ArrowLeft />
+                            <span>Back to Site</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
+        </>
     )
 }
 
@@ -79,17 +90,25 @@ function AdminLayoutContent({
     }
 
     return (
-        <div className="flex min-h-screen bg-background">
-            <AdminSidebar />
-            <main className="flex-1 p-8">
-                <ScrollArea className="h-full">
-                    <div className="p-2">
-                        {children}
+        <SidebarProvider defaultOpen>
+            <Sidebar>
+                <AdminSidebarNav />
+            </Sidebar>
+            <SidebarInset>
+                <main className="flex-1 p-4 md:p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <SidebarTrigger />
+                        <h1 className="text-2xl font-bold font-headline">Admin Panel</h1>
                     </div>
-                </ScrollArea>
-            </main>
-            <Toaster />
-        </div>
+                    <ScrollArea className="h-[calc(100vh-8rem)]">
+                        <div className="p-2">
+                            {children}
+                        </div>
+                    </ScrollArea>
+                </main>
+                <Toaster />
+            </SidebarInset>
+        </SidebarProvider>
     );
 }
 

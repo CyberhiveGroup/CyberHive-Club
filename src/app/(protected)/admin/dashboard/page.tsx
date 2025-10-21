@@ -2,7 +2,7 @@
 'use client';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useContent } from "@/hooks/use-content";
-import { Users, Calendar, Briefcase, Shield, FileText, Mail } from "lucide-react";
+import { Users, Calendar, Briefcase, Shield, FileText, Mail, Settings } from "lucide-react";
 import Link from "next/link";
 
 
@@ -43,30 +43,38 @@ export default function AdminDashboard() {
                 <CardHeader>
                     <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <CardContent className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <Link href="/admin/home" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <FileText className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">Home Page</span>
+                        <span className="text-sm font-medium text-center">Home Page</span>
                     </Link>
                     <Link href="/admin/about" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Users className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">About Page</span>
+                        <span className="text-sm font-medium text-center">About Page</span>
                     </Link>
                      <Link href="/admin/teams" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Users className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">Manage Teams</span>
+                        <span className="text-sm font-medium text-center">Manage Teams</span>
                     </Link>
                      <Link href="/admin/contact" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Mail className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">Contact Page</span>
+                        <span className="text-sm font-medium text-center">Contact Page</span>
                     </Link>
                      <Link href="/admin/events" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Calendar className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">Events</span>
+                        <span className="text-sm font-medium text-center">Events</span>
                     </Link>
                     <Link href="/admin/csl-classes" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
                         <Briefcase className="h-8 w-8 text-primary" />
-                        <span className="text-sm font-medium">CSL Classes</span>
+                        <span className="text-sm font-medium text-center">CSL Classes</span>
+                    </Link>
+                    <Link href="/admin/resources" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
+                        <Shield className="h-8 w-8 text-primary" />
+                        <span className="text-sm font-medium text-center">Resources</span>
+                    </Link>
+                     <Link href="/admin/settings" className="flex flex-col items-center gap-2 p-4 border rounded-lg hover:bg-muted transition-colors">
+                        <Settings className="h-8 w-8 text-primary" />
+                        <span className="text-sm font-medium text-center">Settings</span>
                     </Link>
                 </CardContent>
             </Card>
