@@ -25,7 +25,7 @@ export default function AboutPage() {
         return <div className="container mx-auto px-4 py-12 md:px-6 md:py-20 text-center">Loading content...</div>;
     }
 
-    const { about: textContent, aboutImages } = content;
+    const { about: textContent, images } = content;
     
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -48,7 +48,7 @@ export default function AboutPage() {
                 onMouseLeave={plugin.current.reset}
             >
                 <CarouselContent>
-                    {aboutImages.carouselUrls.map((img, index) => (
+                    {images.aboutCarousel.map((img, index) => (
                     <CarouselItem key={index}>
                         <div className="p-1">
                         <Card>

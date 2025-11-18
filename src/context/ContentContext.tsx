@@ -4,15 +4,20 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { doc, onSnapshot, setDoc, Firestore } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
-import type { Team, CSLClass, Event, Resource, FooterContent } from '@/lib/types';
+import type { Team, CSLClass, Event, Resource, FooterContent, ImageAsset } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import defaultImages from '@/lib/placeholder-images.json';
 
 interface AppContent {
     home: any;
     about: any;
-    aboutImages: any;
+    images: {
+      aboutSection: ImageAsset;
+      cslSection: ImageAsset;
+      aboutCarousel: ImageAsset[];
+    },
     contact: any;
     teams: Team[];
     cslClasses: CSLClass[];
@@ -41,8 +46,7 @@ const defaultContent: AppContent = {
     "aboutTitle": "Who We Are",
     "aboutParagraph": "CyberHive is a student-run organization dedicated to fostering a vibrant cybersecurity community. We aim to provide a platform for students to learn, share knowledge, and develop practical skills in the ever-evolving field of cybersecurity. Our mission is to bridge the gap between theoretical knowledge and real-world application.",
     "cslTitle": "Cyber Siksha Lab (CSL)",
-    "cslParagraph": "Our Cyber Siksha Lab offers a structured learning path with hands-on classes. From foundational concepts to advanced techniques, CSL is designed to build your skills from the ground up. Join our classes to gain practical experience and prepare for a career in cybersecurity.",
-    "cslImageUrl": "https://picsum.photos/seed/csl/600/400"
+    "cslParagraph": "Our Cyber Siksha Lab offers a structured learning path with hands-on classes. From foundational concepts to advanced techniques, CSL is designed to build your skills from the ground up. Join our classes to gain practical experience and prepare for a career in cybersecurity."
   },
   "about": {
     "title": "About CyberHive",
@@ -52,14 +56,7 @@ const defaultContent: AppContent = {
     "teamTitle": "Meet the Hive Mind",
     "teamSubtitle": "The dedicated individuals leading the charge and keeping the hive buzzing with activity."
   },
-  "aboutImages": {
-    "missionImageUrl": "https://picsum.photos/seed/mission/600/400",
-    "carouselUrls": [
-      { "url": "https://picsum.photos/seed/about1/600/300", "alt": "Team working together", "hint": "collaboration students" },
-      { "url": "https://picsum.photos/seed/about2/600/300", "alt": "Cybersecurity workshop", "hint": "tech workshop" },
-      { "url": "https://picsum.photos/seed/about3/600/300", "alt": "Student presentation", "hint": "student presentation" }
-    ]
-  },
+  "images": defaultImages,
   "contact": {
     "title": "Get in Touch",
     "subtitle": "Have questions, suggestions, or want to collaborate? We'd love to hear from you. Reach out through any of our channels.",
@@ -105,10 +102,17 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
       contentRef,
       async (docSnap) => {
         if (docSnap.exists()) {
-          setContent(docSnap.data() as AppContent);
+          const data = docSnap.data() as AppContent;
+          // Merge images from defaultImages with fetched data to ensure all keys exist
+          data.images = { ...defaultImages, ...data.images };
+          if (data.images.aboutCarousel) {
+            data.images.aboutCarousel = [...data.images.aboutCarousel];
+          } else {
+            data.images.aboutCarousel = [...defaultImages.aboutCarousel]
+          }
+          setContent(data);
         } else {
-          // No need to create the document here, rely on security rules and manual setup.
-          console.warn("Content document does not exist. Please create it in the Firebase console.");
+          console.warn("Content document does not exist. Using default content.");
           setContent(defaultContent);
         }
         setError(null);

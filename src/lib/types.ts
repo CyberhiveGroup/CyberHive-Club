@@ -1,4 +1,11 @@
 
+
+export type ImageAsset = {
+  url: string;
+  alt: string;
+  hint: string;
+};
+
 export type TeamMember = {
   id: number;
   name: string;

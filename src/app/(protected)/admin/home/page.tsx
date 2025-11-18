@@ -155,15 +155,6 @@ export default function AdminHomePage() {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="home.cslImageUrl">CSL Image URL</Label>
-                        <Input 
-                            id="home.cslImageUrl"
-                            name="home.cslImageUrl"
-                            value={content.home.cslImageUrl}
-                            onChange={handleInputChange}
-                        />
-                    </div>
                 </CardContent>
             </Card>
         </div>
