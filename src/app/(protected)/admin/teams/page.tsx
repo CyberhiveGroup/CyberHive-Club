@@ -160,6 +160,10 @@ export default function AdminTeamsPage() {
                                                                     <Label>Instagram (Optional)</Label>
                                                                     <Input value={member.contact.instagram || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { instagram: e.target.value })} />
                                                                 </div>
+                                                                 <div className="space-y-2">
+                                                                    <Label>Phone (Optional)</Label>
+                                                                    <Input value={member.contact.phone || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { phone: e.target.value })} />
+                                                                </div>
                                                              </div>
                                                         </div>
                                                     </div>

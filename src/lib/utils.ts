@@ -6,20 +6,22 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function transformGoogleDriveUrl(url: string): string {
-  if (typeof url !== 'string') return '';
-  
-  try {
-    const urlObject = new URL(url);
-    if (urlObject.hostname === 'drive.google.com' && urlObject.pathname.includes('/file/d/')) {
-      const fileId = url.split('/d/')[1].split('/')[0];
-      if (fileId) {
-        return `https://drive.google.com/uc?export=view&id=${fileId}`;
-      }
+  if (typeof url !== 'string' || !url) return '';
+
+  const patterns = [
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      const fileId = match[1];
+      return `https://drive.google.com/uc?export=view&id=${fileId}`;
     }
-  } catch (error) {
-    // Invalid URL, just return the original string
-    return url;
   }
   
+  // If no pattern matches, return the original URL
   return url;
 }
