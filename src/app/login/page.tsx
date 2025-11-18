@@ -1,13 +1,12 @@
 
 'use client';
 import * as React from 'react';
-import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/logo';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 const GoogleIcon = () => (
     <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
@@ -18,61 +17,29 @@ const GoogleIcon = () => (
     </svg>
 );
 
-function LoginPageContent() {
+export default function LoginPage() {
     const auth = useAuth();
     const { user, isLoading } = useUser();
     const router = useRouter();
-    const [isSigningIn, setIsSigningIn] = React.useState(true);
 
     React.useEffect(() => {
-        if (!auth) {
-            setIsSigningIn(false);
-            return;
-        }
-
-        if (user) {
+        if (!isLoading && user) {
             router.push('/admin/dashboard');
-            return;
         }
-        
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result?.user) {
-                    router.push('/admin/dashboard');
-                } else {
-                    setIsSigningIn(false);
-                }
-            })
-            .catch((error) => {
-                console.error('Error getting redirect result', error);
-                setIsSigningIn(false);
-            });
-    }, [auth, user, router]);
+    }, [user, isLoading, router]);
 
     const handleGoogleSignIn = async () => {
         if (!auth) {
             console.error("Authentication service is not available.");
             return;
         }
-        setIsSigningIn(true);
         const provider = new GoogleAuthProvider();
         await signInWithRedirect(auth, provider);
     };
 
-    const handleSignOut = async () => {
-        if (!auth) return;
-        try {
-            await signOut(auth);
-            // The useUser hook will update the state, and the UI will re-render.
-        } catch (error) {
-            console.error('Error signing out', error);
-        }
-    };
-    
-    if (isLoading || isSigningIn) {
+    if (isLoading || user) {
         return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
-
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -82,38 +49,18 @@ function LoginPageContent() {
                         <Logo />
                     </div>
                     <CardTitle className="text-2xl font-bold">
-                        {user ? `Welcome, ${user.displayName}` : 'Admin Access'}
+                        Admin Access
                     </CardTitle>
                     <CardDescription>
-                        {user ? 'You are now logged in.' : 'Sign in to access the admin panel.'}
+                        Sign in to access the admin panel.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {user ? (
-                        <div className="space-y-4">
-                             <Button onClick={() => router.push('/admin/dashboard')} className="w-full">
-                                Go to Dashboard
-                            </Button>
-                            <Button onClick={handleSignOut} variant="outline" className="w-full">
-                                Sign Out
-                            </Button>
-                        </div>
-                    ) : (
-                        <Button onClick={handleGoogleSignIn} className="w-full" disabled={isSigningIn}>
-                            <GoogleIcon /> {isSigningIn ? 'Signing In...' : 'Sign In with Google'}
-                        </Button>
-                    )}
+                    <Button onClick={handleGoogleSignIn} className="w-full">
+                        <GoogleIcon /> Sign In with Google
+                    </Button>
                 </CardContent>
             </Card>
         </div>
     );
-}
-
-
-export default function LoginPage() {
-    return (
-        <FirebaseClientProvider>
-            <LoginPageContent />
-        </FirebaseClientProvider>
-    )
 }

@@ -89,6 +89,21 @@ function AdminLayoutContent({
         return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
 
+    // This is the specific user ID that is allowed to access the admin panel.
+    const adminUserId = "L58pyQFXa1P3Rxuq9pU5RNL1kC93";
+
+    if (user.uid !== adminUserId) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <div className="text-center">
+                    <h1 className="text-3xl font-bold text-destructive mb-4">Access Denied</h1>
+                    <p className="text-muted-foreground">You do not have permission to view this page.</p>
+                    <Button onClick={() => router.push('/')} className="mt-6">Go to Homepage</Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <SidebarProvider defaultOpen>
             <Sidebar>
