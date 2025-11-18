@@ -6,7 +6,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function transformGoogleDriveUrl(url: string): string {
-  if (typeof url !== 'string' || !url) return '';
+  if (typeof url !== 'string' || !url) {
+    return url; // Return original url if it's empty or not a string
+  }
 
   const patterns = [
     /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
