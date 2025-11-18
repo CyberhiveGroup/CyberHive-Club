@@ -89,10 +89,10 @@ function AdminLayoutContent({
         return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
 
-    // This is the specific user ID that is allowed to access the admin panel.
-    const adminUserId = "L58pyQFXa1P3Rxuq9pU5RNL1kC93";
+    // This is the specific user email that is allowed to access the admin panel.
+    const adminUserEmail = "adityasahu2703@gmail.com";
 
-    if (user.uid !== adminUserId) {
+    if (user.email !== adminUserEmail) {
         return (
             <div className="flex h-screen items-center justify-center">
                 <div className="text-center">
