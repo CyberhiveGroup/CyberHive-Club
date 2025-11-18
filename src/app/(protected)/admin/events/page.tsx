@@ -12,6 +12,7 @@ import type { Event } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from 'next/image';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
 
 function EventEditor({ 
     event,
@@ -71,16 +72,20 @@ function EventEditor({
                                         <Input placeholder="Image URL" value={item.url} onChange={(e) => onGalleryChange(index, 'url', e.target.value)} />
                                         <Input placeholder="Alt Text" value={item.alt} onChange={(e) => onGalleryChange(index, 'alt', e.target.value)} />
                                     </div>
-                                    <Button size="icon" variant="ghost" onClick={() => onDeleteGalleryItem(index)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                    <DeleteConfirmationDialog onConfirm={() => onDeleteGalleryItem(index)}>
+                                        <Button size="icon" variant="ghost"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                    </DeleteConfirmationDialog>
                                 </div>
                             ))}
                              <Button size="sm" variant="outline" onClick={onAddGalleryItem}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
                          </div>
                     </div>
                 </div>
-                <Button variant="destructive" size="icon" className="ml-4" onClick={onDelete}>
-                    <Trash2 className="h-4 w-4"/>
-                </Button>
+                <DeleteConfirmationDialog onConfirm={onDelete}>
+                    <Button variant="destructive" size="icon" className="ml-4">
+                        <Trash2 className="h-4 w-4"/>
+                    </Button>
+                </DeleteConfirmationDialog>
             </div>
         </Card>
     )

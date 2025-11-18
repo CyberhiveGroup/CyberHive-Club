@@ -11,6 +11,7 @@ import type { ImageAsset } from '@/lib/types';
 import Image from 'next/image';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
 
 export default function AdminAboutPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -133,9 +134,11 @@ export default function AdminAboutPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <Button variant="destructive" size="icon" onClick={() => deleteCarouselImage(index)}>
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
+                                <DeleteConfirmationDialog onConfirm={() => deleteCarouselImage(index)}>
+                                    <Button variant="destructive" size="icon">
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </DeleteConfirmationDialog>
                             </div>
                         </Card>
                     ))}

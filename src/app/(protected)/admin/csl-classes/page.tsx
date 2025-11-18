@@ -12,6 +12,7 @@ import type { CSLClass, CSLLink, ImageAsset } from '@/lib/types';
 import Image from 'next/image';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
 
 export default function AdminCslClassesPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -117,9 +118,11 @@ export default function AdminCslClassesPage() {
                                             <ChevronsUpDown className="h-4 w-4" />
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <Button variant="destructive" size="icon" onClick={() => deleteClass(index)}>
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
+                                    <DeleteConfirmationDialog onConfirm={() => deleteClass(index)}>
+                                        <Button variant="destructive" size="icon">
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    </DeleteConfirmationDialog>
                                 </div>
                             </div>
                              <CollapsibleContent>
@@ -155,7 +158,9 @@ export default function AdminCslClassesPage() {
                                                             <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
                                                             <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />
                                                         </div>
-                                                        <Button size="icon" variant="ghost" onClick={() => deleteGalleryItem(index, gIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                        <DeleteConfirmationDialog onConfirm={() => deleteGalleryItem(index, gIndex)}>
+                                                            <Button size="icon" variant="ghost"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                        </DeleteConfirmationDialog>
                                                     </div>
                                                 ))}
                                                 <Button size="sm" variant="outline" onClick={() => addGalleryItem(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
@@ -173,7 +178,9 @@ export default function AdminCslClassesPage() {
                                                             <Input placeholder="Link Title" value={link.title} onChange={(e) => handleLinkChange(index, lIndex, 'title', e.target.value)} />
                                                             <Input placeholder="Link URL" value={link.href} onChange={(e) => handleLinkChange(index, lIndex, 'href', e.target.value)} />
                                                         </div>
-                                                        <Button size="icon" variant="ghost" onClick={() => deleteLink(index, lIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                         <DeleteConfirmationDialog onConfirm={() => deleteLink(index, lIndex)}>
+                                                            <Button size="icon" variant="ghost"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                        </DeleteConfirmationDialog>
                                                     </div>
                                                 ))}
                                                 <Button size="sm" variant="outline" onClick={() => addLink(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Link</Button>

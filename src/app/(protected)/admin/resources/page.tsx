@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, PlusCircle } from 'lucide-react';
 import type { Resource } from '@/lib/types';
+import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
 
 export default function AdminResourcesPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -90,9 +91,11 @@ export default function AdminResourcesPage() {
                                         <Input value={resource.href} onChange={(e) => handleResourceChange(index, 'href', e.target.value)} />
                                     </div>
                                 </div>
-                                <Button variant="destructive" size="icon" onClick={() => deleteResource(index)}>
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
+                                <DeleteConfirmationDialog onConfirm={() => deleteResource(index)}>
+                                    <Button variant="destructive" size="icon">
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </DeleteConfirmationDialog>
                             </div>
                         </Card>
                     ))}
