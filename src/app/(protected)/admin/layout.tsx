@@ -21,7 +21,7 @@ import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, Arr
 
 
 const adminNavItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: Home, tooltip: 'Dashboard' },
+  { href: '/admin', label: 'Dashboard', icon: Home, tooltip: 'Dashboard' },
   { href: '/admin/home', label: 'Home Page', icon: FileText, tooltip: 'Home Page' },
   { href: '/admin/about', label: 'About Page', icon: Users, tooltip: 'About Page' },
   { href: '/admin/teams', label: 'Manage Teams', icon: Users, tooltip: 'Manage Teams' },
