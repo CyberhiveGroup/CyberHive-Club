@@ -54,7 +54,7 @@ export default function AdminTeamsPage() {
             id: Math.random(), // Temporary ID
             name: 'New Member',
             role: 'Role',
-            imageUrl: 'https://picsum.photos/400/400?random=' + Math.random(),
+            imageUrl: '',
             imageHint: 'person portrait',
             bio: '',
             contact: { email: '', linkedin: '', github: '' },
@@ -114,7 +114,7 @@ export default function AdminTeamsPage() {
                                             <div className="flex justify-between items-start">
                                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                                                     <div className="flex items-center gap-4">
-                                                        <Image src={member.imageUrl} alt={member.name} width={80} height={80} className="rounded-full" />
+                                                        <Image src={member.imageUrl || 'https://placehold.co/400x400/2B2B2B/E4A22F?text=?'} alt={member.name} width={80} height={80} className="rounded-full bg-muted" />
                                                         <div className="space-y-2 flex-1">
                                                             <Label>Name</Label>
                                                             <Input value={member.name} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'name', e.target.value)} />
@@ -126,7 +126,7 @@ export default function AdminTeamsPage() {
                                                         <Label>Bio</Label>
                                                         <Textarea value={member.bio} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'bio', e.target.value)} rows={4} />
                                                         <Label>Image URL</Label>
-                                                        <Input value={member.imageUrl} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'imageUrl', e.target.value)} />
+                                                        <Input placeholder="https://example.com/image.png" value={member.imageUrl} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'imageUrl', e.target.value)} />
                                                     </div>
                                                     <div className="space-y-2 md:col-span-2">
                                                          <h5 className="font-semibold pt-2">Contact Info</h5>
