@@ -7,10 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Trash2, PlusCircle } from 'lucide-react';
+import { Trash2, PlusCircle, ChevronsUpDown } from 'lucide-react';
 import type { CSLClass, CSLLink, ImageAsset } from '@/lib/types';
 import Image from 'next/image';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function AdminCslClassesPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -107,69 +108,81 @@ export default function AdminCslClassesPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {content.cslClasses.map((cslClass, index) => (
-                        <Card key={cslClass.id} className="p-4">
-                            <div className="flex items-start gap-6">
-                                <div className="flex-1 space-y-4">
-                                     <div className="flex items-start gap-4">
-                                        <Image src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
-                                        <div className="flex-1 space-y-2">
-                                            <Label>Title</Label>
-                                            <Input value={cslClass.title} onChange={(e) => handleClassChange(index, 'title', e.target.value)} />
-                                            <Label>Image URL</Label>
-                                            <Input value={cslClass.imageUrl} onChange={(e) => handleClassChange(index, 'imageUrl', e.target.value)} />
+                         <Collapsible key={cslClass.id} defaultOpen className="p-4 border rounded-lg">
+                            <div className="flex justify-between items-center">
+                                 <h3 className="text-xl font-semibold">{cslClass.title}</h3>
+                                <div className="flex items-center gap-2">
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <ChevronsUpDown className="h-4 w-4" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <Button variant="destructive" size="icon" onClick={() => deleteClass(index)}>
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </div>
+                             <CollapsibleContent>
+                                <div className="flex items-start gap-6 pt-4">
+                                    <div className="flex-1 space-y-4">
+                                        <div className="flex items-start gap-4">
+                                            <Image src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                            <div className="flex-1 space-y-2">
+                                                <Label>Title</Label>
+                                                <Input value={cslClass.title} onChange={(e) => handleClassChange(index, 'title', e.target.value)} />
+                                                <Label>Image URL</Label>
+                                                <Input value={cslClass.imageUrl} onChange={(e) => handleClassChange(index, 'imageUrl', e.target.value)} />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Short Description (for card)</Label>
+                                            <Textarea value={cslClass.description} onChange={(e) => handleClassChange(index, 'description', e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Long Description (for detail page)</Label>
+                                            <Textarea value={cslClass.longDescription} onChange={(e) => handleClassChange(index, 'longDescription', e.target.value)} rows={5}/>
+                                        </div>
+                                        
+                                        {/* Gallery Management */}
+                                        <div>
+                                            <h4 className="font-semibold pt-4 text-lg">Image Gallery</h4>
+                                            <CardDescription>Images for the carousel on the detail page.</CardDescription>
+                                            <div className="space-y-4 mt-2">
+                                                {(cslClass.gallery || []).map((item, gIndex) => (
+                                                    <div key={gIndex} className="flex items-end gap-2 p-2 border rounded-lg">
+                                                        <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                                        <div className="flex-1 grid grid-cols-2 gap-2">
+                                                            <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
+                                                            <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />
+                                                        </div>
+                                                        <Button size="icon" variant="ghost" onClick={() => deleteGalleryItem(index, gIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                    </div>
+                                                ))}
+                                                <Button size="sm" variant="outline" onClick={() => addGalleryItem(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Link Management */}
+                                        <div>
+                                            <h4 className="font-semibold pt-4 text-lg">Related Links</h4>
+                                            <CardDescription>Links for registration, resources, etc.</CardDescription>
+                                            <div className="space-y-4 mt-2">
+                                                {(cslClass.links || []).map((link, lIndex) => (
+                                                    <div key={lIndex} className="flex items-end gap-2 p-2 border rounded-lg">
+                                                        <div className="flex-1 grid grid-cols-2 gap-2">
+                                                            <Input placeholder="Link Title" value={link.title} onChange={(e) => handleLinkChange(index, lIndex, 'title', e.target.value)} />
+                                                            <Input placeholder="Link URL" value={link.href} onChange={(e) => handleLinkChange(index, lIndex, 'href', e.target.value)} />
+                                                        </div>
+                                                        <Button size="icon" variant="ghost" onClick={() => deleteLink(index, lIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                    </div>
+                                                ))}
+                                                <Button size="sm" variant="outline" onClick={() => addLink(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Link</Button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Short Description (for card)</Label>
-                                        <Textarea value={cslClass.description} onChange={(e) => handleClassChange(index, 'description', e.target.value)} />
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label>Long Description (for detail page)</Label>
-                                        <Textarea value={cslClass.longDescription} onChange={(e) => handleClassChange(index, 'longDescription', e.target.value)} rows={5}/>
-                                    </div>
-                                    
-                                    {/* Gallery Management */}
-                                    <div>
-                                         <h4 className="font-semibold pt-4 text-lg">Image Gallery</h4>
-                                         <CardDescription>Images for the carousel on the detail page.</CardDescription>
-                                         <div className="space-y-4 mt-2">
-                                            {(cslClass.gallery || []).map((item, gIndex) => (
-                                                <div key={gIndex} className="flex items-end gap-2 p-2 border rounded-lg">
-                                                    <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
-                                                    <div className="flex-1 grid grid-cols-2 gap-2">
-                                                        <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
-                                                        <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />
-                                                    </div>
-                                                    <Button size="icon" variant="ghost" onClick={() => deleteGalleryItem(index, gIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                </div>
-                                            ))}
-                                             <Button size="sm" variant="outline" onClick={() => addGalleryItem(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
-                                         </div>
-                                    </div>
-                                    
-                                     {/* Link Management */}
-                                    <div>
-                                         <h4 className="font-semibold pt-4 text-lg">Related Links</h4>
-                                         <CardDescription>Links for registration, resources, etc.</CardDescription>
-                                         <div className="space-y-4 mt-2">
-                                            {(cslClass.links || []).map((link, lIndex) => (
-                                                <div key={lIndex} className="flex items-end gap-2 p-2 border rounded-lg">
-                                                    <div className="flex-1 grid grid-cols-2 gap-2">
-                                                        <Input placeholder="Link Title" value={link.title} onChange={(e) => handleLinkChange(index, lIndex, 'title', e.target.value)} />
-                                                        <Input placeholder="Link URL" value={link.href} onChange={(e) => handleLinkChange(index, lIndex, 'href', e.target.value)} />
-                                                    </div>
-                                                    <Button size="icon" variant="ghost" onClick={() => deleteLink(index, lIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                </div>
-                                            ))}
-                                             <Button size="sm" variant="outline" onClick={() => addLink(index)}><PlusCircle className="h-4 w-4 mr-2" />Add Link</Button>
-                                         </div>
-                                    </div>
                                 </div>
-                                <Button variant="destructive" size="icon" onClick={() => deleteClass(index)}>
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </Card>
+                             </CollapsibleContent>
+                        </Collapsible>
                     ))}
                 </CardContent>
             </Card>
