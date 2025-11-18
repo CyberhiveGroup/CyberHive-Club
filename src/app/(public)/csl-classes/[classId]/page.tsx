@@ -111,12 +111,12 @@ export default function CSLClassDetailPage() {
                     {cslClass.links.map(link => (
                         <Link key={link.id} href={link.href} target="_blank" rel="noopener noreferrer" className="block h-full">
                              <Card className="h-full group transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20">
-                                <CardHeader>
-                                    <div className="flex items-center gap-4">
-                                        <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary transition-colors duration-300">
-                                            <LinkIcon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+                                <CardHeader className="p-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary transition-colors duration-300">
+                                            <LinkIcon className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
                                         </div>
-                                        <CardTitle className="text-lg">{link.title}</CardTitle>
+                                        <CardTitle className="text-base">{link.title}</CardTitle>
                                     </div>
                                 </CardHeader>
                             </Card>
