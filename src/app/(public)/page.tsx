@@ -126,7 +126,7 @@ export default function Home() {
 
               <Card className="flex flex-col">
                 <CardHeader>
-                   <Image src={textContent.cslImageUrl} alt="CSL Classes" width={600} height={400} data-ai-hint="computer learning" className="rounded-lg object-cover aspect-video" />
+                   <Image src={textContent.cslImageUrl || 'https://placehold.co/600x400/2B2B2B/E4A22F?text=CSL'} alt="CSL Classes" width={600} height={400} data-ai-hint="computer learning" className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                    <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.cslTitle}</h2>

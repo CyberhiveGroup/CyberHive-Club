@@ -43,8 +43,8 @@ export default function TeamDetailPage() {
                         className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-primary/20"
                     >
                         <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
-                            <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0">
-                                <AvatarImage src={member.imageUrl} alt={member.name} />
+                            <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted">
+                                <AvatarImage src={member.imageUrl || undefined} alt={member.name} />
                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 space-y-3 text-center md:text-left">
