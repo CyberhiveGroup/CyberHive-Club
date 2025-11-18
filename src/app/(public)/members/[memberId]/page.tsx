@@ -23,8 +23,8 @@ export default function MemberDetailPage() {
   }
   
   const { teams } = content;
-  const member = teams.flatMap(t => t.members).find(m => m.id === parseInt(memberId, 10));
-  const team = teams.find(t => t.members.some(m => m.id === parseInt(memberId, 10)));
+  const member = teams.flatMap(t => t.members).find(m => String(m.id) === memberId);
+  const team = teams.find(t => t.members.some(m => String(m.id) === memberId));
 
   if (!member) {
     return notFound();
