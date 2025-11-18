@@ -2,11 +2,7 @@
 'use client';
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser, FirebaseClientProvider } from '@/firebase';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft, PanelLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useUser } from '@/firebase';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Toaster } from "@/components/ui/toaster";
 import { ContentProvider } from '@/context/ContentContext';
@@ -21,9 +17,11 @@ import {
   SidebarFooter,
   SidebarTrigger,
   SidebarInset,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { Logo } from '@/components/logo';
+import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
 
 const adminNavItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: Home, tooltip: 'Dashboard' },
@@ -38,12 +36,10 @@ const adminNavItems = [
 ];
 
 function AdminSidebarNav() {
-    const { state } = useSidebar();
     return (
         <>
             <SidebarHeader>
-                 {state === 'expanded' && <Logo />}
-                 {state === 'collapsed' && <Logo className="[&>span]:hidden" />}
+                 <Logo />
             </SidebarHeader>
             <SidebarContent>
                 <SidebarMenu>
@@ -89,7 +85,6 @@ function AdminLayoutContent({
         return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
 
-    // This is the specific user email that is allowed to access the admin panel.
     const adminUserEmail = "adityasahu2703@gmail.com";
 
     if (user.email !== adminUserEmail) {
@@ -133,10 +128,8 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <FirebaseClientProvider>
             <ContentProvider>
                 <AdminLayoutContent>{children}</AdminLayoutContent>
             </ContentProvider>
-        </FirebaseClientProvider>
     );
 }

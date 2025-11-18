@@ -2,7 +2,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Toaster } from "@/components/ui/toaster";
+import { FirebaseProvider } from '@/firebase';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 
 export const metadata: Metadata = {
@@ -31,7 +32,11 @@ export default function RootLayout({
         'min-h-screen bg-background font-body antialiased',
         )}
     >
-        {children}
+        <FirebaseProvider>
+            <FirebaseClientProvider>
+                {children}
+            </FirebaseClientProvider>
+        </FirebaseProvider>
     </body>
     </html>
   );

@@ -2,8 +2,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { getRedirectResult, type Auth } from 'firebase/auth';
-import { FirebaseProvider, useAuth } from './provider';
-import { firebaseAuth } from './index';
+import { useAuth } from './provider';
 
 function AuthHandler({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
@@ -22,8 +21,8 @@ function AuthHandler({ children }: { children: React.ReactNode }) {
 
   if (isVerifying) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <p>Verifying authentication...</p>
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <p className="text-foreground">Verifying authentication...</p>
       </div>
     );
   }
@@ -34,10 +33,8 @@ function AuthHandler({ children }: { children: React.ReactNode }) {
 
 export function FirebaseClientProvider({ children }: { children: React.ReactNode }) {
   return (
-    <FirebaseProvider>
       <AuthHandler>
         {children}
       </AuthHandler>
-    </FirebaseProvider>
   );
 }
