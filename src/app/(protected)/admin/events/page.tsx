@@ -58,10 +58,6 @@ function EventEditor({
                         <Label>Date</Label>
                         <Input value={event.date} onChange={(e) => onEventChange('date', e.target.value)} />
                     </div>
-                    <div className="space-y-2 md:col-span-2">
-                        <Label>Description</Label>
-                        <Textarea value={event.description} onChange={(e) => onEventChange('description', e.target.value)} />
-                    </div>
                     <div className="space-y-2">
                         <Label>Category</Label>
                         <select
@@ -77,24 +73,36 @@ function EventEditor({
                         <Input value={event.imageUrl} onChange={(e) => onEventChange('imageUrl', e.target.value)} />
                     </div>
 
-                    <div className="md:col-span-2">
-                         <h4 className="font-semibold pt-4 text-lg">Gallery</h4>
-                         <CardDescription>Only applicable for past events.</CardDescription>
-                         <div className="space-y-4 mt-2">
-                            {event.gallery?.map((item, index) => (
-                                <div key={index} className="flex items-end gap-2 p-2 border rounded-lg">
-                                    <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
-                                    <div className="flex-1 grid grid-cols-2 gap-2">
-                                        <Input placeholder="Image URL" value={item.url} onChange={(e) => onGalleryChange(index, 'url', e.target.value)} />
-                                        <Input placeholder="Alt Text" value={item.alt} onChange={(e) => onGalleryChange(index, 'alt', e.target.value)} />
+                    <div className="md:col-span-2 space-y-4">
+                        <div>
+                            <h4 className="font-semibold pt-4 text-lg">Event Description</h4>
+                             <CardDescription>Provide a detailed description for the event page.</CardDescription>
+                            <Textarea 
+                                className="mt-2"
+                                value={event.description} 
+                                onChange={(e) => onEventChange('description', e.target.value)} 
+                                rows={5}
+                            />
+                        </div>
+                         <div>
+                            <h4 className="font-semibold pt-4 text-lg">Gallery</h4>
+                            <CardDescription>Images for the event detail page (only applicable for past events).</CardDescription>
+                            <div className="space-y-4 mt-2">
+                                {event.gallery?.map((item, index) => (
+                                    <div key={index} className="flex items-end gap-2 p-2 border rounded-lg">
+                                        <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                        <div className="flex-1 grid grid-cols-2 gap-2">
+                                            <Input placeholder="Image URL" value={item.url} onChange={(e) => onGalleryChange(index, 'url', e.target.value)} />
+                                            <Input placeholder="Alt Text" value={item.alt} onChange={(e) => onGalleryChange(index, 'alt', e.target.value)} />
+                                        </div>
+                                        <DeleteConfirmationDialog onConfirm={() => onDeleteGalleryItem(index)}>
+                                            <Button size="icon" variant="ghost"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                        </DeleteConfirmationDialog>
                                     </div>
-                                    <DeleteConfirmationDialog onConfirm={() => onDeleteGalleryItem(index)}>
-                                        <Button size="icon" variant="ghost"><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                    </DeleteConfirmationDialog>
-                                </div>
-                            ))}
-                             <Button size="sm" variant="outline" onClick={onAddGalleryItem}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
-                         </div>
+                                ))}
+                                <Button size="sm" variant="outline" onClick={onAddGalleryItem}><PlusCircle className="h-4 w-4 mr-2" />Add Gallery Item</Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CollapsibleContent>
@@ -229,3 +237,5 @@ export default function AdminEventsPage() {
         </div>
     )
 }
+
+    
