@@ -124,7 +124,7 @@ export default function AdminEventsPage() {
 
     const addEvent = (list: 'upcomingEvents' | 'pastEvents') => {
         const allIds = [...content.upcomingEvents, ...content.pastEvents].map(e => e.id);
-        const newId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+        const newId = allIds.length > 0 ? Math.max(...allIds.map(id => Number(id))) + 1 : 1;
         
         const newEvent: Event = {
             id: newId,

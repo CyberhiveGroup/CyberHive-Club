@@ -34,7 +34,7 @@ export default function EventDetailPage() {
   }
 
   const { upcomingEvents, pastEvents } = content;
-  const event = [...upcomingEvents, ...pastEvents].find(e => e.id === parseInt(eventId, 10));
+  const event = [...upcomingEvents, ...pastEvents].find(e => String(e.id) === eventId);
 
   if (!event) {
     return notFound();
