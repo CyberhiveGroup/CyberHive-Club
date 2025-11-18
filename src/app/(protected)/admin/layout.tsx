@@ -1,8 +1,6 @@
 
 'use client';
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Toaster } from "@/components/ui/toaster";
 import { ContentProvider } from '@/context/ContentContext';
@@ -20,7 +18,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo } from '@/components/logo';
 import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 
 const adminNavItems = [
@@ -72,33 +69,6 @@ function AdminLayoutContent({
 }: {
     children: React.ReactNode;
 }) {
-    const { user, isLoading } = useUser();
-    const router = useRouter();
-
-    React.useEffect(() => {
-        if (!isLoading && !user) {
-            router.push('/login');
-        }
-    }, [user, isLoading, router]);
-
-    if (isLoading || !user) {
-        return <div className="flex h-screen items-center justify-center">Loading...</div>;
-    }
-
-    const adminUserEmail = "adityasahu2703@gmail.com";
-
-    if (user.email !== adminUserEmail) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <h1 className="text-3xl font-bold text-destructive mb-4">Access Denied</h1>
-                    <p className="text-muted-foreground">You do not have permission to view this page.</p>
-                    <Button onClick={() => router.push('/')} className="mt-6">Go to Homepage</Button>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <SidebarProvider defaultOpen>
             <Sidebar>
