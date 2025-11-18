@@ -49,7 +49,7 @@ export default function AboutPage() {
                 onMouseLeave={plugin.current.reset}
             >
                 <CarouselContent>
-                    {images.aboutCarousel.map((img, index) => (
+                    {(images?.aboutCarousel || []).map((img, index) => (
                     <CarouselItem key={index}>
                         <div className="p-1">
                         <Card>
