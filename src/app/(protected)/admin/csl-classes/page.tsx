@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, PlusCircle } from 'lucide-react';
 import type { CSLClass } from '@/lib/types';
 import Image from 'next/image';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function AdminCslClassesPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -65,7 +66,7 @@ export default function AdminCslClassesPage() {
                     {content.cslClasses.map((cslClass, index) => (
                         <Card key={cslClass.id} className="p-4">
                             <div className="flex items-start gap-6">
-                                <Image src={cslClass.imageUrl} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video"/>
+                                <Image src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video"/>
                                 <div className="flex-1 space-y-3">
                                     <div className="space-y-2">
                                         <Label>Title</Label>

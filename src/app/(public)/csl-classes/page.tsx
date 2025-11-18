@@ -7,12 +7,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Image from "next/image";
 import type { CSLClass } from '@/lib/types';
 import { useContent } from '@/hooks/use-content';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 function CSLClassCard({ cslClass }: { cslClass: CSLClass }) {
   return (
       <Card className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/20">
         <Image
-          src={cslClass.imageUrl}
+          src={transformGoogleDriveUrl(cslClass.imageUrl)}
           alt={cslClass.title}
           width={600}
           height={400}

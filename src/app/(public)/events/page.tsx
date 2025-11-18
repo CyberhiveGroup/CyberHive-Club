@@ -13,6 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Event } from '@/lib/types';
 import { useContent } from '@/hooks/use-content';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 
 const eventCategories = ['Workshop', 'Competition', 'Talk', 'Social'];
@@ -22,7 +23,7 @@ function EventCard({ event }: { event: Event }) {
     <Link href={`/events/${event.id}`} className="block h-full">
         <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full">
         <Image
-            src={event.imageUrl}
+            src={transformGoogleDriveUrl(event.imageUrl)}
             alt={event.title}
             width={600}
             height={400}

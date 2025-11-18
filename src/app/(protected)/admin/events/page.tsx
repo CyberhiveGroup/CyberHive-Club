@@ -11,6 +11,7 @@ import { Trash2, PlusCircle } from 'lucide-react';
 import type { Event } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from 'next/image';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 function EventEditor({ 
     event,
@@ -65,7 +66,7 @@ function EventEditor({
                          <div className="space-y-4 mt-2">
                             {event.gallery?.map((item, index) => (
                                 <div key={index} className="flex items-end gap-2 p-2 border rounded-lg">
-                                    <Image src={item.url} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                    <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
                                     <div className="flex-1 grid grid-cols-2 gap-2">
                                         <Input placeholder="Image URL" value={item.url} onChange={(e) => onGalleryChange(index, 'url', e.target.value)} />
                                         <Input placeholder="Alt Text" value={item.alt} onChange={(e) => onGalleryChange(index, 'alt', e.target.value)} />

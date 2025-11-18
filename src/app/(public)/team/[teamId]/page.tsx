@@ -8,8 +8,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Linkedin, Github, ArrowLeft, Instagram, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function TeamDetailPage() {
   const { content, isLoading } = useContent();
@@ -44,7 +45,7 @@ export default function TeamDetailPage() {
                     >
                         <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
                             <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted">
-                                <AvatarImage src={member.imageUrl || undefined} alt={member.name} />
+                                <AvatarImage src={transformGoogleDriveUrl(member.imageUrl || '')} alt={member.name} />
                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 space-y-3 text-center md:text-left">

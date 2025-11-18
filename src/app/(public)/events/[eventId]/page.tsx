@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function EventDetailPage() {
   const { content, isLoading } = useContent();
@@ -78,7 +79,7 @@ export default function EventDetailPage() {
                                      <Card className="overflow-hidden">
                                         <CardContent className="p-0">
                                             <Image
-                                                src={image.url}
+                                                src={transformGoogleDriveUrl(image.url)}
                                                 alt={image.alt}
                                                 width={600}
                                                 height={400}

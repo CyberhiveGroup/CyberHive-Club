@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function AdminHomePage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -143,7 +144,7 @@ export default function AdminHomePage() {
                     <div className="space-y-2">
                         <Label htmlFor="images.aboutSection.url">About Section Image URL</Label>
                         <div className="flex items-center gap-4">
-                            <Image src={content.images?.aboutSection?.url || 'https://placehold.co/600x400'} alt={content.images?.aboutSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Image src={transformGoogleDriveUrl(content.images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={content.images?.aboutSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                             <Input 
                                 id="images.aboutSection.url"
                                 name="images.aboutSection.url"
@@ -174,7 +175,7 @@ export default function AdminHomePage() {
                      <div className="space-y-2">
                         <Label htmlFor="images.cslSection.url">CSL Section Image URL</Label>
                         <div className="flex items-center gap-4">
-                            <Image src={content.images?.cslSection?.url || 'https://placehold.co/600x400'} alt={content.images?.cslSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Image src={transformGoogleDriveUrl(content.images?.cslSection?.url || 'https://placehold.co/600x400')} alt={content.images?.cslSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                             <Input 
                                 id="images.cslSection.url"
                                 name="images.cslSection.url"

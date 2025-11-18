@@ -8,8 +8,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Linkedin, Github, ArrowLeft, Instagram } from 'lucide-react';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function MemberDetailPage() {
   const { content, isLoading } = useContent();
@@ -36,7 +37,7 @@ export default function MemberDetailPage() {
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 h-32" />
             <CardContent className="p-6 flex flex-col md:flex-row items-center md:items-start gap-8 -mt-20">
                 <Avatar className="h-40 w-40 border-4 border-background flex-shrink-0 bg-background">
-                    <AvatarImage src={member.imageUrl} alt={member.name} />
+                    <AvatarImage src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 space-y-4 text-center md:text-left pt-4">

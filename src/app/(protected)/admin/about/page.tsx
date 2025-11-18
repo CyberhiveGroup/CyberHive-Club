@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import type { ImageAsset } from '@/lib/types';
 import Image from 'next/image';
 import { PlusCircle, Trash2 } from 'lucide-react';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export default function AdminAboutPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -115,7 +116,7 @@ export default function AdminAboutPage() {
                     {(content.images?.aboutCarousel || []).map((image, index) => (
                         <Card key={index} className="p-4">
                             <div className="flex items-start gap-6">
-                                <Image src={image.url} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                <Image src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                                  <div className="flex-1 space-y-3">
                                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                          <div className="space-y-2">

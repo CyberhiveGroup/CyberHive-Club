@@ -2,7 +2,7 @@
 'use client';
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { ArrowRight, Users, Calendar, BookOpen, Shield, Mail } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import { InteractiveHexagon, type HexagonItem } from "@/components/interactive-h
 import { HoneycombBackground } from "@/components/honeycomb-background";
 import { cn } from '@/lib/utils';
 import { useContent } from '@/hooks/use-content';
+import { transformGoogleDriveUrl } from '@/lib/utils';
 
 const navItems: HexagonItem[] = [
     { href: "/about", icon: <Users />, title: "About Us" },
@@ -111,7 +112,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <Card className="flex flex-col">
                 <CardHeader>
-                  <Image src={images?.aboutSection?.url || 'https://placehold.co/600x400'} alt={images?.aboutSection?.alt || 'About the hive'} width={600} height={400} data-ai-hint={images?.aboutSection?.hint} className="rounded-lg object-cover aspect-video" />
+                  <Image src={transformGoogleDriveUrl(images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={images?.aboutSection?.alt || 'About the hive'} width={600} height={400} data-ai-hint={images?.aboutSection?.hint} className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                   <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.aboutTitle}</h2>
@@ -126,7 +127,7 @@ export default function Home() {
 
               <Card className="flex flex-col">
                 <CardHeader>
-                   <Image src={images?.cslSection?.url || 'https://placehold.co/600x400'} alt={images?.cslSection?.alt || 'CSL Classes'} width={600} height={400} data-ai-hint={images?.cslSection?.hint} className="rounded-lg object-cover aspect-video" />
+                   <Image src={transformGoogleDriveUrl(images?.cslSection?.url || 'https://placehold.co/600x400')} alt={images?.cslSection?.alt || 'CSL Classes'} width={600} height={400} data-ai-hint={images?.cslSection?.hint} className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                    <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.cslTitle}</h2>
