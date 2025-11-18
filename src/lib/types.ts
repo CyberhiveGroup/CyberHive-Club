@@ -29,12 +29,21 @@ export type Team = {
     members: TeamMember[];
 }
 
+export type CSLLink = {
+    id: number;
+    title: string;
+    href: string;
+}
+
 export type CSLClass = {
   id: number;
   title: string;
   description: string;
+  longDescription?: string;
   imageUrl: string;
   imageHint: string;
+  gallery?: ImageAsset[];
+  links?: CSLLink[];
 };
 
 export type Event = {

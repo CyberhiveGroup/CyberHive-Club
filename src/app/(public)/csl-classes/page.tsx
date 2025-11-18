@@ -5,9 +5,11 @@ import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 import type { CSLClass } from '@/lib/types';
 import { useContent } from '@/hooks/use-content';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import { ArrowRight } from 'lucide-react';
 
 function CSLClassCard({ cslClass }: { cslClass: CSLClass }) {
   return (
@@ -24,10 +26,14 @@ function CSLClassCard({ cslClass }: { cslClass: CSLClass }) {
           <CardTitle className="font-headline text-xl">{cslClass.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-grow">
-          <p className="text-muted-foreground">{cslClass.description}</p>
+          <p className="text-muted-foreground line-clamp-3">{cslClass.description}</p>
         </CardContent>
-        <CardFooter className="flex justify-between items-center">
-          <Button className="w-full font-bold">Register Now</Button>
+        <CardFooter>
+            <Link href={`/csl-classes/${cslClass.id}`} className="w-full">
+                 <Button className="w-full font-bold">
+                    View Details <ArrowRight className="ml-2 h-4 w-4"/>
+                </Button>
+            </Link>
         </CardFooter>
       </Card>
   )
