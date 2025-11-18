@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import type { ImageAsset } from '@/lib/types';
+import Image from 'next/image';
+import { PlusCircle, Trash2 } from 'lucide-react';
 
 export default function AdminAboutPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -30,6 +33,39 @@ export default function AdminAboutPage() {
         await saveContent(content);
         setIsSaving(false);
     }
+    
+    const handleCarouselImageChange = (index: number, field: keyof ImageAsset, value: string) => {
+        const newCarouselImages = [...(content.images?.aboutCarousel || [])];
+        (newCarouselImages[index] as any)[field] = value;
+        setContent(prev => ({
+            ...prev,
+            images: {
+                ...prev.images,
+                aboutCarousel: newCarouselImages,
+            }
+        }));
+    };
+
+    const addCarouselImage = () => {
+        const newImage: ImageAsset = {
+            url: `https://picsum.photos/seed/new${Math.random()}/600/300`,
+            alt: 'New carousel image',
+            hint: 'description'
+        };
+        const newCarouselImages = [...(content.images?.aboutCarousel || []), newImage];
+        setContent(prev => ({
+            ...prev,
+            images: { ...prev.images, aboutCarousel: newCarouselImages }
+        }));
+    };
+
+    const deleteCarouselImage = (index: number) => {
+        const newCarouselImages = (content.images?.aboutCarousel || []).filter((_, i) => i !== index);
+        setContent(prev => ({
+            ...prev,
+            images: { ...prev.images, aboutCarousel: newCarouselImages }
+        }));
+    };
 
     return (
         <div className="space-y-6">
@@ -57,7 +93,7 @@ export default function AdminAboutPage() {
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="missionParagraph">Mission Paragraph</Label>
-                        <Textarea id="missionParagraph" name="missionParagraph" value={content.about.missionParagraph} onChange={handleAboutTextChange} />
+                        <Textarea id="missionParagraph" name="missionParagraph" value={content.about.missionParagraph} />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="teamTitle">Team Section Title</Label>
@@ -67,6 +103,44 @@ export default function AdminAboutPage() {
                         <Label htmlFor="teamSubtitle">Team Section Subtitle</Label>
                         <Textarea id="teamSubtitle" name="teamSubtitle" value={content.about.teamSubtitle} onChange={handleAboutTextChange} />
                     </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>About Page Carousel</CardTitle>
+                    <CardDescription>Images for the carousel on the About page.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {(content.images?.aboutCarousel || []).map((image, index) => (
+                        <Card key={index} className="p-4">
+                            <div className="flex items-start gap-6">
+                                <Image src={image.url} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                 <div className="flex-1 space-y-3">
+                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                         <div className="space-y-2">
+                                            <Label>URL</Label>
+                                            <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
+                                        </div>
+                                         <div className="space-y-2">
+                                            <Label>Alt Text</Label>
+                                            <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
+                                        </div>
+                                         <div className="space-y-2 sm:col-span-2">
+                                            <Label>AI Hint</Label>
+                                            <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <Button variant="destructive" size="icon" onClick={() => deleteCarouselImage(index)}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </Card>
+                    ))}
+                    <Button variant="outline" size="sm" onClick={addCarouselImage}>
+                        <PlusCircle className="mr-2 h-4 w-4" /> Add Carousel Image
+                    </Button>
                 </CardContent>
             </Card>
         </div>

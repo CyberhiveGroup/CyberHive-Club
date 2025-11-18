@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 export default function AdminHomePage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -18,15 +19,17 @@ export default function AdminHomePage() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        const [section, key] = name.split('.');
-
-        setContent(prev => ({
-            ...prev,
-            home: {
-                ...prev.home,
-                [key]: value
+        const keys = name.split('.');
+        
+        setContent(prev => {
+            const newState = { ...prev };
+            let current: any = newState;
+            for (let i = 0; i < keys.length - 1; i++) {
+                current = current[keys[i]] = { ...current[keys[i]] };
             }
-        }));
+            current[keys[keys.length - 1]] = value;
+            return newState;
+        });
     }
 
     const handleSaveChanges = async () => {
@@ -138,6 +141,19 @@ export default function AdminHomePage() {
                         />
                     </div>
                     <div className="space-y-2">
+                        <Label htmlFor="images.aboutSection.url">About Section Image URL</Label>
+                        <div className="flex items-center gap-4">
+                            <Image src={content.images?.aboutSection?.url || 'https://placehold.co/600x400'} alt={content.images?.aboutSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Input 
+                                id="images.aboutSection.url"
+                                name="images.aboutSection.url"
+                                value={content.images?.aboutSection?.url || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                    </div>
+                    <hr className="my-4" />
+                    <div className="space-y-2">
                         <Label htmlFor="home.cslTitle">CSL Title</Label>
                         <Input 
                             id="home.cslTitle"
@@ -154,6 +170,18 @@ export default function AdminHomePage() {
                             value={content.home.cslParagraph}
                             onChange={handleInputChange}
                         />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="images.cslSection.url">CSL Section Image URL</Label>
+                        <div className="flex items-center gap-4">
+                            <Image src={content.images?.cslSection?.url || 'https://placehold.co/600x400'} alt={content.images?.cslSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Input 
+                                id="images.cslSection.url"
+                                name="images.cslSection.url"
+                                value={content.images?.cslSection?.url || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
                 </CardContent>
             </Card>

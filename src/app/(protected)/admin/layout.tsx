@@ -17,7 +17,7 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar";
 import { Logo } from '@/components/logo';
-import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
 
 
 const adminNavItems = [
@@ -29,7 +29,6 @@ const adminNavItems = [
   { href: '/admin/events', label: 'Events', icon: Calendar, tooltip: 'Events' },
   { href: '/admin/csl-classes', label: 'CSL Classes', icon: Briefcase, tooltip: 'CSL Classes' },
   { href: '/admin/resources', label: 'Resources', icon: Shield, tooltip: 'Resources' },
-  { href: '/admin/images', label: 'Manage Images', icon: ImageIcon, tooltip: 'Manage Images' },
   { href: '/admin/settings', label: 'Settings', icon: Settings, tooltip: 'Settings' },
 ];
 

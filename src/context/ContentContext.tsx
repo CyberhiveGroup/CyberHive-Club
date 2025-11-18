@@ -8,7 +8,6 @@ import type { Team, CSLClass, Event, Resource, FooterContent, ImageAsset } from 
 import { useToast } from '@/hooks/use-toast';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import defaultImages from '@/lib/placeholder-images.json';
 
 interface AppContent {
     home: any;
@@ -56,7 +55,35 @@ const defaultContent: AppContent = {
     "teamTitle": "Meet the Hive Mind",
     "teamSubtitle": "The dedicated individuals leading the charge and keeping the hive buzzing with activity."
   },
-  "images": defaultImages,
+  "images": {
+    "aboutSection": {
+      "url": "https://picsum.photos/seed/mission/600/400",
+      "alt": "About the Hive",
+      "hint": "community people"
+    },
+    "cslSection": {
+      "url": "https://picsum.photos/seed/csl-section/600/400",
+      "alt": "CSL Classes",
+      "hint": "computer learning"
+    },
+    "aboutCarousel": [
+      {
+        "url": "https://picsum.photos/seed/about1/600/300",
+        "alt": "Team working together",
+        "hint": "collaboration students"
+      },
+      {
+        "url": "https://picsum.photos/seed/about2/600/300",
+        "alt": "Cybersecurity workshop",
+        "hint": "tech workshop"
+      },
+      {
+        "url": "https://picsum.photos/seed/about3/600/300",
+        "alt": "Student presentation",
+        "hint": "student presentation"
+      }
+    ]
+  },
   "contact": {
     "title": "Get in Touch",
     "subtitle": "Have questions, suggestions, or want to collaborate? We'd love to hear from you. Reach out through any of our channels.",
@@ -100,17 +127,9 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
 
     const unsubscribe = onSnapshot(
       contentRef,
-      async (docSnap) => {
+      (docSnap) => {
         if (docSnap.exists()) {
-          const data = docSnap.data() as AppContent;
-          // Merge images from defaultImages with fetched data to ensure all keys exist
-          data.images = { ...defaultImages, ...data.images };
-          if (data.images.aboutCarousel) {
-            data.images.aboutCarousel = [...data.images.aboutCarousel];
-          } else {
-            data.images.aboutCarousel = [...defaultImages.aboutCarousel]
-          }
-          setContent(data);
+          setContent(docSnap.data() as AppContent);
         } else {
           console.warn("Content document does not exist. Using default content.");
           setContent(defaultContent);
