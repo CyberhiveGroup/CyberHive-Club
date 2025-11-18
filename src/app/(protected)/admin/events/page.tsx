@@ -73,9 +73,9 @@ function EventEditor({
                         <Input value={event.imageUrl} onChange={(e) => onEventChange('imageUrl', e.target.value)} />
                     </div>
 
-                    <div className="md:col-span-2 space-y-4">
+                    <div className="md:col-span-2 space-y-4 pt-4">
                         <div>
-                            <h4 className="font-semibold pt-4 text-lg">Event Description</h4>
+                            <h4 className="font-semibold text-lg">Event Description</h4>
                              <CardDescription>Provide a detailed description for the event page.</CardDescription>
                             <Textarea 
                                 className="mt-2"
@@ -84,9 +84,9 @@ function EventEditor({
                                 rows={5}
                             />
                         </div>
-                         <div>
-                            <h4 className="font-semibold pt-4 text-lg">Gallery</h4>
-                            <CardDescription>Images for the event detail page (only applicable for past events).</CardDescription>
+                         <div className="pt-4">
+                            <h4 className="font-semibold text-lg">Gallery</h4>
+                            <CardDescription>Images for the event detail page carousel.</CardDescription>
                             <div className="space-y-4 mt-2">
                                 {event.gallery?.map((item, index) => (
                                     <div key={index} className="flex items-end gap-2 p-2 border rounded-lg">

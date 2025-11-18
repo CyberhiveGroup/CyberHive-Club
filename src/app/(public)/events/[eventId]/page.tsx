@@ -40,7 +40,7 @@ export default function EventDetailPage() {
     return notFound();
   }
   
-  const isPastEvent = pastEvents.some(e => e.id === event?.id);
+  const eventImages = event.gallery && event.gallery.length > 0 ? event.gallery : [{ url: event.imageUrl, alt: event.title, hint: event.imageHint }];
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -49,9 +49,9 @@ export default function EventDetailPage() {
         </Button>
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div>
+            <div className="space-y-6">
                 <h1 className="text-4xl font-headline font-bold text-primary sm:text-5xl">{event.title}</h1>
-                <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground">
                     <div className="flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
                     <span>{event.date}</span>
@@ -61,57 +61,44 @@ export default function EventDetailPage() {
                     <span>{event.category}</span>
                     </div>
                 </div>
-                <p className="text-lg text-foreground/80 mt-8 whitespace-pre-wrap">{event.description}</p>
+                <p className="text-lg text-foreground/80 mt-2 whitespace-pre-wrap">{event.description}</p>
             </div>
             
             <div>
-                {(isPastEvent && event.gallery && event.gallery.length > 0) ? (
-                <div>
-                    <h2 className="text-3xl font-headline font-bold mb-6 text-primary">Gallery</h2>
-                     <Carousel
-                        className="w-full"
-                        plugins={[plugin.current]}
-                        opts={{ loop: true }}
-                        onMouseEnter={plugin.current.stop}
-                        onMouseLeave={plugin.current.reset}
-                    >
-                        <CarouselContent>
-                            {event.gallery.map((image, index) => (
-                                <CarouselItem key={index}>
-                                     <Card className="overflow-hidden">
-                                        <CardContent className="p-0">
-                                            <Image
-                                                src={transformGoogleDriveUrl(image.url)}
-                                                alt={image.alt}
-                                                width={600}
-                                                height={400}
-                                                data-ai-hint={image.hint}
-                                                className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-105"
-                                            />
-                                        </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
+                 <Carousel
+                    className="w-full"
+                    plugins={[plugin.current]}
+                    opts={{ loop: eventImages.length > 1 }}
+                    onMouseEnter={plugin.current.stop}
+                    onMouseLeave={plugin.current.reset}
+                >
+                    <CarouselContent>
+                        {eventImages.map((image, index) => (
+                            <CarouselItem key={index}>
+                                 <Card className="overflow-hidden">
+                                    <CardContent className="p-0">
+                                        <Image
+                                            src={transformGoogleDriveUrl(image.url)}
+                                            alt={image.alt}
+                                            width={600}
+                                            height={400}
+                                            data-ai-hint={image.hint}
+                                            className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-105"
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    {eventImages.length > 1 && <>
                         <CarouselPrevious className="absolute left-4" />
                         <CarouselNext className="absolute right-4" />
-                    </Carousel>
-                </div>
-                ) : (
-                    <Card className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden bg-muted">
-                        <Image
-                            src={transformGoogleDriveUrl(event.imageUrl)}
-                            alt={event.title}
-                            width={600}
-                            height={400}
-                            data-ai-hint={event.imageHint}
-                            className="object-cover w-full h-full"
-                        />
-                    </Card>
-                )}
+                    </>}
+                </Carousel>
             </div>
         </div>
       </div>
     </div>
   );
 }
+
