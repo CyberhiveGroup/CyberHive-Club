@@ -105,17 +105,19 @@ export default function CSLClassDetailPage() {
         </div>
         
         {(cslClass.links && cslClass.links.length > 0) && (
-            <div className="mt-20">
+            <div className="mt-12">
                 <Separator className="my-12" />
                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {cslClass.links.map(link => (
-                        <Link key={link.id} href={link.href} target="_blank" rel="noopener noreferrer">
-                             <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all">
-                                <CardHeader className="flex-row gap-4 items-center">
-                                    <div className="p-3 bg-primary/10 rounded-md">
-                                        <LinkIcon className="h-6 w-6 text-primary" />
+                        <Link key={link.id} href={link.href} target="_blank" rel="noopener noreferrer" className="block h-full">
+                             <Card className="h-full group transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20">
+                                <CardHeader>
+                                    <div className="flex items-center gap-4">
+                                        <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary transition-colors duration-300">
+                                            <LinkIcon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+                                        </div>
+                                        <CardTitle className="text-lg">{link.title}</CardTitle>
                                     </div>
-                                    <CardTitle>{link.title}</CardTitle>
                                 </CardHeader>
                             </Card>
                         </Link>
