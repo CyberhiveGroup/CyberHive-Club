@@ -1,5 +1,7 @@
+
 'use client';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import * as React from 'react';
+import { GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
@@ -20,34 +22,57 @@ function LoginPageContent() {
     const auth = useAuth();
     const { user, isLoading } = useUser();
     const router = useRouter();
+    const [isSigningIn, setIsSigningIn] = React.useState(true);
+
+    React.useEffect(() => {
+        if (!auth) {
+            setIsSigningIn(false);
+            return;
+        }
+
+        if (user) {
+            router.push('/admin/dashboard');
+            return;
+        }
+        
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result?.user) {
+                    router.push('/admin/dashboard');
+                } else {
+                    setIsSigningIn(false);
+                }
+            })
+            .catch((error) => {
+                console.error('Error getting redirect result', error);
+                setIsSigningIn(false);
+            });
+    }, [auth, user, router]);
 
     const handleGoogleSignIn = async () => {
         if (!auth) {
             console.error("Authentication service is not available.");
             return;
         }
+        setIsSigningIn(true);
         const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-            router.push('/admin/dashboard');
-        } catch (error) {
-            console.error('Error signing in with Google', error);
-        }
+        await signInWithRedirect(auth, provider);
     };
 
     const handleSignOut = async () => {
         if (!auth) return;
         try {
             await signOut(auth);
-            router.push('/');
+            // The useUser hook will update the state, and the UI will re-render.
         } catch (error) {
             console.error('Error signing out', error);
         }
     };
-
-    if (isLoading) {
+    
+    if (isLoading || isSigningIn) {
         return <div className="flex h-screen items-center justify-center">Loading...</div>;
     }
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -60,7 +85,7 @@ function LoginPageContent() {
                         {user ? `Welcome, ${user.displayName}` : 'Admin Access'}
                     </CardTitle>
                     <CardDescription>
-                        {user ? 'You are now logged in.' : 'Sign in or create an account to access the admin panel.'}
+                        {user ? 'You are now logged in.' : 'Sign in to access the admin panel.'}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -74,8 +99,8 @@ function LoginPageContent() {
                             </Button>
                         </div>
                     ) : (
-                        <Button onClick={handleGoogleSignIn} className="w-full">
-                            <GoogleIcon /> Sign In or Sign Up with Google
+                        <Button onClick={handleGoogleSignIn} className="w-full" disabled={isSigningIn}>
+                            <GoogleIcon /> {isSigningIn ? 'Signing In...' : 'Sign In with Google'}
                         </Button>
                     )}
                 </CardContent>
