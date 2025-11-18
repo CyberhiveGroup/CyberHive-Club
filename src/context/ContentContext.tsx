@@ -7,6 +7,7 @@ import { useFirestore } from '@/firebase';
 import type { Team, CSLClass, Event, Resource, FooterContent } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 interface AppContent {
     home: any;
@@ -106,22 +107,9 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
         if (docSnap.exists()) {
           setContent(docSnap.data() as AppContent);
         } else {
-          try {
-            await setDoc(contentRef, defaultContent);
-            setContent(defaultContent);
-            toast({
-              title: "Content Initialized",
-              description: "Your website content has been created in the database.",
-            });
-          } catch (e: any) {
-             console.error("Error creating content document:", e);
-             setError('Could not initialize site content.');
-             toast({
-                title: "Error Initializing Content",
-                description: e.message || 'Could not create content document.',
-                variant: 'destructive'
-            });
-          }
+          // No need to create the document here, rely on security rules and manual setup.
+          console.warn("Content document does not exist. Please create it in the Firebase console.");
+          setContent(defaultContent);
         }
         setError(null);
         setIsLoading(false);
@@ -152,20 +140,20 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
     }
     const contentRef = doc(firestore, 'content', 'site');
     
-    try {
-        await setDoc(contentRef, newContent, { merge: true });
-        toast({
-            title: "Success!",
-            description: "Your changes have been saved.",
-        });
-    } catch (serverError: any) {
-        console.error(serverError);
-        toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: serverError.message || "Could not save changes.",
-        });
-    }
+    setDoc(contentRef, newContent, { merge: true }).then(() => {
+      toast({
+          title: "Success!",
+          description: "Your changes have been saved.",
+      });
+    }).catch(async (serverError: any) => {
+      const permissionError = new FirestorePermissionError({
+          path: contentRef.path,
+          operation: 'update',
+          requestResourceData: newContent,
+      });
+
+      errorEmitter.emit('permission-error', permissionError);
+    });
   }, [firestore, toast]);
 
 
