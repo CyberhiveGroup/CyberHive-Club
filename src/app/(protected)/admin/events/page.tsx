@@ -123,13 +123,16 @@ export default function AdminEventsPage() {
     };
 
     const addEvent = (list: 'upcomingEvents' | 'pastEvents') => {
+        const allIds = [...content.upcomingEvents, ...content.pastEvents].map(e => e.id);
+        const newId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+        
         const newEvent: Event = {
-            id: Math.random(),
+            id: newId,
             title: "New Event",
             date: "TBA",
             description: "",
             category: "Workshop",
-            imageUrl: "https://picsum.photos/600/400?random=" + Math.random(),
+            imageUrl: "https://picsum.photos/600/400?random=" + newId,
             imageHint: "event image",
             gallery: []
         };
@@ -163,17 +166,7 @@ export default function AdminEventsPage() {
 
     const handleSaveChanges = async () => {
         setIsSaving(true);
-        const newContent = {
-            ...content,
-            upcomingEvents: content.upcomingEvents.map(e => ({...e, id: e.id > 1000 ? Math.max(...content.upcomingEvents.map(ev => ev.id > 1000 ? 0 : ev.id), ...content.pastEvents.map(ev => ev.id)) + 1 + Math.random() : e.id })),
-            pastEvents: content.pastEvents.map(e => ({...e, id: e.id > 1000 ? Math.max(...content.pastEvents.map(ev => ev.id > 1000 ? 0 : ev.id), ...content.upcomingEvents.map(ev => ev.id)) + 1 + Math.random(): e.id })),
-        }
-
-        await saveContent(newContent);
-        // refetch content to get proper IDs
-        const res = await fetch('/api/content');
-        const data = await res.json();
-        setContent(data);
+        await saveContent(content);
         setIsSaving(false);
     }
     
@@ -237,5 +230,3 @@ export default function AdminEventsPage() {
         </div>
     )
 }
-
-    

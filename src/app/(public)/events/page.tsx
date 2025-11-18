@@ -8,40 +8,46 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ListFilter, ArrowUpDown } from 'lucide-react';
+import { Search, ListFilter, ArrowUpDown, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Event } from '@/lib/types';
 import { useContent } from '@/hooks/use-content';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 
 const eventCategories = ['Workshop', 'Competition', 'Talk', 'Social'];
 
 function EventCard({ event }: { event: Event }) {
   return (
-    <Link href={`/events/${event.id}`} className="block h-full">
-        <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full">
-        <Image
-            src={transformGoogleDriveUrl(event.imageUrl)}
-            alt={event.title}
-            width={600}
-            height={400}
-            data-ai-hint={event.imageHint}
-            className="h-48 w-full object-cover"
-        />
-        <CardHeader>
-            <div className="flex justify-between items-start">
-            <CardTitle className="font-headline text-xl mb-2">{event.title}</CardTitle>
-            <Badge variant="secondary">{event.category}</Badge>
-            </div>
-            <CardDescription>{event.date}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-grow">
-            <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
-        </CardContent>
-        </Card>
-    </Link>
+    <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full">
+    <Image
+        src={transformGoogleDriveUrl(event.imageUrl)}
+        alt={event.title}
+        width={600}
+        height={400}
+        data-ai-hint={event.imageHint}
+        className="h-48 w-full object-cover"
+    />
+    <CardHeader>
+        <div className="flex justify-between items-start">
+        <CardTitle className="font-headline text-xl mb-2">{event.title}</CardTitle>
+        <Badge variant="secondary">{event.category}</Badge>
+        </div>
+        <CardDescription>{event.date}</CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+        <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
+    </CardContent>
+     <CardFooter>
+        <Link href={`/events/${event.id}`} className="w-full">
+            <Button className="w-full font-bold">
+                View Details <ArrowRight className="ml-2 h-4 w-4"/>
+            </Button>
+        </Link>
+    </CardFooter>
+    </Card>
   );
 }
 

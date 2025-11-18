@@ -39,6 +39,8 @@ export default function EventDetailPage() {
   if (!event) {
     return notFound();
   }
+  
+  const isPastEvent = pastEvents.some(e => e.id === event?.id);
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
@@ -46,7 +48,7 @@ export default function EventDetailPage() {
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
         </Button>
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
                 <h1 className="text-4xl font-headline font-bold text-primary sm:text-5xl">{event.title}</h1>
                 <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground">
@@ -59,11 +61,11 @@ export default function EventDetailPage() {
                     <span>{event.category}</span>
                     </div>
                 </div>
-                <p className="text-lg text-foreground/80 mt-8">{event.description}</p>
+                <p className="text-lg text-foreground/80 mt-8 whitespace-pre-wrap">{event.description}</p>
             </div>
             
             <div>
-                {event.gallery && event.gallery.length > 0 ? (
+                {(isPastEvent && event.gallery && event.gallery.length > 0) ? (
                 <div>
                     <h2 className="text-3xl font-headline font-bold mb-6 text-primary">Gallery</h2>
                      <Carousel
@@ -96,10 +98,16 @@ export default function EventDetailPage() {
                     </Carousel>
                 </div>
                 ) : (
-                    <div className="text-center text-muted-foreground py-16 h-full flex flex-col justify-center items-center bg-card rounded-lg">
-                        <h2 className="text-2xl font-semibold mb-2">No Gallery Images</h2>
-                        <p>There are no images available for this event yet.</p>
-                    </div>
+                    <Card className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden bg-muted">
+                        <Image
+                            src={transformGoogleDriveUrl(event.imageUrl)}
+                            alt={event.title}
+                            width={600}
+                            height={400}
+                            data-ai-hint={event.imageHint}
+                            className="object-cover w-full h-full"
+                        />
+                    </Card>
                 )}
             </div>
         </div>
@@ -107,5 +115,3 @@ export default function EventDetailPage() {
     </div>
   );
 }
-
-    
