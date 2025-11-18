@@ -7,11 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Trash2, PlusCircle } from 'lucide-react';
+import { Trash2, PlusCircle, ChevronsUpDown } from 'lucide-react';
 import type { Team, TeamMember } from '@/lib/types';
 import Image from 'next/image';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function AdminTeamsPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -94,78 +95,87 @@ export default function AdminTeamsPage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                     {content.teams.map((team, teamIndex) => (
-                        <Card key={team.id} className="p-4 bg-muted/20">
+                         <Collapsible key={team.id} defaultOpen className="p-4 border rounded-lg bg-muted/20">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="text-xl font-semibold">{team.name}</h3>
-                                <DeleteConfirmationDialog onConfirm={() => deleteTeam(teamIndex)}>
-                                    <Button variant="destructive" size="icon"><Trash2 className="h-4 w-4"/></Button>
-                                </DeleteConfirmationDialog>
+                                <div className="flex items-center gap-2">
+                                     <CollapsibleTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <ChevronsUpDown className="h-4 w-4" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <DeleteConfirmationDialog onConfirm={() => deleteTeam(teamIndex)}>
+                                        <Button variant="destructive" size="icon"><Trash2 className="h-4 w-4"/></Button>
+                                    </DeleteConfirmationDialog>
+                                </div>
                             </div>
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <Label>Team Name</Label>
-                                    <Input value={team.name} onChange={(e) => handleTeamChange(teamIndex, 'name', e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Team Description</Label>
-                                    <Textarea value={team.description} onChange={(e) => handleTeamChange(teamIndex, 'description', e.target.value)} />
-                                </div>
-                                
-                                <h4 className="font-semibold pt-4">Members</h4>
+                            <CollapsibleContent>
                                 <div className="space-y-4">
-                                    {team.members.map((member, memberIndex) => (
-                                        <Card key={member.id} className="p-4">
-                                            <div className="flex justify-between items-start">
-                                                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                                                    <div className="flex items-center gap-4">
-                                                         <Image src={transformGoogleDriveUrl(member.imageUrl) || 'https://placehold.co/80x80'} alt={member.name} width={80} height={80} className="rounded-full bg-muted" />
-                                                        <div className="space-y-2 flex-1">
-                                                            <Label>Name</Label>
-                                                            <Input value={member.name} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'name', e.target.value)} />
-                                                            <Label>Role</Label>
-                                                            <Input value={member.role} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'role', e.target.value)} />
+                                    <div className="space-y-2">
+                                        <Label>Team Name</Label>
+                                        <Input value={team.name} onChange={(e) => handleTeamChange(teamIndex, 'name', e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Team Description</Label>
+                                        <Textarea value={team.description} onChange={(e) => handleTeamChange(teamIndex, 'description', e.target.value)} />
+                                    </div>
+                                    
+                                    <h4 className="font-semibold pt-4">Members</h4>
+                                    <div className="space-y-4">
+                                        {team.members.map((member, memberIndex) => (
+                                            <Card key={member.id} className="p-4">
+                                                <div className="flex justify-between items-start">
+                                                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                                        <div className="flex items-center gap-4">
+                                                             <Image src={transformGoogleDriveUrl(member.imageUrl) || 'https://placehold.co/80x80'} alt={member.name} width={80} height={80} className="rounded-full bg-muted" />
+                                                            <div className="space-y-2 flex-1">
+                                                                <Label>Name</Label>
+                                                                <Input value={member.name} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'name', e.target.value)} />
+                                                                <Label>Role</Label>
+                                                                <Input value={member.role} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'role', e.target.value)} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label>Bio</Label>
+                                                            <Textarea value={member.bio} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'bio', e.target.value)} rows={4} />
+                                                            <Label>Image URL</Label>
+                                                            <Input placeholder="https://example.com/image.png" value={member.imageUrl} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'imageUrl', e.target.value)} />
+                                                        </div>
+                                                        <div className="space-y-2 md:col-span-2">
+                                                             <h5 className="font-semibold pt-2">Contact Info</h5>
+                                                             <div className="grid grid-cols-2 gap-4">
+                                                                <div className="space-y-2">
+                                                                    <Label>Email</Label>
+                                                                    <Input value={member.contact.email} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { email: e.target.value })} />
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                    <Label>LinkedIn</Label>
+                                                                    <Input value={member.contact.linkedin} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { linkedin: e.target.value })} />
+                                                                </div>
+                                                                 <div className="space-y-2">
+                                                                    <Label>GitHub</Label>
+                                                                    <Input value={member.contact.github} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { github: e.target.value })} />
+                                                                </div>
+                                                                 <div className="space-y-2">
+                                                                    <Label>Instagram (Optional)</Label>
+                                                                    <Input value={member.contact.instagram || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { instagram: e.target.value })} />
+                                                                </div>
+                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <Label>Bio</Label>
-                                                        <Textarea value={member.bio} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'bio', e.target.value)} rows={4} />
-                                                        <Label>Image URL</Label>
-                                                        <Input placeholder="https://example.com/image.png" value={member.imageUrl} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'imageUrl', e.target.value)} />
-                                                    </div>
-                                                    <div className="space-y-2 md:col-span-2">
-                                                         <h5 className="font-semibold pt-2">Contact Info</h5>
-                                                         <div className="grid grid-cols-2 gap-4">
-                                                            <div className="space-y-2">
-                                                                <Label>Email</Label>
-                                                                <Input value={member.contact.email} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { email: e.target.value })} />
-                                                            </div>
-                                                            <div className="space-y-2">
-                                                                <Label>LinkedIn</Label>
-                                                                <Input value={member.contact.linkedin} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { linkedin: e.target.value })} />
-                                                            </div>
-                                                             <div className="space-y-2">
-                                                                <Label>GitHub</Label>
-                                                                <Input value={member.contact.github} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { github: e.target.value })} />
-                                                            </div>
-                                                             <div className="space-y-2">
-                                                                <Label>Instagram (Optional)</Label>
-                                                                <Input value={member.contact.instagram || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { instagram: e.target.value })} />
-                                                            </div>
-                                                         </div>
-                                                    </div>
+                                                    <DeleteConfirmationDialog onConfirm={() => deleteMember(teamIndex, memberIndex)}>
+                                                        <Button variant="ghost" size="icon" className="ml-4"><Trash2 className="h-4 w-4 text-destructive"/></Button>
+                                                    </DeleteConfirmationDialog>
                                                 </div>
-                                                <DeleteConfirmationDialog onConfirm={() => deleteMember(teamIndex, memberIndex)}>
-                                                    <Button variant="ghost" size="icon" className="ml-4"><Trash2 className="h-4 w-4 text-destructive"/></Button>
-                                                </DeleteConfirmationDialog>
-                                            </div>
-                                        </Card>
-                                    ))}
+                                            </Card>
+                                        ))}
+                                    </div>
+                                    <Button variant="outline" size="sm" onClick={() => addNewMember(teamIndex)}>
+                                        <PlusCircle className="mr-2 h-4 w-4"/>Add Member to {team.name}
+                                    </Button>
                                 </div>
-                                <Button variant="outline" size="sm" onClick={() => addNewMember(teamIndex)}>
-                                    <PlusCircle className="mr-2 h-4 w-4"/>Add Member to {team.name}
-                                </Button>
-                            </div>
-                        </Card>
+                            </CollapsibleContent>
+                        </Collapsible>
                     ))}
                 </CardContent>
             </Card>

@@ -7,12 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Trash2, PlusCircle } from 'lucide-react';
+import { Trash2, PlusCircle, ChevronsUpDown } from 'lucide-react';
 import type { Event } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from 'next/image';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 function EventEditor({ 
     event,
@@ -31,9 +32,24 @@ function EventEditor({
 }) {
      const eventCategories: Event['category'][] = ['Workshop', 'Competition', 'Talk', 'Social'];
     return (
-         <Card className="p-4">
-            <div className="flex justify-between items-start">
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+         <Collapsible defaultOpen className="p-4 border rounded-lg">
+            <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">{event.title}</h3>
+                <div className="flex items-center gap-2">
+                     <CollapsibleTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <ChevronsUpDown className="h-4 w-4" />
+                        </Button>
+                    </CollapsibleTrigger>
+                    <DeleteConfirmationDialog onConfirm={onDelete}>
+                        <Button variant="destructive" size="icon">
+                            <Trash2 className="h-4 w-4"/>
+                        </Button>
+                    </DeleteConfirmationDialog>
+                </div>
+            </div>
+            <CollapsibleContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 pt-4">
                     <div className="space-y-2">
                         <Label>Title</Label>
                         <Input value={event.title} onChange={(e) => onEventChange('title', e.target.value)} />
@@ -81,13 +97,8 @@ function EventEditor({
                          </div>
                     </div>
                 </div>
-                <DeleteConfirmationDialog onConfirm={onDelete}>
-                    <Button variant="destructive" size="icon" className="ml-4">
-                        <Trash2 className="h-4 w-4"/>
-                    </Button>
-                </DeleteConfirmationDialog>
-            </div>
-        </Card>
+            </CollapsibleContent>
+        </Collapsible>
     )
 }
 
