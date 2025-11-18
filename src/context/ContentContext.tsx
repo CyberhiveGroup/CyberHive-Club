@@ -40,7 +40,8 @@ const defaultContent: AppContent = {
     "aboutTitle": "Who We Are",
     "aboutParagraph": "CyberHive is a student-run organization dedicated to fostering a vibrant cybersecurity community. We aim to provide a platform for students to learn, share knowledge, and develop practical skills in the ever-evolving field of cybersecurity. Our mission is to bridge the gap between theoretical knowledge and real-world application.",
     "cslTitle": "Cyber Siksha Lab (CSL)",
-    "cslParagraph": "Our Cyber Siksha Lab offers a structured learning path with hands-on classes. From foundational concepts to advanced techniques, CSL is designed to build your skills from the ground up. Join our classes to gain practical experience and prepare for a career in cybersecurity."
+    "cslParagraph": "Our Cyber Siksha Lab offers a structured learning path with hands-on classes. From foundational concepts to advanced techniques, CSL is designed to build your skills from the ground up. Join our classes to gain practical experience and prepare for a career in cybersecurity.",
+    "cslImageUrl": "https://picsum.photos/seed/csl/600/400"
   },
   "about": {
     "title": "About CyberHive",
