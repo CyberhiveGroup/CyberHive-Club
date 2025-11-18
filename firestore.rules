@@ -9,7 +9,8 @@
  * All editable website content is stored within a single document located at `/content/{contentId}`.  The contentId is expected to be a single, fixed document ID (e.g., "global_content").
  *
  * Key Security Decisions:
- *  - Content is only editable by authenticated users.
+ *  - Content is publicly readable.
+ *  - Content is publicly writable. This is for development purposes and should be secured before production.
  *  - Listing the `/content` collection is disabled to prevent unintended data exposure.
  *
  * Denormalization for Authorization:
@@ -21,20 +22,20 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Protects the single website content document, allowing read access to everyone but restricting writes to only authenticated users.
+     * @description Protects the single website content document, allowing read access to everyone and write access to everyone.
      * @path /content/{contentId}
-     * @allow (get, list): Any user can read the content.
-     * @allow (create, update, delete): Only authenticated users can modify the content.
-     * @deny (create, update, delete): Unauthenticated users cannot modify the content.
-     * @principle Enforces authenticated-user-only access for content modification.
+     * @allow (get): Any user can read the content.
+     * @allow (create, update, delete): Any user can modify the content.
+     * @deny (list): Listing is disabled.
+     * @principle Enforces public read/write for content modification.
      */
     match /content/{contentId} {
       allow get: if true;
       allow list: if false; // Listing is disabled to avoid unintended data exposure
 
-      allow create: if isSignedIn();
-      allow update: if isSignedIn() && resource != null;
-      allow delete: if isSignedIn() && resource != null;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
     }
 
     // --- Helper Functions ---
