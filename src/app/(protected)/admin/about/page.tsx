@@ -94,7 +94,7 @@ export default function AdminAboutPage() {
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="missionParagraph">Mission Paragraph</Label>
-                        <Textarea id="missionParagraph" name="missionParagraph" value={content.about.missionParagraph} />
+                        <Textarea id="missionParagraph" name="missionParagraph" value={content.about.missionParagraph} onChange={handleAboutTextChange} />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="teamTitle">Team Section Title</Label>
