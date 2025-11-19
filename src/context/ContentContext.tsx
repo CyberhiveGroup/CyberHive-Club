@@ -13,6 +13,7 @@ interface AppContent {
     home: any;
     about: any;
     images: {
+      logo: ImageAsset;
       aboutSection: ImageAsset;
       cslSection: ImageAsset;
       aboutCarousel: ImageAsset[];
@@ -56,6 +57,11 @@ const defaultContent: AppContent = {
     "teamSubtitle": "The dedicated individuals leading the charge and keeping the hive buzzing with activity."
   },
   "images": {
+     "logo": {
+      "url": "https://drive.google.com/file/d/1gxwJRQ0iWOnnd9WTKKLitqn0Uf85ypi-/view?usp=drive_link",
+      "alt": "CyberHive Logo",
+      "hint": "logo"
+    },
     "aboutSection": {
       "url": "https://picsum.photos/seed/mission/600/400",
       "alt": "About the Hive",
@@ -129,7 +135,7 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
       contentRef,
       (docSnap) => {
         if (docSnap.exists()) {
-          setContent(docSnap.data() as AppContent);
+          setContent(prevContent => ({ ...prevContent, ...docSnap.data() }));
         } else {
           console.warn("Content document does not exist. Using default content.");
           setContent(defaultContent);
