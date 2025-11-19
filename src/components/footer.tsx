@@ -1,7 +1,7 @@
 
 'use client';
 import { Logo } from '@/components/logo';
-import { Github, Twitter, Linkedin, Mail, Instagram } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { useContent } from '@/hooks/use-content';
@@ -23,11 +23,31 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
+const DiscordIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+    <path d="M8 12.5c0 .828.672 1.5 1.5 1.5s1.5-.672 1.5-1.5S10.328 11 9.5 11 8 11.672 8 12.5z" />
+    <path d="M14.5 11c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5z" />
+    <path d="M8.5 17.5s.5-1 2-1.5c1.5-.5 3-.5 4.5 0s2 1.5 2 1.5" />
+  </svg>
+);
+
 const socialIcons = {
     email: <Mail className="h-6 w-6" />,
     whatsapp: <WhatsAppIcon className="h-6 w-6" />,
     instagram: <Instagram className="h-6 w-6" />,
-    twitter: <Twitter className="h-6 w-6" />,
+    discord: <DiscordIcon className="h-6 w-6" />,
     github: <Github className="h-6 w-6" />,
     linkedin: <Linkedin className="h-6 w-6" />,
 }

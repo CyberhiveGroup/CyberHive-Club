@@ -48,7 +48,7 @@ export default function AdminContactPage() {
     const addSocialLink = () => {
         const newLink: SocialLink = {
             id: content.footer.socialLinks.length > 0 ? Math.max(...content.footer.socialLinks.map(l => l.id)) + 1 : 1,
-            platform: 'twitter',
+            platform: 'discord',
             href: 'https://',
         };
         setContent(prev => ({ ...prev, footer: { ...prev.footer, socialLinks: [...prev.footer.socialLinks, newLink] }}));
@@ -65,7 +65,7 @@ export default function AdminContactPage() {
         setIsSaving(false);
     }
     
-    const socialPlatforms: SocialLink['platform'][] = ['email', 'whatsapp', 'instagram', 'twitter', 'github', 'linkedin'];
+    const socialPlatforms: SocialLink['platform'][] = ['email', 'whatsapp', 'instagram', 'discord', 'github', 'linkedin'];
 
 
     return (

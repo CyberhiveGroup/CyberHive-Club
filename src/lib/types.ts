@@ -73,7 +73,7 @@ export type FooterLink = {
 
 export type SocialLink = {
     id: number;
-    platform: 'email' | 'whatsapp' | 'instagram' | 'twitter' | 'github' | 'linkedin';
+    platform: 'email' | 'whatsapp' | 'instagram' | 'discord' | 'github' | 'linkedin';
     href: string;
 }
 
