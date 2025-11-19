@@ -57,7 +57,7 @@ export default function AdminTeamsPage() {
             id: Math.random(), // Temporary ID
             name: 'New Member',
             role: 'Role',
-            imageUrl: 'https://placehold.co/160x160',
+            imageUrl: 'https://picsum.photos/seed/new-member/160/160',
             imageHint: 'person portrait',
             bio: '',
             contact: { email: '', linkedin: '', github: '' },
@@ -127,7 +127,7 @@ export default function AdminTeamsPage() {
                                                 <div className="flex justify-between items-start">
                                                     <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                                                         <div className="flex items-center gap-4">
-                                                             <Image src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} width={80} height={80} className="rounded-full bg-muted" />
+                                                             <Image src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} width={80} height={80} className="rounded-full bg-muted object-cover" />
                                                             <div className="space-y-2 flex-1">
                                                                 <Label>Name</Label>
                                                                 <Input value={member.name} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'name', e.target.value)} />
