@@ -30,7 +30,7 @@ export default function MemberDetailPage() {
     return notFound();
   }
 
-  const transformedImageUrl = member.imageUrl ? transformGoogleDriveUrl(member.imageUrl) : '';
+  const transformedImageUrl = transformGoogleDriveUrl(member.imageUrl);
 
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
