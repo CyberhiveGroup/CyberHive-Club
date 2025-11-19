@@ -7,9 +7,10 @@ import Link from 'next/link';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 
 export function Logo({ className, onClick }: { className?: string, onClick?: () => void }) {
+  const logoUrl = "/logo.png";
   return (
     <Link href="/" className={cn('flex items-center gap-3', className)} onClick={onClick}>
-      <Image src={transformGoogleDriveUrl("/logo.png")} alt="CyberHive Logo" width={80} height={80} />
+      <Image src={transformGoogleDriveUrl(logoUrl)} alt="CyberHive Logo" width={80} height={80} />
       <span className="font-headline text-3xl font-bold text-foreground">CyberHive</span>
     </Link>
   );
