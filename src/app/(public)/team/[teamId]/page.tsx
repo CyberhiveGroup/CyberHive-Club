@@ -39,7 +39,7 @@ export default function TeamDetailPage() {
         <div className="max-w-4xl mx-auto space-y-8">
             {team.members.length > 0 ? (
                 team.members.map((member) => {
-                    const transformedImageUrl = transformGoogleDriveUrl(member.imageUrl);
+                    const transformedImageUrl = member.imageUrl ? transformGoogleDriveUrl(member.imageUrl) : '';
                     return (
                         <Card 
                             key={member.id}
