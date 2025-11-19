@@ -30,8 +30,6 @@ export default function MemberDetailPage() {
     return notFound();
   }
 
-  const transformedImageUrl = transformGoogleDriveUrl(member.imageUrl);
-
   return (
     <div className="container mx-auto px-4 py-12 md:px-6 md:py-20">
       <div className="max-w-4xl mx-auto">
@@ -39,7 +37,7 @@ export default function MemberDetailPage() {
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 h-32" />
             <CardContent className="p-6 flex flex-col md:flex-row items-center md:items-start gap-8 -mt-20">
                 <Avatar className="h-40 w-40 border-4 border-background flex-shrink-0 bg-muted">
-                    <AvatarImage src={transformedImageUrl} alt={member.name} />
+                    <AvatarImage src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 space-y-4 text-center md:text-left pt-4">

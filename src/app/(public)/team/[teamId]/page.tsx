@@ -39,7 +39,6 @@ export default function TeamDetailPage() {
         <div className="max-w-4xl mx-auto space-y-8">
             {team.members.length > 0 ? (
                 team.members.map((member) => {
-                    const transformedImageUrl = transformGoogleDriveUrl(member.imageUrl);
                     return (
                         <Card 
                             key={member.id}
@@ -47,7 +46,7 @@ export default function TeamDetailPage() {
                         >
                             <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
                                 <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted">
-                                    <AvatarImage src={transformedImageUrl} alt={member.name} />
+                                    <AvatarImage src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
                                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 space-y-3 text-center md:text-left">
