@@ -44,10 +44,7 @@ const SidebarContext = React.createContext<SidebarContext | null>(null)
 
 function useSidebar() {
   const context = React.useContext(SidebarContext)
-  if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider.")
-  }
-
+  // We don't throw an error here, so the component can be used anywhere.
   return context
 }
 
@@ -179,7 +176,7 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()!
 
     if (collapsible === "none") {
       return (
@@ -267,7 +264,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar } = useSidebar()!
 
   return (
     <Button
@@ -293,7 +290,7 @@ const SidebarRail = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button">
 >(({ className, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar } = useSidebar()!
 
   return (
     <button
@@ -358,7 +355,7 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
-    const { state } = useSidebar();
+    const { state } = useSidebar()!;
   return (
     <div
       ref={ref}
@@ -562,7 +559,8 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const pathname = usePathname()
-    const { isMobile, state, open, setOpen, setOpenMobile } = useSidebar()
+    const sidebar = useSidebar()
+    const { isMobile, state, open, setOpen, setOpenMobile } = sidebar!
 
     const isActive = isActiveProp ?? (href ? pathname === href : false)
 
