@@ -153,7 +153,7 @@ export default function AdminCslClassesPage() {
                                             <div className="space-y-4 mt-2">
                                                 {(cslClass.gallery || []).map((item, gIndex) => (
                                                     <div key={gIndex} className="flex items-end gap-2 p-2 border rounded-lg">
-                                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url)} alt={item.alt || ''} width={60} height={60} className="rounded-md object-cover aspect-square" />
                                                         <div className="flex-1 grid grid-cols-2 gap-2">
                                                             <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
                                                             <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />
