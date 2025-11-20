@@ -119,7 +119,7 @@ export default function Home() {
                   <p className="text-muted-foreground">{textContent.aboutParagraph}</p>
                 </CardContent>
                 <CardFooter>
-                  <Button asChild size="lg" variant="secondary" className="uppercase tracking-wider w-full">
+                  <Button asChild size="lg" className="uppercase tracking-wider w-full">
                     <Link href="/about">Learn More About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
                   </Button>
                 </CardFooter>
