@@ -24,106 +24,76 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 );
 
 const DiscordIcon = ({ className }: { className?: string }) => (
-    <svg
+    <svg 
         className={className}
-        role="img"
-        viewBox="0 0 24 24"
+        role="img" 
+        viewBox="0 0 24 24" 
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
     >
         <title>Discord</title>
-        <path d="M20.317 4.36981C18.8824 3.78044 17.3821 3.34521 15.8228 3.07477C15.7971 3.12044 15.7725 3.16694 15.7468 3.21261C14.7346 3.68412 13.7954 4.09934 12.7753 4.54922C11.3094 3.99622 9.80376 3.51381 8.24354 3.07477C8.20194 2.98394 8.16118 2.89312 8.11958 2.80229C6.41701 3.20812 4.82361 3.86877 3.3767 4.70297C1.43343 6.64337 0.359013 9.22274 0 11.9441C0.525543 12.5699 1.12423 13.161 1.76454 13.6934C2.06222 13.5042 2.34861 13.2982 2.62265 13.0768C2.3926 12.8488 2.1749 12.6083 1.96853 12.367C1.93325 12.3323 1.89797 12.2968 1.86353 12.2622C4.01354 14.1958 6.57864 15.6247 9.42695 16.321C9.99222 15.9328 10.5318 15.5108 11.0346 15.048C10.4542 14.8318 9.90793 14.5818 9.38801 14.2982C9.33649 14.2721 9.28581 14.2443 9.23513 14.2165C6.91572 12.9356 5.42907 10.9383 5.37365 8.73022C5.36523 8.38434 5.41507 8.03847 5.52292 7.70243C6.73294 6.43431 8.42337 5.48594 10.2295 5.05312C10.2553 5.09879 10.2802 5.14447 10.3051 5.19014C11.0233 5.56212 11.691 5.99252 12.327 6.46403C12.3528 6.48188 12.3794 6.49889 12.4052 6.51675C13.514 5.79429 14.7342 5.23438 16.0352 4.8624C16.143 5.10284 16.2385 5.35571 16.3172 5.61901C18.6657 7.04953 20.0156 9.34444 19.9869 11.9441C19.9573 13.0641 19.6405 14.1504 19.0601 15.1118C19.553 15.523 20.0123 15.9014 20.446 16.2546C22.6133 14.0114 23.9519 11.0494 24 7.86581C22.8859 6.57351 21.6575 5.41951 20.317 4.36981ZM8.02025 10.3331C7.1261 10.3331 6.39191 9.65218 6.39191 8.82512C6.39191 7.99805 7.1261 7.31718 8.02025 7.31718C8.91441 7.31718 9.64859 7.99805 9.64859 8.82512C9.64859 9.65218 8.91441 10.3331 8.02025 10.3331ZM15.9937 10.3331C15.0995 10.3331 14.3653 9.65218 14.3653 8.82512C14.3653 7.99805 15.0995 7.31718 15.9937 7.31718C16.8878 7.31718 17.622 7.99805 17.622 8.82512C17.622 9.65218 16.8878 10.3331 15.9937 10.3331Z"/>
+        <path d="M20.317 4.36981C18.8824 3.78044 17.3821 3.34521 15.8228 3.07477C15.7971 3.12044 15.7725 3.16694 15.7468 3.21261C14.7346 3.68412 13.7954 4.09934 12.7753 4.54922C11.3094 3.99622 9.80376 3.51381 8.24354 3.07477C8.20194 2.98394 8.16118 2.89312 8.11958 2.80229C6.41701 3.20812 4.82361 3.86877 3.3767 4.70297C1.43343 6.64337 0.359013 9.22274 0 11.9441C0.525543 12.5699 1.12423 13.161 1.76454 13.6934C2.06222 13.5042 2.34861 13.2982 2.62265 13.0768C2.3926 12.8488 2.1749 12.6083 1.96853 12.367C1.93325 12.3323 1.89797 12.2968 1.86353 12.2622C4.01354 14.1958 6.57864 15.6247 9.42695 16.321C9.99222 15.9328 10.5318 15.5108 11.0346 15.048C10.4542 14.8318 9.90793 14.5818 9.38801 14.2982C9.33649 14.2721 9.28581 14.2443 9.23513 14.2165C6.91572 12.9356 5.42907 10.9383 5.37365 8.73022C5.36523 8.38434 5.41507 8.03847 5.52292 7.70243C6.73294 6.43431 8.42337 5.48594 10.2295 5.05312C10.2553 5.09879 10.2802 5.14447 10.3051 5.19014C11.0233 5.56212 11.691 5.99252 12.327 6.46403C12.3528 6.48188 12.3794 6.49889 12.4052 6.51675C13.514 5.79429 14.7342 5.23438 16.0352 4.8624C16.143 5.10284 16.2385 5.35571 16.3172 5.61901C18.6657 7.04953 20.0156 9.34444 19.9869 11.9441C19.9573 13.0641 19.6405 14.1504 19.0601 15.1118C19.553 15.523 20.0123 15.9014 20.446 16.2546C22.6133 14.0114 23.9519 11.0494 24 7.86581C22.8859 6.57351 21.6575 5.41951 20.317 4.36981ZM8.02025 10.3331C7.1261 10.3331 6.39191 9.65218 6.39191 8.82512C6.39191 7.99805 7.1261 7.31718 8.02025 7.31718C8.91441 7.31718 9.64859 7.99805 9.64859 8.82512C9.64859 9.65218 8.91441 10.3331 8.02025 10.3331ZM15.9937 10.3331C15.0995 10.3331 14.3653 9.65218 14.3653 8.82512C14.3653 7.99805 15.0995 7.31718 15.9937 7.31718C16.8878 7.31718 17.622 7.99805 17.622 8.82512C17.622 9.65218 16.8878 10.3331 15.9937 10.3331Z" />
     </svg>
-  );
+);
 
-const socialIcons = {
-    email: <Mail className="h-6 w-6" />,
-    whatsapp: <WhatsAppIcon className="h-6 w-6" />,
-    instagram: <Instagram className="h-6 w-6" />,
-    discord: <DiscordIcon className="h-6 w-6" />,
-    github: <Github className="h-6 w-6" />,
-    linkedin: <Linkedin className="h-6 w-6" />,
-}
 
 export function Footer() {
     const { content, isLoading } = useContent();
 
     if (isLoading) {
-        return <footer className="w-full border-t border-border/40 bg-background/95 py-10 text-center">Loading...</footer>;
+        return (
+            <footer className="bg-card">
+                <div className="container mx-auto px-4 py-8 md:px-6">
+                    <p className="text-center text-sm text-muted-foreground">&copy; {new Date().getFullYear()} CyberHive Hub. Loading...</p>
+                </div>
+            </footer>
+        )
     }
 
-    const { footer } = content;
-
-    const getSocialIcon = (platform: keyof typeof socialIcons) => {
-        return socialIcons[platform] || null;
-    }
+    const { footer: textContent } = content;
     
-    const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:');
+    const socialIcons = {
+        email: <Mail className="h-6 w-6" />,
+        whatsapp: <WhatsAppIcon className="h-6 w-6" />,
+        instagram: <Instagram className="h-6 w-6" />,
+        discord: <DiscordIcon className="h-6 w-6" />,
+        github: <Github className="h-6 w-6" />,
+        linkedin: <Linkedin className="h-6 w-6" />
+    };
 
+    return (
+        <footer className="bg-card border-t">
+            <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-12 text-center md:grid-cols-3 md:text-left md:px-6">
+                <div className="flex flex-col items-center md:items-start">
+                    <Logo />
+                    <p className="mt-4 max-w-xs text-sm text-muted-foreground">{textContent.tagline}</p>
+                </div>
 
-  return (
-    <footer className="w-full border-t border-border/40 bg-background/95">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 items-center gap-8 px-4 py-10 sm:px-6">
-        <div className="flex flex-col items-center md:items-start">
-          <Logo />
-          <p className="mt-4 text-sm text-muted-foreground text-center md:text-left">
-            {footer.tagline}
-          </p>
-        </div>
-        
-        <div className="text-center">
-          <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Quick Links</h3>
-          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {footer.quickLinks.map((link) => (
-                <li key={link.id}><Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">{link.label}</Link></li>
-            ))}
-          </ul>
-        </div>
+                <div />
 
-        <div className="flex flex-col items-center md:items-end">
-           <h3 className="font-headline font-bold mb-4 uppercase tracking-wider">Connect</h3>
-          <div className="flex items-center gap-4">
-            {footer.socialLinks.map((link) => {
-                const linkLabel = link.platform.charAt(0).toUpperCase() + link.platform.slice(1);
-                if (isExternalLink(link.href)) {
-                    return (
-                        <a
-                            key={link.id}
-                            href={link.href}
-                            aria-label={linkLabel}
-                            className="text-muted-foreground transition-colors hover:text-primary"
-                            target={link.href.startsWith('http') ? '_blank' : undefined}
-                            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        >
-                            {getSocialIcon(link.platform)}
-                        </a>
-                    )
-                }
-                return (
-                    <Link
-                        key={link.id}
-                        href={link.href}
-                        aria-label={linkLabel}
-                        className="text-muted-foreground transition-colors hover:text-primary"
-                    >
-                        {getSocialIcon(link.platform)}
-                    </Link>
-                )
-            })}
-          </div>
-        </div>
-      </div>
-      <div className="border-t border-border/40 py-4">
-        <div className="container mx-auto flex flex-col md:flex-row justify-center items-center gap-4 px-4 text-sm text-muted-foreground md:px-6">
-            <span>{footer.copyright.replace('{new Date().getFullYear()}', String(new Date().getFullYear()))}</span>
-        </div>
-      </div>
-    </footer>
-  );
+                <div className="flex flex-col items-center md:items-end">
+                    <h3 className="font-headline text-lg font-semibold uppercase tracking-wider">Connect With Us</h3>
+                    <div className="mt-4 flex items-center justify-center gap-4 md:justify-end">
+                        {textContent.socialLinks.map(link => {
+                             const socialIcon = socialIcons[link.platform as keyof typeof socialIcons];
+                            const linkLabel = link.platform.charAt(0).toUpperCase() + link.platform.slice(1);
+                            const href = link.platform === 'email' ? `mailto:${link.href}` : link.href;
+
+                            return(
+                                <a key={link.id} href={href} aria-label={linkLabel} className="text-muted-foreground transition-colors hover:text-primary" target="_blank" rel="noopener noreferrer">
+                                    {socialIcon}
+                                </a>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-card/50">
+                 <div className="container mx-auto flex flex-col items-center justify-between px-4 py-4 sm:flex-row md:px-6">
+                    <p className="text-center text-sm text-muted-foreground">&copy; {new Date().getFullYear()} CyberHive Hub. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    )
 }
-
-    
-
-    
-
-    
