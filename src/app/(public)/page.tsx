@@ -27,7 +27,7 @@ const navItems: HexagonItem[] = [
 
 function EventCard({ event }: { event: Event }) {
   return (
-    <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full">
+    <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full w-full max-w-sm">
     <Image
         src={transformGoogleDriveUrl(event.imageUrl)}
         alt={event.title}
@@ -71,6 +71,7 @@ export default function Home() {
   }
 
   const { home: textContent, images, upcomingEvents } = content;
+  const eventsToShow = upcomingEvents.slice(0, 3);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -132,9 +133,12 @@ export default function Home() {
                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">{textContent.eventsSubtitle}</p>
             </div>
             
-            {upcomingEvents.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {upcomingEvents.slice(0, 3).map(event => (
+            {eventsToShow.length > 0 ? (
+                <div className={cn(
+                    "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+                    eventsToShow.length === 1 && "flex justify-center"
+                )}>
+                    {eventsToShow.map(event => (
                         <EventCard key={event.id} event={event} />
                     ))}
                 </div>
@@ -165,7 +169,7 @@ export default function Home() {
                   <p className="text-muted-foreground">{textContent.aboutParagraph}</p>
                 </CardContent>
                 <CardFooter>
-                  <Button asChild size="lg" className="uppercase tracking-wider w-full">
+                   <Button asChild size="lg" className="uppercase tracking-wider w-full">
                     <Link href="/about">Learn More About Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
                   </Button>
                 </CardFooter>
