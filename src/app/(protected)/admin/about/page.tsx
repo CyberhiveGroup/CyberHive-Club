@@ -119,7 +119,7 @@ export default function AdminAboutPage() {
                         <Collapsible key={index} defaultOpen className="p-4 border rounded-lg">
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-4">
-                                     <Image src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={60} height={40} className="rounded-md object-cover aspect-video bg-muted"/>
+                                     <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={60} height={40} className="rounded-md object-cover aspect-video bg-muted"/>
                                      <span className="font-semibold">{image.alt.slice(0,50) || `Image ${index + 1}`}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ export default function AdminAboutPage() {
                             </div>
                             <CollapsibleContent>
                                 <div className="flex items-start gap-6 mt-4">
-                                    <Image src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                    <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                                      <div className="flex-1 space-y-3">
                                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                              <div className="space-y-2">
