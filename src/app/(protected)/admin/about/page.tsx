@@ -9,10 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import type { ImageAsset } from '@/lib/types';
 import Image from 'next/image';
-import { PlusCircle, Trash2, ChevronsUpDown } from 'lucide-react';
+import { PlusCircle, Trash2 } from 'lucide-react';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function AdminAboutPage() {
     const { content, isLoading, saveContent, setContent } = useContent();
@@ -116,45 +115,28 @@ export default function AdminAboutPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {(content.images?.aboutCarousel || []).map((image, index) => (
-                        <Collapsible key={index} defaultOpen className="p-4 border rounded-lg">
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-4">
-                                     <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={60} height={40} className="rounded-md object-cover aspect-video bg-muted"/>
-                                     <span className="font-semibold">{image.alt.slice(0,50) || `Image ${index + 1}`}</span>
+                        <div key={index} className="p-4 border rounded-lg flex flex-col md:flex-row gap-6 items-start">
+                             <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted"/>
+                             <div className="flex-grow w-full space-y-4">
+                                 <div className="space-y-2">
+                                    <Label>URL</Label>
+                                    <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
                                 </div>
-                                <div className="flex items-center gap-2">
-                                     <CollapsibleTrigger asChild>
-                                        <Button variant="ghost" size="icon">
-                                            <ChevronsUpDown className="h-4 w-4" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <DeleteConfirmationDialog onConfirm={() => deleteCarouselImage(index)}>
-                                        <Button variant="destructive" size="icon">
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    </DeleteConfirmationDialog>
+                                 <div className="space-y-2">
+                                    <Label>Alt Text</Label>
+                                    <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
+                                </div>
+                                 <div className="space-y-2">
+                                    <Label>AI Hint</Label>
+                                    <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
                                 </div>
                             </div>
-                            <CollapsibleContent>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                                    <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted md:col-span-1"/>
-                                     <div className="md:col-span-2 space-y-4">
-                                         <div className="space-y-2">
-                                            <Label>URL</Label>
-                                            <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
-                                        </div>
-                                         <div className="space-y-2">
-                                            <Label>Alt Text</Label>
-                                            <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
-                                        </div>
-                                         <div className="space-y-2">
-                                            <Label>AI Hint</Label>
-                                            <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </CollapsibleContent>
-                        </Collapsible>
+                            <DeleteConfirmationDialog onConfirm={() => deleteCarouselImage(index)}>
+                                <Button variant="destructive" size="icon">
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </DeleteConfirmationDialog>
+                        </div>
                     ))}
                     <Button variant="outline" size="sm" onClick={addCarouselImage}>
                         <PlusCircle className="mr-2 h-4 w-4" /> Add Carousel Image
