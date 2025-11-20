@@ -144,7 +144,7 @@ export default function AdminHomePage() {
                     <div className="space-y-2">
                         <Label htmlFor="images.aboutSection.url">About Section Image URL</Label>
                         <div className="flex items-center gap-4">
-                            <Image src={transformGoogleDriveUrl(content.images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={content.images?.aboutSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Image key={content.images?.aboutSection?.url} src={transformGoogleDriveUrl(content.images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={content.images?.aboutSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                             <Input 
                                 id="images.aboutSection.url"
                                 name="images.aboutSection.url"
@@ -175,7 +175,7 @@ export default function AdminHomePage() {
                      <div className="space-y-2">
                         <Label htmlFor="images.cslSection.url">CSL Section Image URL</Label>
                         <div className="flex items-center gap-4">
-                            <Image src={transformGoogleDriveUrl(content.images?.cslSection?.url || 'https://placehold.co/600x400')} alt={content.images?.cslSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                            <Image key={content.images?.cslSection?.url} src={transformGoogleDriveUrl(content.images?.cslSection?.url || 'https://placehold.co/600x400')} alt={content.images?.cslSection?.alt || ''} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                             <Input 
                                 id="images.cslSection.url"
                                 name="images.cslSection.url"

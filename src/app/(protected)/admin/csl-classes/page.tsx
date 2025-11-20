@@ -129,7 +129,7 @@ export default function AdminCslClassesPage() {
                                 <div className="flex items-start gap-6 pt-4">
                                     <div className="flex-1 space-y-4">
                                         <div className="flex items-start gap-4">
-                                            <Image src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                            <Image key={cslClass.imageUrl} src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                                             <div className="flex-1 space-y-2">
                                                 <Label>Title</Label>
                                                 <Input value={cslClass.title} onChange={(e) => handleClassChange(index, 'title', e.target.value)} />
@@ -153,7 +153,7 @@ export default function AdminCslClassesPage() {
                                             <div className="space-y-4 mt-2">
                                                 {(cslClass.gallery || []).map((item, gIndex) => (
                                                     <div key={gIndex} className="flex items-end gap-2 p-2 border rounded-lg">
-                                                        <Image src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url)} alt={item.alt} width={60} height={60} className="rounded-md object-cover aspect-square" />
                                                         <div className="flex-1 grid grid-cols-2 gap-2">
                                                             <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
                                                             <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />
