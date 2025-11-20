@@ -2,7 +2,7 @@
 'use client';
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardFooter, CardTitle, CardDescription } from "@/components/ui/card";
 import { ArrowRight, Users, Calendar, BookOpen, Shield, Mail } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,6 +12,8 @@ import { HoneycombBackground } from "@/components/honeycomb-background";
 import { cn } from '@/lib/utils';
 import { useContent } from '@/hooks/use-content';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import type { Event } from '@/lib/types';
+import { Badge } from '@/components/ui/badge';
 
 const navItems: HexagonItem[] = [
     { href: "/about", icon: <Users />, title: "About Us" },
@@ -21,6 +23,40 @@ const navItems: HexagonItem[] = [
     { href: "/contact", icon: <Mail />, title: "Contact" },
     { href: "#", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M6.5 8.5c.9-1.2 2.1-2 3.5-2s2.6.8 3.5 2"/><path d="m14 14-2 2-2-2"/><path d="M14 18H9a2 2 0 0 1-2-2v-2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.5 15.5-1-1"/><path d="m18.5 14.5-1 1"/></svg>, title: "Join" },
 ];
+
+
+function EventCard({ event }: { event: Event }) {
+  return (
+    <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full">
+    <Image
+        src={transformGoogleDriveUrl(event.imageUrl)}
+        alt={event.title}
+        width={600}
+        height={400}
+        data-ai-hint={event.imageHint}
+        className="h-48 w-full object-cover"
+    />
+    <CardHeader>
+        <div className="flex justify-between items-start">
+        <CardTitle className="font-headline text-xl mb-2">{event.title}</CardTitle>
+        <Badge variant="secondary">{event.category}</Badge>
+        </div>
+        <CardDescription>{event.date}</CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+        <p className="text-sm text-muted-foreground line-clamp-3">{event.description}</p>
+    </CardContent>
+     <CardFooter>
+        <Link href={`/events/${event.id}`} className="w-full">
+            <Button className="w-full font-bold">
+                View Details <ArrowRight className="ml-2 h-4 w-4"/>
+            </Button>
+        </Link>
+    </CardFooter>
+    </Card>
+  );
+}
+
 
 export default function Home() {
   const [isRevealed, setIsRevealed] = React.useState(false);
@@ -34,7 +70,7 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  const { home: textContent, images } = content;
+  const { home: textContent, images, upcomingEvents } = content;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -95,12 +131,22 @@ export default function Home() {
                <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter sm:text-4xl md:text-5xl">{textContent.eventsTitle}</h2>
                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">{textContent.eventsSubtitle}</p>
             </div>
-            <div className="text-center text-2xl font-headline text-muted-foreground">
-              Coming Soon
-            </div>
+            
+            {upcomingEvents.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {upcomingEvents.slice(0, 3).map(event => (
+                        <EventCard key={event.id} event={event} />
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center text-muted-foreground">
+                    <p className="text-xl">No upcoming events right now. Check back soon!</p>
+                </div>
+            )}
+
             <div className="text-center mt-12">
               <Button asChild size="lg" variant="outline" className="uppercase tracking-wider">
-                <Link href="/events?tab=past">View Past Events <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                <Link href="/events">View All Events <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
             </div>
           </div>
