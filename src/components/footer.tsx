@@ -1,3 +1,4 @@
+
 'use client';
 import { Logo } from '@/components/logo';
 import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
@@ -99,3 +100,5 @@ export function Footer() {
         </footer>
     )
 }
+
+    
