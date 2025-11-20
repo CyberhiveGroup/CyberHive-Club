@@ -45,9 +45,9 @@ export function RoamingBee({ isRevealed }: { isRevealed: boolean }) {
   return (
     <>
       {isRevealed ? null : Array.from({ length: beeCount }).map((_, i) => {
-        const animationName = animationPaths[i % animationPaths.length];
+        const animationName = animationPaths[Math.floor(Math.random() * animationPaths.length)];
         const animationDuration = `${Math.random() * 15 + 15}s`; // 15-30 seconds
-        const animationDelay = `${Math.random() * 10}s`; // 0-10 seconds delay
+        const animationDelay = `${Math.random() * 3}s`; // 0-3 seconds delay
         
         return (
           <div
