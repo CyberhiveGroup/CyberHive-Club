@@ -2,8 +2,8 @@
 
 export type ImageAsset = {
   url: string;
-  alt: string;
-  hint: string;
+  alt?: string;
+  hint?: string;
 };
 
 export type TeamMember = {

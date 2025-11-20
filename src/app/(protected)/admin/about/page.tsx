@@ -36,9 +36,9 @@ export default function AdminAboutPage() {
         setIsSaving(false);
     }
     
-    const handleCarouselImageChange = (index: number, field: keyof ImageAsset, value: string) => {
+    const handleCarouselImageChange = (index: number, value: string) => {
         const newCarouselImages = [...(content.images?.aboutCarousel || [])];
-        (newCarouselImages[index] as any)[field] = value;
+        newCarouselImages[index].url = value;
         setContent(prev => ({
             ...prev,
             images: {
@@ -51,8 +51,6 @@ export default function AdminAboutPage() {
     const addCarouselImage = () => {
         const newImage: ImageAsset = {
             url: `https://picsum.photos/seed/new${Math.random()}/600/300`,
-            alt: 'New carousel image',
-            hint: 'description'
         };
         const newCarouselImages = [...(content.images?.aboutCarousel || []), newImage];
         setContent(prev => ({
@@ -115,20 +113,12 @@ export default function AdminAboutPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {(content.images?.aboutCarousel || []).map((image, index) => (
-                        <div key={index} className="p-4 border rounded-lg flex flex-col md:flex-row gap-6 items-start">
-                             <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted"/>
-                             <div className="flex-grow w-full space-y-4">
+                        <div key={index} className="p-4 border rounded-lg flex items-center gap-6">
+                             <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt || 'Carousel image'} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted"/>
+                             <div className="flex-grow w-full space-y-2">
                                  <div className="space-y-2">
                                     <Label>URL</Label>
-                                    <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
-                                </div>
-                                 <div className="space-y-2">
-                                    <Label>Alt Text</Label>
-                                    <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
-                                </div>
-                                 <div className="space-y-2">
-                                    <Label>AI Hint</Label>
-                                    <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
+                                    <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, e.target.value)} />
                                 </div>
                             </div>
                             <DeleteConfirmationDialog onConfirm={() => deleteCarouselImage(index)}>
