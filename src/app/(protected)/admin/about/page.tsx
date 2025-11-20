@@ -136,22 +136,20 @@ export default function AdminAboutPage() {
                                 </div>
                             </div>
                             <CollapsibleContent>
-                                <div className="flex items-start gap-6 mt-4">
-                                    <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
-                                     <div className="flex-1 space-y-3">
-                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                             <div className="space-y-2">
-                                                <Label>URL</Label>
-                                                <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
-                                            </div>
-                                             <div className="space-y-2">
-                                                <Label>Alt Text</Label>
-                                                <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
-                                            </div>
-                                             <div className="space-y-2 sm:col-span-2">
-                                                <Label>AI Hint</Label>
-                                                <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
-                                            </div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                                    <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted md:col-span-1"/>
+                                     <div className="md:col-span-2 space-y-4">
+                                         <div className="space-y-2">
+                                            <Label>URL</Label>
+                                            <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, 'url', e.target.value)} />
+                                        </div>
+                                         <div className="space-y-2">
+                                            <Label>Alt Text</Label>
+                                            <Input value={image.alt} onChange={(e) => handleCarouselImageChange(index, 'alt', e.target.value)} />
+                                        </div>
+                                         <div className="space-y-2">
+                                            <Label>AI Hint</Label>
+                                            <Input value={image.hint} onChange={(e) => handleCarouselImageChange(index, 'hint', e.target.value)} />
                                         </div>
                                     </div>
                                 </div>
