@@ -74,11 +74,11 @@ export default function Home() {
   const eventsToShow = upcomingEvents.slice(0, 3);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 relative">
-        <RoamingBee isRevealed={isRevealed} />
+    <div className="flex flex-col min-h-screen relative">
+      <RoamingBee isRevealed={isRevealed} />
+      <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full pt-20 md:pt-32 lg:pt-40 overflow-hidden" onClick={handleReveal}>
+        <section className="relative w-full pt-20 md:pt-32 lg:pt-40" onClick={handleReveal}>
           <HoneycombBackground isRevealed={isRevealed} />
           <div 
             className={cn(
@@ -135,8 +135,8 @@ export default function Home() {
             
             {eventsToShow.length > 0 ? (
                 <div className={cn(
-                    "flex justify-center flex-wrap gap-8",
-                    eventsToShow.length > 1 && "md:grid md:grid-cols-2 lg:grid-cols-3"
+                    "flex flex-wrap gap-8",
+                    eventsToShow.length === 1 ? "justify-center" : "justify-center md:grid md:grid-cols-2 lg:grid-cols-3"
                 )}>
                     {eventsToShow.map(event => (
                         <EventCard key={event.id} event={event} />
@@ -197,5 +197,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
