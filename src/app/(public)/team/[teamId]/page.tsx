@@ -40,31 +40,32 @@ export default function TeamDetailPage() {
             {team.members.length > 0 ? (
                 team.members.map((member) => {
                     return (
-                        <Card 
-                            key={member.id}
-                            className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-primary/20"
-                        >
-                            <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
-                                <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted">
-                                    <AvatarImage key={member.imageUrl} src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
-                                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 space-y-3 text-center md:text-left">
-                                    <div className="mb-2 -mt-2">
-                                        <h2 className="text-2xl font-headline font-bold text-primary -mb-1">{member.name}</h2>
-                                        <p className="font-semibold text-foreground/80">{member.role}</p>
+                        <Link key={member.id} href={`/members/${member.id}`} className="block group">
+                            <Card 
+                                className="overflow-hidden shadow-lg transition-all duration-300 group-hover:shadow-primary/20 group-hover:border-primary/30"
+                            >
+                                <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
+                                    <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted transition-colors duration-300 group-hover:border-primary">
+                                        <AvatarImage key={member.imageUrl} src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
+                                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1 space-y-3 text-center md:text-left">
+                                        <div className="mb-2 -mt-2">
+                                            <h2 className="text-2xl font-headline font-bold text-primary -mb-1">{member.name}</h2>
+                                            <p className="font-semibold text-foreground/80">{member.role}</p>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0 line-clamp-3">{member.bio}</p>
+                                        <div className="flex justify-center md:justify-start items-center gap-4 pt-2">
+                                            <a href={`mailto:${member.contact.email}`} className="text-muted-foreground hover:text-primary"><Mail className="h-6 w-6" /></a>
+                                            {member.contact.phone && <a href={`tel:${member.contact.phone}`} className="text-muted-foreground hover:text-primary"><Phone className="h-6 w-6" /></a>}
+                                            <a href={member.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Linkedin className="h-6 w-6" /></a>
+                                            <a href={member.contact.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Github className="h-6 w-6" /></a>
+                                            {member.contact.instagram && <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Instagram className="h-6 w-6" /></a>}
+                                        </div>
                                     </div>
-                                    <p className="text-sm text-muted-foreground pt-2 max-w-prose mx-auto md:mx-0 line-clamp-3">{member.bio}</p>
-                                    <div className="flex justify-center md:justify-start items-center gap-4 pt-2">
-                                        <a href={`mailto:${member.contact.email}`} className="text-muted-foreground hover:text-primary"><Mail className="h-6 w-6" /></a>
-                                        {member.contact.phone && <a href={`tel:${member.contact.phone}`} className="text-muted-foreground hover:text-primary"><Phone className="h-6 w-6" /></a>}
-                                        <a href={member.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Linkedin className="h-6 w-6" /></a>
-                                        <a href={member.contact.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Github className="h-6 w-6" /></a>
-                                        {member.contact.instagram && <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Instagram className="h-6 w-6" /></a>}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     )
                 })
             ) : (
