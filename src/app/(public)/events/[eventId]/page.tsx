@@ -78,7 +78,7 @@ export default function EventDetailPage() {
                                  <Card className="overflow-hidden">
                                     <CardContent className="p-0">
                                         <Image
-                                            key={image.url}
+                                            key={transformGoogleDriveUrl(image.url)}
                                             src={transformGoogleDriveUrl(image.url)}
                                             alt={image.alt}
                                             width={600}
