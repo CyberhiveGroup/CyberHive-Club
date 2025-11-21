@@ -7,7 +7,7 @@ import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Linkedin, Github, ArrowLeft, Instagram, Phone } from 'lucide-react';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { transformGoogleDriveUrl } from '@/lib/utils';
 import Link from 'next/link';
@@ -45,10 +45,15 @@ export default function TeamDetailPage() {
                             className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30"
                         >
                             <div className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
-                                <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted transition-colors duration-300 group-hover:border-primary">
-                                    <AvatarImage key={transformedUrl} src={transformedUrl} alt={member.name} />
-                                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
+                                <div className="relative h-40 w-40 flex-shrink-0">
+                                  <Image 
+                                      key={transformedUrl}
+                                      src={transformedUrl} 
+                                      alt={member.name} 
+                                      fill
+                                      className="rounded-full object-cover border-4 border-secondary bg-muted"
+                                  />
+                                </div>
                                 <div className="flex-1 space-y-3 text-center md:text-left">
                                     <div className="mb-2 -mt-2">
                                         <div className="group">
