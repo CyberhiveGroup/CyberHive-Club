@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo } from '@/components/logo';
 import { Home, Settings, FileText, Briefcase, Calendar, Users, Shield, Mail, ArrowLeft } from 'lucide-react';
+import { UserButton } from "@clerk/nextjs";
 
 
 const adminNavItems = [
@@ -51,14 +52,17 @@ function AdminSidebarNav() {
                 </SidebarMenu>
             </SidebarContent>
             <SidebarFooter>
-                <SidebarMenu>
-                     <SidebarMenuItem>
-                        <SidebarMenuButton href="/" tooltip="Back to Site">
-                            <ArrowLeft />
-                            <span>Back to Site</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+                <div className='flex justify-between items-center p-2'>
+                    <UserButton />
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton href="/" tooltip="Back to Site">
+                                <ArrowLeft />
+                                <span>Back to Site</span>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </div>
             </SidebarFooter>
         </>
     )

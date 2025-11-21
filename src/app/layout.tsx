@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { FirebaseProvider } from '@/firebase';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { ClerkProvider } from '@clerk/nextjs'
 
 
 export const metadata: Metadata = {
@@ -20,24 +21,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-    <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700;800&display=swap" rel="stylesheet" />
-    </head>
-    <body
-        className={cn(
-        'min-h-screen bg-background font-body antialiased',
-        )}
-    >
-        <FirebaseProvider>
-            <FirebaseClientProvider>
-                {children}
-            </FirebaseClientProvider>
-        </FirebaseProvider>
-    </body>
-    </html>
+    <ClerkProvider>
+        <html lang="en" className="dark">
+        <head>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;700;800&display=swap" rel="stylesheet" />
+        </head>
+        <body
+            className={cn(
+            'min-h-screen bg-background font-body antialiased',
+            )}
+        >
+            <FirebaseProvider>
+                <FirebaseClientProvider>
+                    {children}
+                </FirebaseClientProvider>
+            </FirebaseProvider>
+        </body>
+        </html>
+    </ClerkProvider>
   );
 }
