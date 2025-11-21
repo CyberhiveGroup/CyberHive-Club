@@ -36,7 +36,7 @@ export default function AdminCslClassesPage() {
     const addGalleryItem = (classIndex: number) => {
         const newClasses = [...content.cslClasses];
         if (!newClasses[classIndex].gallery) newClasses[classIndex].gallery = [];
-        newClasses[classIndex].gallery!.push({ url: 'https://picsum.photos/800/600?random=' + Math.random(), alt: 'Gallery image', hint: 'class photo' });
+        newClasses[classIndex].gallery!.push({ url: '', alt: 'Gallery image', hint: 'class photo' });
         setContent(prev => ({ ...prev, cslClasses: newClasses }));
     };
     
@@ -72,7 +72,7 @@ export default function AdminCslClassesPage() {
             title: 'New CSL Class',
             description: 'A brief description of the new class.',
             longDescription: 'A more detailed description that will appear on the class detail page.',
-            imageUrl: 'https://picsum.photos/600/400?random=' + Math.random(),
+            imageUrl: '',
             imageHint: 'tech class',
             gallery: [],
             links: [],
@@ -129,12 +129,12 @@ export default function AdminCslClassesPage() {
                                 <div className="flex items-start gap-6 pt-4">
                                     <div className="flex-1 space-y-4">
                                         <div className="flex items-start gap-4">
-                                            <Image key={cslClass.imageUrl} src={transformGoogleDriveUrl(cslClass.imageUrl)} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
+                                            <Image key={cslClass.imageUrl} src={transformGoogleDriveUrl(cslClass.imageUrl || 'https://placehold.co/120x80')} alt={cslClass.title} width={120} height={80} className="rounded-md object-cover aspect-video bg-muted"/>
                                             <div className="flex-1 space-y-2">
                                                 <Label>Title</Label>
                                                 <Input value={cslClass.title} onChange={(e) => handleClassChange(index, 'title', e.target.value)} />
                                                 <Label>Image URL</Label>
-                                                <Input value={cslClass.imageUrl} onChange={(e) => handleClassChange(index, 'imageUrl', e.target.value)} />
+                                                <Input value={cslClass.imageUrl} onChange={(e) => handleClassChange(index, 'imageUrl', e.target.value)} placeholder="https://drive.google.com/..." />
                                             </div>
                                         </div>
                                         <div className="space-y-2">
@@ -153,7 +153,7 @@ export default function AdminCslClassesPage() {
                                             <div className="space-y-4 mt-2">
                                                 {(cslClass.gallery || []).map((item, gIndex) => (
                                                     <div key={gIndex} className="flex items-end gap-2 p-2 border rounded-lg">
-                                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url)} alt={item.alt || ''} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url || 'https://placehold.co/60x60')} alt={item.alt || ''} width={60} height={60} className="rounded-md object-cover aspect-square" />
                                                         <div className="flex-1 grid grid-cols-2 gap-2">
                                                             <Input placeholder="Image URL" value={item.url} onChange={(e) => handleGalleryChange(index, gIndex, 'url', e.target.value)} />
                                                             <Input placeholder="Alt Text" value={item.alt} onChange={(e) => handleGalleryChange(index, gIndex, 'alt', e.target.value)} />

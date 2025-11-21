@@ -70,7 +70,7 @@ function EventEditor({
                     </div>
                     <div className="space-y-2">
                         <Label>Image URL</Label>
-                        <Input value={event.imageUrl} onChange={(e) => onEventChange('imageUrl', e.target.value)} />
+                        <Input value={event.imageUrl} onChange={(e) => onEventChange('imageUrl', e.target.value)} placeholder="https://drive.google.com/..." />
                     </div>
 
                     <div className="md:col-span-2 space-y-4 pt-4">
@@ -90,7 +90,7 @@ function EventEditor({
                             <div className="space-y-4 mt-2">
                                 {event.gallery?.map((item, index) => (
                                     <div key={index} className="flex items-end gap-2 p-2 border rounded-lg">
-                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url)} alt={item.alt || ''} width={60} height={60} className="rounded-md object-cover aspect-square" />
+                                        <Image key={item.url} src={transformGoogleDriveUrl(item.url || 'https://placehold.co/60x60')} alt={item.alt || ''} width={60} height={60} className="rounded-md object-cover aspect-square" />
                                         <div className="flex-1 grid grid-cols-2 gap-2">
                                             <Input placeholder="Image URL" value={item.url} onChange={(e) => onGalleryChange(index, 'url', e.target.value)} />
                                             <Input placeholder="Alt Text" value={item.alt} onChange={(e) => onGalleryChange(index, 'alt', e.target.value)} />
@@ -132,7 +132,7 @@ export default function AdminEventsPage() {
             date: "TBA",
             description: "",
             category: "Workshop",
-            imageUrl: "https://picsum.photos/600/400?random=" + newId,
+            imageUrl: "",
             imageHint: "event image",
             gallery: []
         };
@@ -154,7 +154,7 @@ export default function AdminEventsPage() {
     const addGalleryItem = (list: 'upcomingEvents' | 'pastEvents', eventIndex: number) => {
         const newEvents = [...content[list]];
         if (!newEvents[eventIndex].gallery) newEvents[eventIndex].gallery = [];
-        newEvents[eventIndex].gallery!.push({ url: 'https://picsum.photos/800/600?random=' + Math.random(), alt: 'Gallery image', hint: 'event photo' });
+        newEvents[eventIndex].gallery!.push({ url: '', alt: 'Gallery image', hint: 'event photo' });
         setContent(prev => ({ ...prev, [list]: newEvents }));
     };
 

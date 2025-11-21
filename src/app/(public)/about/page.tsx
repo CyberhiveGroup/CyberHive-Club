@@ -55,8 +55,9 @@ export default function AboutPage() {
                         <Card>
                             <CardContent className="flex aspect-[2/1] items-center justify-center p-0 rounded-lg overflow-hidden">
                                 <Image
+                                    key={img.url}
                                     src={transformGoogleDriveUrl(img.url)}
-                                    alt={img.alt}
+                                    alt={img.alt || 'About page image'}
                                     width={600}
                                     height={300}
                                     data-ai-hint={img.hint}

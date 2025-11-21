@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,6 @@ import Link from 'next/link';
 export default function TeamDetailPage() {
   const { content, isLoading } = useContent();
   const params = useParams();
-  const router = useRouter();
   const teamId = params.teamId as string;
   
   if (isLoading) {
@@ -79,9 +78,11 @@ export default function TeamDetailPage() {
         </div>
 
          <div className="text-center mt-12">
-             <Button asChild variant="outline">
-                <Link href="/about#team"><ArrowLeft className="mr-2 h-4 w-4" /> Back to About Page</Link>
-            </Button>
+             <Link href="/about#team">
+                <Button asChild variant="outline">
+                    <span><ArrowLeft className="mr-2 h-4 w-4" /> Back to About Page</span>
+                </Button>
+            </Link>
          </div>
     </div>
   );

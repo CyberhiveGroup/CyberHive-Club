@@ -50,7 +50,9 @@ export default function AdminAboutPage() {
 
     const addCarouselImage = () => {
         const newImage: ImageAsset = {
-            url: `https://picsum.photos/seed/new${Math.random()}/600/300`,
+            url: ``,
+            alt: '',
+            hint: ''
         };
         const newCarouselImages = [...(content.images?.aboutCarousel || []), newImage];
         setContent(prev => ({
@@ -114,11 +116,11 @@ export default function AdminAboutPage() {
                 <CardContent className="space-y-4">
                     {(content.images?.aboutCarousel || []).map((image, index) => (
                         <div key={index} className="p-4 border rounded-lg flex items-center gap-6">
-                             <Image key={image.url} src={transformGoogleDriveUrl(image.url)} alt={image.alt || 'Carousel image'} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted"/>
+                             <Image key={image.url} src={transformGoogleDriveUrl(image.url || 'https://placehold.co/240x160')} alt={image.alt || 'Carousel image'} width={240} height={160} className="rounded-md object-cover aspect-video bg-muted"/>
                              <div className="flex-grow w-full space-y-2">
                                  <div className="space-y-2">
                                     <Label>URL</Label>
-                                    <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, e.target.value)} />
+                                    <Input value={image.url} onChange={(e) => handleCarouselImageChange(index, e.target.value)} placeholder="https://drive.google.com/..." />
                                 </div>
                             </div>
                             <DeleteConfirmationDialog onConfirm={() => deleteCarouselImage(index)}>
