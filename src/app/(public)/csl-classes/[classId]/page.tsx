@@ -74,8 +74,9 @@ export default function CSLClassDetailPage() {
                       <Card className="overflow-hidden">
                         <CardContent className="p-0">
                           <Image
+                            key={image.url}
                             src={transformGoogleDriveUrl(image.url)}
-                            alt={image.alt}
+                            alt={image.alt || 'Gallery image'}
                             width={600}
                             height={400}
                             data-ai-hint={image.hint}
@@ -92,6 +93,7 @@ export default function CSLClassDetailPage() {
             ) : (
                 <Card className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden bg-muted">
                     <Image
+                        key={cslClass.imageUrl}
                         src={transformGoogleDriveUrl(cslClass.imageUrl)}
                         alt={cslClass.title}
                         width={600}

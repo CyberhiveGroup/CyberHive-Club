@@ -7,10 +7,10 @@ import { useContent } from '@/hooks/use-content';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Linkedin, Github, ArrowLeft, Instagram, Phone } from 'lucide-react';
-import Link from 'next/link';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { notFound } from 'next/navigation';
 import { transformGoogleDriveUrl } from '@/lib/utils';
+import Link from 'next/link';
 
 export default function TeamDetailPage() {
   const { content, isLoading } = useContent();
@@ -44,7 +44,7 @@ export default function TeamDetailPage() {
                             key={member.id}
                             className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30"
                         >
-                            <CardContent className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
+                            <div className="p-6 flex flex-col md:flex-row items-center justify-start gap-8">
                                 <Avatar className="h-40 w-40 border-4 border-secondary flex-shrink-0 bg-muted transition-colors duration-300 group-hover:border-primary">
                                     <AvatarImage key={member.imageUrl} src={transformGoogleDriveUrl(member.imageUrl)} alt={member.name} />
                                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
@@ -65,7 +65,7 @@ export default function TeamDetailPage() {
                                         {member.contact.instagram && <a href={member.contact.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary"><Instagram className="h-6 w-6" /></a>}
                                     </div>
                                 </div>
-                            </CardContent>
+                            </div>
                         </Card>
                     )
                 })

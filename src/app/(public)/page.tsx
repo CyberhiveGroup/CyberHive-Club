@@ -29,6 +29,7 @@ function EventCard({ event }: { event: Event }) {
   return (
     <Card className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-primary/10 h-full w-full max-w-sm">
     <Image
+        key={event.imageUrl}
         src={transformGoogleDriveUrl(event.imageUrl)}
         alt={event.title}
         width={600}
@@ -162,7 +163,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <Card className="flex flex-col">
                 <CardHeader>
-                  <Image src={transformGoogleDriveUrl(images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={images?.aboutSection?.alt || 'About the hive'} width={600} height={400} data-ai-hint={images?.aboutSection?.hint} className="rounded-lg object-cover aspect-video" />
+                  <Image key={images?.aboutSection?.url} src={transformGoogleDriveUrl(images?.aboutSection?.url || 'https://placehold.co/600x400')} alt={images?.aboutSection?.alt || 'About the hive'} width={600} height={400} data-ai-hint={images?.aboutSection?.hint} className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                   <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.aboutTitle}</h2>
@@ -177,7 +178,7 @@ export default function Home() {
 
               <Card className="flex flex-col">
                 <CardHeader>
-                   <Image src={transformGoogleDriveUrl(images?.cslSection?.url || 'https://placehold.co/600x400')} alt={images?.cslSection?.alt || 'CSL Classes'} width={600} height={400} data-ai-hint={images?.cslSection?.hint} className="rounded-lg object-cover aspect-video" />
+                   <Image key={images?.cslSection?.url} src={transformGoogleDriveUrl(images?.cslSection?.url || 'https://placehold.co/600x400')} alt={images?.cslSection?.alt || 'CSL Classes'} width={600} height={400} data-ai-hint={images?.cslSection?.hint} className="rounded-lg object-cover aspect-video" />
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
                    <h2 className="text-3xl font-headline font-bold uppercase tracking-tighter text-primary">{textContent.cslTitle}</h2>
