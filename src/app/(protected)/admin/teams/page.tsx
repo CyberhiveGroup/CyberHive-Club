@@ -26,14 +26,21 @@ export default function AdminTeamsPage() {
         setContent(prev => ({ ...prev, teams: newTeams }));
     };
 
-    const handleMemberChange = (teamIndex: number, memberIndex: number, field: keyof TeamMember, value: string | object) => {
+    const handleMemberChange = (teamIndex: number, memberIndex: number, field: keyof TeamMember, value: string) => {
          const newTeams = [...content.teams];
-         if (typeof value === 'object') {
-             newTeams[teamIndex].members[memberIndex] = { ...newTeams[teamIndex].members[memberIndex], [field]: { ...newTeams[teamIndex].members[memberIndex][field as keyof TeamMember] as object, ...value as object } };
-         } else {
-            newTeams[teamIndex].members[memberIndex] = { ...newTeams[teamIndex].members[memberIndex], [field]: value };
-         }
-        
+         const newMembers = [...newTeams[teamIndex].members];
+         newMembers[memberIndex] = { ...newMembers[memberIndex], [field]: value };
+         newTeams[teamIndex] = { ...newTeams[teamIndex], members: newMembers };
+         setContent(prev => ({ ...prev, teams: newTeams }));
+    };
+
+    const handleMemberContactChange = (teamIndex: number, memberIndex: number, field: keyof TeamMember['contact'], value: string) => {
+        const newTeams = [...content.teams];
+        const newMembers = [...newTeams[teamIndex].members];
+        const newMember = { ...newMembers[memberIndex] };
+        newMember.contact = { ...newMember.contact, [field]: value };
+        newMembers[memberIndex] = newMember;
+        newTeams[teamIndex] = { ...newTeams[teamIndex], members: newMembers };
         setContent(prev => ({ ...prev, teams: newTeams }));
     };
     
@@ -146,23 +153,23 @@ export default function AdminTeamsPage() {
                                                              <div className="grid grid-cols-2 gap-4">
                                                                 <div className="space-y-2">
                                                                     <Label>Email</Label>
-                                                                    <Input value={member.contact.email} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { email: e.target.value })} />
+                                                                    <Input value={member.contact.email} onChange={(e) => handleMemberContactChange(teamIndex, memberIndex, 'email', e.target.value)} />
                                                                 </div>
                                                                 <div className="space-y-2">
                                                                     <Label>LinkedIn</Label>
-                                                                    <Input value={member.contact.linkedin} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { linkedin: e.target.value })} />
+                                                                    <Input value={member.contact.linkedin} onChange={(e) => handleMemberContactChange(teamIndex, memberIndex, 'linkedin', e.target.value)} />
                                                                 </div>
                                                                  <div className="space-y-2">
                                                                     <Label>GitHub</Label>
-                                                                    <Input value={member.contact.github} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { github: e.target.value })} />
+                                                                    <Input value={member.contact.github} onChange={(e) => handleMemberContactChange(teamIndex, memberIndex, 'github', e.target.value)} />
                                                                 </div>
                                                                  <div className="space-y-2">
                                                                     <Label>Instagram (Optional)</Label>
-                                                                    <Input value={member.contact.instagram || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { instagram: e.target.value })} />
+                                                                    <Input value={member.contact.instagram || ''} onChange={(e) => handleMemberContactChange(teamIndex, memberIndex, 'instagram', e.target.value)} />
                                                                 </div>
                                                                  <div className="space-y-2">
                                                                     <Label>Phone (Optional)</Label>
-                                                                    <Input value={member.contact.phone || ''} onChange={(e) => handleMemberChange(teamIndex, memberIndex, 'contact', { phone: e.target.value })} />
+                                                                    <Input value={member.contact.phone || ''} onChange={(e) => handleMemberContactChange(teamIndex, memberIndex, 'phone', e.target.value)} />
                                                                 </div>
                                                              </div>
                                                         </div>
