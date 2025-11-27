@@ -52,7 +52,7 @@ export function RoamingBee({ isRevealed }: { isRevealed: boolean }) {
         return (
           <div
             key={i}
-            ref={el => beeRefs.current[i] = el}
+            ref={el => { beeRefs.current[i] = el }}
             className="roaming-bee-container"
             style={{
               animationName,
